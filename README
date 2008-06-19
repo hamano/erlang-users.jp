@@ -5,6 +5,22 @@
 
 * コミットメッセージは日本語でおｋ
 
+= 更新方法 =
+
+* github のアカウントが無ければサインアップする。
+
+* 何らかの方法で hamano にアカウント名を連絡して下さい。
+
+* Collaborators に加わったらチェックアウトしてきます。
+ % git clone git@github.com:hamano/erlang-users.jp.git
+ % cd erlang-users
+
+* いろいろ変更したら commit して push します。
+ % git commit -a
+ % git push
+
+git@github.com:hamano/erlang-users.jp.git から http://erlang-users.jp/
+へは 1時間に1 回(毎時 10分)に反映されます。
+
 = TODO =
-* 更新手順などを書く
 * サーバー環境について書く
