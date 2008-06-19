@@ -4,6 +4,7 @@
 これは、http://erlang-users.jp/ のサイトを管理する為のレポジトリです。
 
 * コミットメッセージは日本語でおｋ
+* Cygwin Emacsでもおk
 
 = TODO =
 * 更新手順などを書く
