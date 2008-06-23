@@ -20,8 +20,8 @@
  % git commit -a
  % git push
 
-git@github.com:hamano/erlang-users.jp.git から http://erlang-users.jp/
-へは 1時間に1 回(毎時 10分)に反映されます。
+git://github.com/hamano/erlang-users.jp.git から http://erlang-users.jp/
+へは 1時間に 1回(毎時 10分)に反映されます。
 
 = TODO =
 * サーバー環境について書く
