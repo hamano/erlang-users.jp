@@ -1,26 +1,25 @@
 .TH erl 1 "erts  5.6.3" "Ericsson AB" "USER COMMANDS"
-.SH NAME
-erl \- The Erlang Emulator
-.SH DESCRIPTION
+.SH 名前
+erl \- Erlang エミュレーター
+.SH 説明
 .LP
-The \fIerl\fR program starts an Erlang runtime system\&. The exact details (for example, whether \fIerl\fR is a script or a program and which other programs it calls) are system-dependent\&.
+この \fIerl\fR プログラムは Erlang ランタイムシステムを開始します\&. 正確な詳細は(例えば, \fIerl\fR がスクリプトかプログラムであるかや他のプログラムを呼び出すかどうかは)システム依存です\&.
 .LP
-Windows users probably wants to use the \fIwerl\fR program instead, which runs in its own window with scrollbars and supports command-line editing\&. The \fIerl\fR program on Windows provides no line editing in its shell, and on Windows 95 there is no way to scroll back to text which has scrolled off the screen\&. The \fIerl\fR program must be used, however, in pipelines or if you want to redirect standard input or output\&.
-
+恐らく Windows ユーザーは代わりにそれぞれのウィンドウとスクロールバーを持ちコマンドライン編集をサポートして実行される \fIwerl\fR プログラムを使用したがります\&. Windows 上の \fIerl\fR プログラムではシェルでのライン編集を提供しませんし, Windows 95 上ではスクロールしたテキストをスクロールバックする方法は有りません. \fIerl\fR プログラムはパイプライン使うか必要なら標準入力や照準出力をリダイレクトしなければなりません\&.
 .SH EXPORTS
 .LP
 .B
-erl <arguments>
+erl <引数>
 .br
 .RS
 .LP
-Starts an Erlang runtime system\&.
+Erlang ランタイムシステムを開始します\&.
 .LP
-The arguments can be divided into \fIemulator flags\fR, \fIflags\fR and \fIplain arguments\fR:
+この引数は \fIエミュレーターフラグ\fR に分けられます, \fIフラグ\fR と \fIplain 引数\fR:
 .RS 2
 .TP 2
 *
-Any argument starting with the character \fI+\fR is interpreted as an emulator flag\&.
+\fI+\fR から始まる引数はエミュレーターフラグとして解釈されます\&.
 .RS 2
 .LP
 
@@ -73,7 +72,7 @@ Here \fI+W w\fR and \fI+R 9\fR are emulator flags\&. \fI-s my_init\fR is an init
 .LP
 Here the user flag \fI-myflag 1\fR is passed to and stored by the \fIinit\fR process\&. It is a user defined flag, presumably used by some user defined application\&.
 .RE
-.SH FLAGS
+.SH フラグ
 .LP
 In the following list, init flags are marked (init flag)\&. Unless otherwise specified, all other flags are user flags, for which the values can be retrieved by calling \fIinit:get_argument/1\fR\&. Note that the list of user flags is not exhaustive, there may be additional, application specific flags which instead are documented in the corresponding application documentation\&.
 .RS 2
@@ -311,7 +310,7 @@ This is sometimes the only way to run distributed Erlang if the DNS (Domain Name
 \fI-version\fR(emulator flag):
 Makes the emulator print out its version number\&. The same as \fIerl +V\fR\&.
 .RE
-.SH EMULATOR FLAGS
+.SH エミュレーターフラグ
 .LP
 \fIerl\fR invokes the code for the Erlang emulator (virtual machine), which supports the following flags:
 .RS 2
@@ -472,7 +471,7 @@ Verbose\&.
 \fI+W w | i\fR:
 Sets the mapping of warning messages for \fIerror_logger\fR\&. Messages sent to the error logger using one of the warning routines can be mapped either to errors (default), warnings (\fI+W w\fR), or info reports (\fI+W i\fR)\&. The current mapping can be retrieved using \fIerror_logger:warning_map/0\fR\&. See error_logger(3) for further information\&.
 .RE
-.SH ENVIRONMENT VARIABLES
+.SH 環境変数
 .RS 2
 .TP 4
 .B
@@ -511,6 +510,6 @@ The \fI-extra\fR flag is treated specially\&. Its scope ends at the end of the e
 \fIERL_LIBS\fR:
 This environment variable contains a list of additional library directories that the code server will search for applications and add to the code path\&. See code(3)\&.
 .RE
-.SH SEE ALSO
+.SH 関連項目
 .LP
 init(3), erl_prim_loader(3), erl_boot_server(3), code(3), application(3), heart(3), net_kernel(3), auth(3), make(3), epmd(1), erts_alloc(3)
