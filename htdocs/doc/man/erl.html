@@ -1,6 +1,5 @@
-Content-type: text/html
-
 <HTML><HEAD><TITLE>Manpage of erl</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 </HEAD><BODY>
 <H1>erl</H1>
 Section: USER COMMANDS (1)<BR>Updated: erts  5.6.3<BR><A HREF="#index">Index</A>
@@ -9,7 +8,7 @@ Section: USER COMMANDS (1)<BR>Updated: erts  5.6.3<BR><A HREF="#index">Index</A>
 <A NAME="lbAB">&nbsp;</A>
 <H2>名前</H2>
 
-erl - Erlang エミュレーター
+erl - Erlang エミュレータ
 <A NAME="lbAC">&nbsp;</A>
 <H2>説明</H2>
 
@@ -34,45 +33,45 @@ erl - Erlang エミュレーター
 Erlang ランタイムシステムを開始します.
 <P>
 
-この引数は <I>エミュレーターフラグ</I> に分けられます, <I>フラグ</I> と <I>plain 引数</I>:
+この引数は <I>エミュレータフラグ</I> と <I>フラグ</I> と <I>プレーン引数</I> に分けられます:
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT>*<DD>
-<I>+</I> から始まる引数はエミュレーターフラグとして解釈されます.
+<I>+</I> から始まる引数はエミュレータフラグとして解釈されます.
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-As indicated by the name, emulator flags controls the behavior of the emulator.
+名前が示すように, エミュレータフラグはエミュレータの挙動をコントロールします.
 </DL>
 
 <DT>*<DD>
-Any argument starting with the character <I>-</I> (hyphen) is interpreted as a flag which should be passed to the Erlang part of the runtime system, more specifically to the <I>init</I> system process, see <A HREF="http://localhost/cgi-bin/man/man2html/3+init">init</A>(3).
+<I>-</I> (ハイフン)から始まる引数は Erlang ランタイム部を通過すべきフラグとして解釈され, 具体的には <I>init</I> システムによって処理されます, see <A HREF="http://localhost/cgi-bin/man/man2html/3+init">init</A>(3).
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-The <I>init</I> process itself interprets some of these flags, the <I>init flags</I>. It also stores any remaining flags, the <I>user flags</I>. The latter can be retrieved by calling <I>init:get_argument/1</I>.
+この init 処理では <I>init flags</I> と呼ばれる幾つかのフラグをそれ自身で解釈します. これはまた残りのフラグを <I>user flags</I> として格納します. これは後から <I>init:get_argument/1</I> を呼ぶことによって取得することが出来ます.
 <P>
 
 <P>
 <P>
 
-It can be noted that there are a small number of &quot;-&quot; flags which now actually are emulator flags, see the description below.
+エミュレータフラグである小数の &quot;-&quot; フラグが実際には在る事に注意が必要です, 以下の説明を見てください.
 </DL>
 
 <DT>*<DD>
-Plain arguments are not interpreted in any way. They are also stored by the <I>init</I> process and can be retrieved by calling <I>init:get_plain_arguments/0</I>. Plain arguments can occur before the first flag, or after a <I>--</I> flag. Additionally, the flag <I>-extra</I> causes everything that follows to become plain arguments.
+プレーン引数はどんな場合にも解釈されません. それらはまた<I>init</I> 処理によって格納され, <I>init:get_plain_arguments/0</I> が呼ばれる事による取得する事が出来ます. プレーン引数は最初のフラグの後か <I>--</I> フラグの後に現れます. さらに <I>-extra</I> フラグによって後続の全てがプレーン引数になります。
 </DL>
 </DL>
 
 <P>
 
-Example:
+例:
 <P>
 <PRE>
 % erl +W w -sname arnie +R 9 -s my_init -extra +bertie
@@ -662,6 +661,6 @@ This environment variable contains a list of additional library directories that
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 17:39:29 GMT, June 26, 2008
+Time: 08:02:46 GMT, June 28, 2008
 </BODY>
 </HTML>

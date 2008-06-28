@@ -1,6 +1,6 @@
 .TH erl 1 "erts  5.6.3" "Ericsson AB" "USER COMMANDS"
 .SH 名前
-erl \- Erlang エミュレーター
+erl \- Erlang エミュレータ
 .SH 説明
 .LP
 この \fIerl\fR プログラムは Erlang ランタイムシステムを開始します\&. 正確な詳細は(例えば, \fIerl\fR がスクリプトかプログラムであるかや他のプログラムを呼び出すかどうかは)システム依存です\&.
@@ -15,36 +15,36 @@ erl <引数>
 .LP
 Erlang ランタイムシステムを開始します\&.
 .LP
-この引数は \fIエミュレーターフラグ\fR に分けられます, \fIフラグ\fR と \fIplain 引数\fR:
+この引数は \fIエミュレータフラグ\fR と \fIフラグ\fR と \fIプレーン引数\fR に分けられます:
 .RS 2
 .TP 2
 *
-\fI+\fR から始まる引数はエミュレーターフラグとして解釈されます\&.
-.RS 2
-.LP
-
-.LP
-As indicated by the name, emulator flags controls the behavior of the emulator\&.
-.RE
-.TP 2
-*
-Any argument starting with the character \fI-\fR (hyphen) is interpreted as a flag which should be passed to the Erlang part of the runtime system, more specifically to the \fIinit\fR system process, see init(3)\&.
+\fI+\fR から始まる引数はエミュレータフラグとして解釈されます\&.
 .RS 2
 .LP
 
 .LP
-The \fIinit\fR process itself interprets some of these flags, the \fIinit flags\fR\&. It also stores any remaining flags, the \fIuser flags\fR\&. The latter can be retrieved by calling \fIinit:get_argument/1\fR\&.
-.LP
-
-.LP
-It can be noted that there are a small number of "-" flags which now actually are emulator flags, see the description below\&.
+名前が示すように, エミュレータフラグはエミュレータの挙動をコントロールします\&.
 .RE
 .TP 2
 *
-Plain arguments are not interpreted in any way\&. They are also stored by the \fIinit\fR process and can be retrieved by calling \fIinit:get_plain_arguments/0\fR\&. Plain arguments can occur before the first flag, or after a \fI--\fR flag\&. Additionally, the flag \fI-extra\fR causes everything that follows to become plain arguments\&.
+\fI-\fR (ハイフン)から始まる引数は Erlang ランタイム部を通過すべきフラグとして解釈され, 具体的には \fIinit\fR システムによって処理されます, see init(3)\&.
+.RS 2
+.LP
+
+.LP
+この init 処理では \fIinit flags\fR と呼ばれる幾つかのフラグをそれ自身で解釈します\&. これはまた残りのフラグを \fIuser flags\fR として格納します\&. これは後から \fIinit:get_argument/1\fR を呼ぶことによって取得することが出来ます\&.
+.LP
+
+.LP
+エミュレータフラグである小数の "-" フラグが実際には在る事に注意が必要です, 以下の説明を見てください\&.
+.RE
+.TP 2
+*
+プレーン引数はどんな場合にも解釈されません\&. それらはまた\fIinit\fR 処理によって格納され, \fIinit:get_plain_arguments/0\fR が呼ばれる事による取得する事が出来ます\&. プレーン引数は最初のフラグの後か \fI--\fR フラグの後に現れます\&. さらに \fI-extra\fR フラグによって後続の全てがプレーン引数になります。
 .RE
 .LP
-Example:
+例:
 
 .nf
 % erl +W w -sname arnie +R 9 -s my_init -extra +bertie
