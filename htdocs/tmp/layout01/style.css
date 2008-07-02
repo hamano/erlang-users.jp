@@ -1,0 +1,103 @@
+#header{
+width:100%;
+position:relative;
+min-height:60px;
+}
+/* for winIE6 */
+/* \*/
+* html .cfix{height:60px;}
+/* */
+
+#header a{
+margin:0;
+padding:59px 0 0 0;
+display:block;
+width:418px;
+height:0px;
+overflow:hidden;
+background:url(erlang.gif) no-repeat;
+position:absolute;
+top:0px;
+left:0px;
+}
+
+/* for winIE6 */
+/* \*/
+* html #header a{height:59px;}
+/* */
+
+#header h1{
+margin:0 0 10px 0;
+padding:0;
+color:#990033;
+text-align:right;
+}
+
+form{
+margin:0 0 10px 0;
+padding:0;
+font-size:75%;
+}
+
+form div{
+margin:0;
+padding:0;
+text-align:right;
+}
+
+form div input{
+margin:10px 0 0 0;
+padding:0;
+}
+
+hr{
+border:0;
+height:2px;
+background-color:#990033;
+}
+
+a{
+margin:0;
+padding:0;
+}
+
+h2{
+padding:5px 10px;
+font-size:100%;
+background-color:#FFEEEE;
+border-left:solid 10px #990033;
+border-bottom:solid 1px #990033;
+}
+
+ul{
+padding:0 40px;
+}
+ul li{
+margin:0 0 0px 0;
+padding:0 0 5px 0;
+font-size:75%;
+}
+ul li ul{
+border:none;
+}
+ul li .ybr li{
+margin:0;
+padding:5px 10px;
+font-size:100%;
+border-left:none;
+}
+
+h3{
+margin:0 0 10px 25px;
+padding:0 0 0 10px;
+font-size:100%;
+border-left:solid 10px #990033;
+}
+
+p{
+margin-left:25px;
+margin-right:25px;
+font-size:100%;
+font-size:75%;
+}
+
