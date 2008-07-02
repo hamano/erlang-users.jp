@@ -10,13 +10,13 @@ min-height:60px;
 
 #header a{
 margin:0;
-padding:59px 0 0 0;
+padding:0 0 0 0;
 display:block;
 width:418px;
-height:0px;
+/*height:0px;*/
 overflow:hidden;
-background:url(images/erlang.gif) no-repeat;
-position:absolute;
+/* background:url(images/erlang.gif) no-repeat;*/
+/*position:absolute;*/
 top:0px;
 left:0px;
 }
@@ -101,3 +101,6 @@ font-size:100%;
 font-size:75%;
 }
 
+img{
+border:0
+}
