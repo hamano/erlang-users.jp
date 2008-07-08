@@ -40,7 +40,7 @@ BEGIN {
 	
 	# require language file
 	$Config{Lang} ||= $lang;
-	eval { require "$BASE_PATH/lang/$Config{Lang}.pm" }
+	eval { require "$BASE_PATH/../lang/$Config{Lang}.pm" }
 	   || die("Failed to load language file for '$Config{Lang}' language.");
 	   
 	# set default English strings
