@@ -165,7 +165,7 @@ sub show_month {
 		
 		for (@MessageIDs) {
 			print "<li>";
-			printf '<a href="?%s::%d">%s</a>', $WebRequest{ListID}, $_, Encode::decode( 'utf-8', $Messages{$_}->{subject} );
+			printf '<a href="?%s::%d">%s</a>', $WebRequest{ListID}, $_, Encode::decode( 'iso-2022-jp', $Messages{$_}->{subject} );
 			print " ($Messages{$_}->{author})";
 			print "</li>\n";
 		}
@@ -179,7 +179,7 @@ sub show_month {
 			my $thread_info = $WebRequest{List}->{archive}->getthread( $thread->{id} );
 			$thread->{date} =~ s/\s-\d{4}$//;
 			print "        <li>\n";
-			printf "          <b>%s</b> (%s)<br />\n", Encode::decode( 'utf-8', $thread_info->{subject} ), $thread->{date};
+			printf "          <b>%s</b> (%s)<br />\n", Encode::decode( 'iso-2022-jp', $thread_info->{subject} ), $thread->{date};
 			print "          <ul class=\"messagelist\">\n";
 			foreach my $message ( @{$thread_info->{messages}} ) {
 				next if $message->{month} ne $month;
@@ -230,7 +230,8 @@ sub show_message {
  	for (my $i=0; $i<=$#$parts; $i++) {
  		my $part = $parts->[$i];
  		if ($part->{type} eq 'text/plain') {
- 			$plaintext .= '<pre>' . Encode::decode( $charset, htmlencode(conceal($part->{body}, $WebRequest{List})) ) . '</pre>';
+ 			#$plaintext .= '<pre>' . Encode::decode( $charset, htmlencode(conceal($part->{body}, $WebRequest{List})) ) . '</pre>';
+ 			$plaintext .= '<pre>' . htmlencode( conceal( Encode::decode( $charset, $part->{body}), $WebRequest{List})) . '</pre>';
  		} elsif ($part->{type} eq 'text/html') {
  			if ($WebRequest{List}->{show_html}) {
  				my $url = "?$WebRequest{ListID}::$WebRequest{MessageID}:get:$i";
