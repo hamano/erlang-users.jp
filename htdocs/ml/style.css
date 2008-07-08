@@ -1,0 +1,88 @@
+body
+{
+	background-color: #eeeeee;
+	font-family: Lucida Grande, Helvetica, Verdana;
+}
+
+a { color: #990000; }
+pre { font-family: Monaco, Courier; font-size: 10px }
+pre, iframe { margin-top: 20px }
+
+a:hover
+{
+	color: #001931;
+	background-color: #efefef;
+}
+
+#ez_container
+{
+	text-align: left;
+	width: 80%;
+	min-width: 550px;
+	max-width: 750px;
+	background-color: white;
+	padding: 15px;
+	margin: 25px auto 25px auto;
+	border-color: #ccc;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.ez_header
+{
+	font-size: 1.5em;
+	color: #800000;
+	border-bottom: #999;
+	border-width: 0 0 2px 0;
+	border-style: none none dotted none;
+	margin: 0 0 20px 0;
+}
+
+.ez_footer
+{
+	font-size: 0.8em;
+	color: #333;
+	border-top: #999;
+	border-width: 2px 0 0 0;
+	border-style: dotted none dotted none;
+	padding: 5px 0 0 0;
+	margin: 30px 0 0 0;
+	text-align: right;
+}
+
+.ez_pagetitle { color: #00F; }
+
+.ez_medium
+{
+	font-size: 0.9em;
+	padding: 0 0 0 30px;
+}
+
+#ez_menubar
+{
+	padding: 0px;
+	border-color: #B3B3B3;
+	border-width: 0px;
+	border-style: solid;
+	font-size: 0.7em;
+}
+
+.ez_label { font-weight: bold; }
+#ez_msg { padding: 0 0 0 20px; }
+
+#ez_msg #ez_header
+{
+	border-left: #800000;
+	border-width: 0 0 0 2px;
+	border-style: none none solid solid;
+	padding: 0 0 0 5px;
+}
+
+#ez_msg .ez_quot { color: #990000; }
+#ez_msg .ez_sign { color: #555; }
+
+ul.ez_threadlist li
+{
+	font-size: 0.9em;
+	padding: 0 0 10px 0;
+}
