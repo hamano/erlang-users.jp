@@ -16,6 +16,7 @@ use CGI::Carp qw(fatalsToBrowser);
 use Encode;
 use Mail::Ezmlm::Archive;
 use Mail::Box::Manager;
+use encoding 'utf-8';
 
 $VERSION = '1.4.5';
 
