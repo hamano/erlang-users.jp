@@ -21,7 +21,7 @@ push @$lists, {
 
 # 
 # To add more lists, just copy-and-paste the previous block
-#Êas many times as many lists you have.
+#?as many times as many lists you have.
 #
 # push @$lists, {
 # 	name => 'another-list@example.com',
@@ -42,7 +42,7 @@ push @$lists, {
 #---------------------------------------------------------------------------
 #-- This option specifies the language used for localized strings:
 
-$lang = 'en';
+$lang = 'ja';
 
 #---------------------------------------------------------------------------
 #-- To enable vpopmail support just uncomment the following line:
