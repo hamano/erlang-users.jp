@@ -16,6 +16,7 @@ use CGI::Carp qw(fatalsToBrowser);
 use Encode;
 use Mail::Ezmlm::Archive;
 use Mail::Box::Manager;
+use Encode::Guess;
 #use encoding 'utf-8';
 
 $VERSION = '1.4.5';
@@ -165,8 +166,9 @@ sub show_month {
 		@MessageIDs = reverse(@MessageIDs) if ($order eq 'd');
 		
 		for (@MessageIDs) {
+            my $enc = guess_encoding($Messages{$_}->{subject}, qw/euc-jp shiftjis 7bit-jis utf8/);
 			print "<li>";
-			printf '<a href="?%s::%d">%s</a>', $WebRequest{ListID}, $_, Encode::decode( 'iso-2022-jp', $Messages{$_}->{subject} );
+			printf '<a href="?%s::%d">%s</a>', $WebRequest{ListID}, $_, Encode::decode( $enc, $Messages{$_}->{subject} );
 			print " ($Messages{$_}->{author})";
 			print "</li>\n";
 		}
@@ -178,9 +180,10 @@ sub show_month {
 		
 		foreach my $thread (@$threads) {
 			my $thread_info = $WebRequest{List}->{archive}->getthread( $thread->{id} );
+            my $enc = guess_encoding( $thread_info->{subject}, qw/euc-jp shiftjis 7bit-jis utf8/ );
 			$thread->{date} =~ s/\s-\d{4}$//;
 			print "        <li>\n";
-			printf "          <b>%s</b> (%s)<br />\n", Encode::decode( 'iso-2022-jp', $thread_info->{subject} ), $thread->{date};
+			printf "          <b>%s</b> (%s)<br />\n", Encode::decode( $enc, $thread_info->{subject} ), $thread->{date};
 			print "          <ul class=\"messagelist\">\n";
 			foreach my $message ( @{$thread_info->{messages}} ) {
 				next if $message->{month} ne $month;
