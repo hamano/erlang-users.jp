@@ -42,7 +42,7 @@ push @$lists, {
 #---------------------------------------------------------------------------
 #-- This option specifies the language used for localized strings:
 
-$lang = 'ja';
+$lang = 'en';
 
 #---------------------------------------------------------------------------
 #-- To enable vpopmail support just uncomment the following line:
