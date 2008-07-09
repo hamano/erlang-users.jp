@@ -431,7 +431,7 @@ sub RSSFeed {
 	print <<EOF
 Content-Type: text/xml
 
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding='UTF-8'?>
 <rss version="2.0">
   <channel>
     <title>$WebRequest{List}->{name}</title>
@@ -445,9 +445,11 @@ EOF
 	for ($start .. $end) {
 		my $msg = $WebRequest{List}->{archive}->getmessage($_);
 		my $msgdate = htmlencode( Mail::Message->read($msg->{text})->head->get('Date') );
+        my $enc = guess_encoding($Messages{$_}->{subject}, qw/euc-jp shiftjis 7bit-jis utf8/);
+        my $subject = Encode::decode( $enc, $Messages{$_}->{subject} );
 		print <<EOF
     <item>
-      <title>$Messages{$_}->{subject}</title>
+      <title>$subject</title>
       <link>$Config{URL}?$WebRequest{ListID}::$_</link>
       <pubDate>$msgdate</pubDate>
     </item>
