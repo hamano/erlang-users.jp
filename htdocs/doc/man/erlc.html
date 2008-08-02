@@ -1,6 +1,5 @@
-Content-type: text/html
-
 <HTML><HEAD><TITLE>Manpage of erlc</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 </HEAD><BODY>
 <H1>erlc</H1>
 Section: USER COMMANDS (1)<BR>Updated: erts  5.6.3<BR><A HREF="#index">Index</A>
@@ -31,21 +30,21 @@ erlc - コンパイラ
 <DL COMPACT><DT><DD>
 <P>
 
-<I>Erlc</I> compiles one or more files. The files must include the extension, for example <I>.erl</I> for Erlang source code, or <I>.yrl</I> for Yecc source code. <I>Erlc</I> uses the extension to invoke the correct compiler.
+<I>Erlc</I> は1つかそれ以上のファイルをコンパイルします. そのファイルは拡張子を含まなければなりません, たとえば <I>.erl</I> は Erlang のソースコードであり, <I>.yrl</I> は Yecc のソースコードです. <I>Erlc</I> は 適切なコンパイラを呼び出すために拡張子を使用します.
 </DL>
 
 <A NAME="lbAE">&nbsp;</A>
-<H2>GENERALLY USEFUL FLAGS</H2>
+<H2>一般的なフラグ</H2>
 
 <P>
 
-The following flags are supported: 
+以下のフラグがサポートされています:
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B>-I </B><I>directory</I>:
 
 <DD>
-Instructs the compiler to search for include files in the specified directory. When encountering an <I>-include</I> or <I>-include_dir</I> directive, the compiler searches for header files in the following directories:
+指定したディレクトリのインクルードファイルを検索するように指示します. <I>-include</I> や <I>-include_dir</I> ディレクティブに遭遇したとき, コンパイラは以下のディレクトリからヘッダーファイルを検索します:
 <DL COMPACT><DT><DD>
 <P>
 
@@ -53,11 +52,11 @@ Instructs the compiler to search for include files in the specified directory. W
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT>1.<DD>
-<I>&quot;.&quot;</I>, the current working directory of the file server;
+<I>&quot;.&quot;</I>, これはファイルサーバーのカレントディレクトリです;
 <DT>2.<DD>
-the base name of the compiled file;
+コンパイルしたファイルの base name(訳注: ベースディレクトリ?)
 <DT>3.<DD>
-the directories specified using the <I>-I</I> option. The directory specified last is searched first.
+<I>-I</I> オプションを使用して指定されたディレクトリ. 最後に指定されたディレクトリが最初に検索されます.
 </DL>
 </DL>
 
@@ -66,47 +65,49 @@ the directories specified using the <I>-I</I> option. The directory specified la
 <DT><B>-o </B><I>directory</I>:
 
 <DD>
-The directory where the compiler should place the output files. If not specified, output files will be placed in the current working directory.
+このディレクトリはコンパイラがファイルを出力すべきディレクトリです. もし指定しなかった場合, ファイルはカレントディレクトリに出力されるでしょう.
 <DT><B>-D</B><I>name</I>:
 
 <DD>
-Defines a macro.
+マクロの定義.
 <DT><B>-D</B><I>name</I>=<I>value</I>:
 
 <DD>
-Defines a macro with the given value. The value can be any Erlang term. Depending on the platform, the value may need to be quoted if the shell itself interprets certain characters. On Unix, terms which contain tuples and list must be quoted. Terms which contain spaces must be quoted on all platforms.
+与えられた値と共にマクロを定義します. この値はあらゆる Erlang の term から成ります. 機種依存により, シェル自身が解釈する特定の文字をクオートする必要があるかもしれません. Unix では, タプルやリストを含む terms はクオートされなければ成りません. すべてのプラッフォームでスペースを含む terms はクオートされなければ成りません.
 <DT><B>-W</B><I>number</I>:
 
 <DD>
-Sets warning level to <I>number</I>. Default is <I>1</I>. Use <I>-W0</I> to turn off warnings.
+警告レベルを <I>number</I> に設定します. デフォルトは <I>1</I> です. <I>-W0</I> を使用することで警告を切ることが出来ます.
 <DT><B>-W:</B>
 
 <DD>
-Same as <I>-W1</I>. Default.
+<I>-W1</I>&nbsp;と同じです&amp;. デフォルト.
 <DT><B>-v:</B>
 
 <DD>
-Enables verbose output.
+詳細な出力を有効にします.
 <DT><B>-b </B><I>output-type</I>:
 
 <DD>
-Specifies the type of output file. Generally, <I>output-type</I> is the same as the file extension of the output file but without the period. This option will be ignored by compilers that have a a single output format.
+出力ファイルの種類を指定します. 一般に <I>output-type</I> はピリオドを除いた出力ファイルの拡張子と同じです. このオプションはコンパイラが単一の出力フォーマットしか持たない場合は無視されます.
+<P>
 <DT><B>-hybrid:</B>
 
 <DD>
-Compile using the hybrid-heap emulator. This is mainly useful for compiling native code, which needs to be compiled with the same run-time system that it should be run on.
+コンパイラは hybrid-heap エミュレータを使用します. これは主にネイティブコードをコンパイルする際に役立ちます, このコードは実行するシステムと同じシステムでコンパイルされる必要があります.
 <DT><B>-smp:</B>
 
 <DD>
-Compile using the SMP emulator. This is mainly useful for compiling native code, which needs to be compiled with the same run-time system that it should be run on.
+SMP エミュレータを使用してコンパイルします. これは主にネイティブコードをコンパイルする際に役立ちます, このコードは実行するシステムと同じシステムでコンパイルされる必要があります.
 <DT><B>--:</B>
 
 <DD>
-Signals that no more options will follow. The rest of the arguments will be treated as file names, even if they start with hyphens.
+これ以降はオプションが続かないというシグナルです. 残りの引数はハイフンから始まったとしてファイル名として扱われるでしょう.
 <DT><B>+</B><I>term</I>:
 
 <DD>
 A flag starting with a plus ('<I>+</I>') rather than a hyphen will be converted to an Erlang term and passed unchanged to the compiler. For instance, the <I>export_all</I> option for the Erlang compiler can be specified as follows:
+<P>
 <DL COMPACT><DT><DD>
 <P>
 
@@ -301,7 +302,7 @@ The command for starting the emulator. Default is <I>erl</I> in the same directo
 <DT><A HREF="#lbAB">名前</A><DD>
 <DT><A HREF="#lbAC">説明</A><DD>
 <DT><A HREF="#lbAD">EXPORTS</A><DD>
-<DT><A HREF="#lbAE">GENERALLY USEFUL FLAGS</A><DD>
+<DT><A HREF="#lbAE">一般的なフラグ</A><DD>
 <DT><A HREF="#lbAF">SPECIAL FLAGS</A><DD>
 <DT><A HREF="#lbAG">SUPPORTED COMPILERS</A><DD>
 <DT><A HREF="#lbAH">ENVIRONMENT VARIABLES</A><DD>
@@ -311,6 +312,6 @@ The command for starting the emulator. Default is <I>erl</I> in the same directo
 This document was created by
 <A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 17:39:29 GMT, June 26, 2008
+Time: 10:24:43 GMT, August 02, 2008
 </BODY>
 </HTML>

@@ -13,75 +13,77 @@ erlc flags file1\&.ext file2\&.ext\&.\&.\&.
 .br
 .RS
 .LP
-\fIErlc\fR compiles one or more files\&. The files must include the extension, for example \fI\&.erl\fR for Erlang source code, or \fI\&.yrl\fR for Yecc source code\&. \fIErlc\fR uses the extension to invoke the correct compiler\&.
+\fIErlc\fR は1つかそれ以上のファイルをコンパイルします\&. そのファイルは拡張子を含まなければなりません, たとえば \fI\&.erl\fR は Erlang のソースコードであり, \fI\&.yrl\fR は Yecc のソースコードです\&. \fIErlc\fR は 適切なコンパイラを呼び出すために拡張子を使用します\&.
 .RE
-.SH GENERALLY USEFUL FLAGS
+.SH 一般的なフラグ
 .LP
-The following flags are supported: 
+以下のフラグがサポートされています:
 .RS 2
 .TP 4
 .B
 -I \fIdirectory\fR:
-Instructs the compiler to search for include files in the specified directory\&. When encountering an \fI-include\fR or \fI-include_dir\fR directive, the compiler searches for header files in the following directories:
+指定したディレクトリのインクルードファイルを検索するように指示します\&. \fI-include\fR や \fI-include_dir\fR ディレクティブに遭遇したとき, コンパイラは以下のディレクトリからヘッダーファイルを検索します:
 .RS 4
 .LP
 
 .RS 2
 .TP 4
 1.
-\fI"\&."\fR, the current working directory of the file server;
+\fI"\&."\fR, これはファイルサーバーのカレントディレクトリです;
 .TP 4
 2.
-the base name of the compiled file;
+コンパイルしたファイルの base name(訳注: ベースディレクトリ?)
 .TP 4
 3.
-the directories specified using the \fI-I\fR option\&. The directory specified last is searched first\&.
+\fI-I\fR オプションを使用して指定されたディレクトリ\&. 最後に指定されたディレクトリが最初に検索されます\&.
 .RE
 .RE
 .TP 4
 .B
 -o \fIdirectory\fR:
-The directory where the compiler should place the output files\&. If not specified, output files will be placed in the current working directory\&.
+このディレクトリはコンパイラがファイルを出力すべきディレクトリです\&. もし指定しなかった場合, ファイルはカレントディレクトリに出力されるでしょう\&.
 .TP 4
 .B
 -D\fIname\fR:
-Defines a macro\&.
+マクロの定義\&.
 .TP 4
 .B
 -D\fIname\fR=\fIvalue\fR:
-Defines a macro with the given value\&. The value can be any Erlang term\&. Depending on the platform, the value may need to be quoted if the shell itself interprets certain characters\&. On Unix, terms which contain tuples and list must be quoted\&. Terms which contain spaces must be quoted on all platforms\&.
+与えられた値と共にマクロを定義します\&. この値はあらゆる Erlang の term から成ります\&. 機種依存により, シェル自身が解釈する特定の文字をクオートする必要があるかもしれません\&. Unix では, タプルやリストを含む terms はクオートされなければ成りません\&. すべてのプラッフォームでスペースを含む terms はクオートされなければ成りません\&.
 .TP 4
 .B
 -W\fInumber\fR:
-Sets warning level to \fInumber\fR\&. Default is \fI1\fR\&. Use \fI-W0\fR to turn off warnings\&.
+警告レベルを \fInumber\fR に設定します\&. デフォルトは \fI1\fR です\&. \fI-W0\fR を使用することで警告を切ることが出来ます\&.
 .TP 4
 .B
 -W:
-Same as \fI-W1\fR\&. Default\&.
+\fI-W1\fR\ と同じです&. デフォルト\&.
 .TP 4
 .B
 -v:
-Enables verbose output\&.
+詳細な出力を有効にします\&.
 .TP 4
 .B
 -b \fIoutput-type\fR:
-Specifies the type of output file\&. Generally, \fIoutput-type\fR is the same as the file extension of the output file but without the period\&. This option will be ignored by compilers that have a a single output format\&.
+出力ファイルの種類を指定します\&. 一般に \fIoutput-type\fR はピリオドを除いた出力ファイルの拡張子と同じです\&. このオプションはコンパイラが単一の出力フォーマットしか持たない場合は無視されます\&.
+
 .TP 4
 .B
 -hybrid:
-Compile using the hybrid-heap emulator\&. This is mainly useful for compiling native code, which needs to be compiled with the same run-time system that it should be run on\&.
+コンパイラは hybrid-heap エミュレータを使用します\&. これは主にネイティブコードをコンパイルする際に役立ちます, このコードは実行するシステムと同じシステムでコンパイルされる必要があります\&.
 .TP 4
 .B
 -smp:
-Compile using the SMP emulator\&. This is mainly useful for compiling native code, which needs to be compiled with the same run-time system that it should be run on\&.
+SMP エミュレータを使用してコンパイルします\&. これは主にネイティブコードをコンパイルする際に役立ちます, このコードは実行するシステムと同じシステムでコンパイルされる必要があります\&.
 .TP 4
 .B
 --:
-Signals that no more options will follow\&. The rest of the arguments will be treated as file names, even if they start with hyphens\&.
+これ以降はオプションが続かないというシグナルです\&. 残りの引数はハイフンから始まったとしてファイル名として扱われるでしょう\&.
 .TP 4
 .B
 +\fIterm\fR:
 A flag starting with a plus (\&'\fI+\fR\&') rather than a hyphen will be converted to an Erlang term and passed unchanged to the compiler\&. For instance, the \fIexport_all\fR option for the Erlang compiler can be specified as follows:
+
 .RS 4
 .LP
 
