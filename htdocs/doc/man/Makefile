@@ -7,5 +7,5 @@ clean: $(HTML)
 	rm -rf $^
 
 .1.html:
-	man2html -p < $< > $@
+	man2html -c < $< > $@
 

@@ -3,7 +3,7 @@
 </HEAD><BODY>
 <H1>erlc</H1>
 Section: USER COMMANDS (1)<BR>Updated: erts  5.6.3<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+<A HREF="./">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
 <H2>名前</H2>
@@ -106,8 +106,7 @@ SMP エミュレータを使用してコンパイルします. これは主に�
 <DT><B>+</B><I>term</I>:
 
 <DD>
-A flag starting with a plus ('<I>+</I>') rather than a hyphen will be converted to an Erlang term and passed unchanged to the compiler. For instance, the <I>export_all</I> option for the Erlang compiler can be specified as follows:
-<P>
+ハイフンでなくプラス ('<I>+</I>') で始まるフラグは Erlang term に変換され, そのままコンパイラに渡ります. 実例として, 以下の用に <I>export_all</I> オプションを Erlang コンパイラに指定することが出来ます:
 <DL COMPACT><DT><DD>
 <P>
 
@@ -122,59 +121,60 @@ erlc +export_all file.erl
 <P>
 <P>
 
-Depending on the platform, the value may need to be quoted if the shell itself interprets certain characters. On Unix, terms which contain tuples and list must be quoted. Terms which contain spaces must be quoted on all platforms.
+機種依存により, シェル自身が解釈する特定の文字をクオートする必要があるかもしれません. Unix では, タプルやリストを含む terms はクオートされなければ成りません. すべてのプラッフォームでスペースを含む terms はクオートされなければ成りません.
 </DL>
 
 </DL>
 </DL>
 
 <A NAME="lbAF">&nbsp;</A>
-<H2>SPECIAL FLAGS</H2>
+<H2>特別フラグ</H2>
 
 <P>
 
-The flags in this section are useful in special situations such as re-building the OTP system.
+このセクションのフラグは OTP システムのリビルドなど, 特別な状況で役立ちます.
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B>-pa </B><I>directory</I>:
 
 <DD>
-Appends <I>directory</I> to the front of the code path in the invoked Erlang emulator. This can be used to invoke another compiler than the default one.
+呼び出された Erlang エミュレータのコードパスの先頭に <I>directory</I> を追加します. デフォルトのコンパイラから別のコンパイラを呼び出す事に使用できます.
 <DT><B>-pz </B><I>directory</I>:
 
 <DD>
-Appends <I>directory</I> to the code path in the invoked Erlang emulator.
+呼び出された Erlang エミュレータのコードパスの最後に <I>directory</I> を追加します.
 </DL>
 </DL>
 
 <A NAME="lbAG">&nbsp;</A>
-<H2>SUPPORTED COMPILERS</H2>
+<H2>サポートするコンパイラ</H2>
 
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B>.erl:</B>
 
 <DD>
-Erlang source code. It generates a <I>.beam</I> file.
+Erlang ソースコード. これは <I>.beam</I> ファイルを生成します.
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-The options -P, -E, and -S are equivalent to +'P', +'E', and +'S', except that it is not necessary to include the single quotes to protect them from the shell.
+このオプション -P, -E, -S は, シェルから保護するためにシングルクォートが必要で無いことを除き, +'P', +'E', +'S' と同等です.
+<BR>&nbsp;+'P',&nbsp;+'E',&nbsp;+'S'&nbsp;
 <P>
 
 <P>
 <P>
 
-Supported options: -I, -o, -D, -v, -W, -b.
+サポートされるオプション: -I, -o, -D, -v, -W, -b.
 </DL>
 
 <DT><B>.yrl:</B>
 
 <DD>
-Yecc source code. It generates an <I>.erl</I> file.
+Yecc ソースコード. これは <I>.erl</I> ファイルを生成します.
 <DL COMPACT><DT><DD>
 <P>
 
@@ -183,117 +183,118 @@ Yecc source code. It generates an <I>.erl</I> file.
 
 Use the -I option with the name of a file to use that file as a customized prologue file (the <I>includefile</I> option).
 <P>
+<P>
 
 <P>
 <P>
 
-Supported options: -o, -v, -I, -W (see above).
+サポートされるオプション: -o, -v, -I, -W (上記を参照).
 </DL>
 
 <DT><B>.mib:</B>
 
 <DD>
-MIB for SNMP. It generates a <I>.bin</I> file.
+SNMP の為の MIB です. これは <I>.bin</I> ファイルを生成します.
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-Supported options: -I, -o, -W.
+サポートされるオプション: -I, -o, -W.
 </DL>
 
 <DT><B>.bin:</B>
 
 <DD>
-A compiled MIB for SNMP. It generates a <I>.hrl</I> file.
+SNMP の為のコンパイル済み MIB です. これは <I>.hrl</I> ファイルを生成します.
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-Supported options: -o, -v.
+サポートされるオプション: -o, -v.
 </DL>
 
 <DT><B>.rel:</B>
 
 <DD>
-Script file. It generates a boot file.
+スクリプトファイル. これはブートファイルを生成します.
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-Use the -I to name directories to be searched for application files (equivalent to the <I>path</I> in the option list for <I>systools:make_script/2</I>).
+-I オプションで指定したディレクトリ名を使用してアプリケーションファイルを検索します(<I>systools:make_script/2</I> のオプションリストの <I>path</I> と同等です).
 <P>
 
 <P>
 <P>
 
-Supported options: -o.
+サポートされるオプション: -o.
 </DL>
 
 <DT><B>.asn1:</B>
 
 <DD>
-ASN1 file.
+ASN1 ファイル.
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-Creates an <I>.erl</I>, <I>.hrl</I>, and <I>.asn1db</I> file from an <I>.asn1</I> file. Also compiles the <I>.erl</I> using the Erlang compiler unless the <I>+noobj</I> options is given.
+<I>.asn1</I> ファイルから<I>.erl</I>, <I>.hrl</I>, <I>.asn1db</I> ファイルを生成します. また, Erlang コンパイラに <I>+noobj</I> オプションを与えた場合を除き <I>.erl</I> のコンパイルと同様です.
 <P>
 
 <P>
 <P>
 
-Supported options: -I, -o, -b, -W.
+サポートされるオプション: -I, -o, -b, -W.
 </DL>
 
 <DT><B>.idl:</B>
 
 <DD>
-IC file.
+IC ファイル.
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-Runs the IDL compiler.
+IDL コンパイラを実行します.
 <P>
 
 <P>
 <P>
 
-Supported options: -I, -o.
+サポートされるオプション: -I, -o.
 </DL>
 
 </DL>
 </DL>
 
 <A NAME="lbAH">&nbsp;</A>
-<H2>ENVIRONMENT VARIABLES</H2>
+<H2>環境変数</H2>
 
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B>ERLC_EMULATOR:</B>
 
 <DD>
-The command for starting the emulator. Default is <I>erl</I> in the same directory as the <I>erlc</I> program itself, or if it doesn't exist, <I>erl</I> in any of the directories given in the <I>PATH</I> environment variable.
+エミュレータを開始する為のコマンド. <I>erl</I> コマンドが <I>PATH</I> で与えられた環境変数に存在しない場合, <I>erlc</I>　プログラムと同じディレクトリの <I>erl</I> がデフォルトになります.
 </DL>
 </DL>
 
 <A NAME="lbAI">&nbsp;</A>
-<H2>SEE ALSO</H2>
+<H2>関連項目</H2>
 
 <P>
 
-<A HREF="http://localhost/cgi-bin/man/man2html/1+erl">erl</A>(1), <A HREF="http://localhost/cgi-bin/man/man2html/3+compile">compile</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+yecc">yecc</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+snmp">snmp</A>(3)
+<A HREF="./erl.html">erl</A>(1), <A HREF="./compile.html">compile</A>(3), <A HREF="./yecc.html">yecc</A>(3), <A HREF="./snmp.html">snmp</A>(3)
 <P>
 
 <HR>
@@ -303,15 +304,15 @@ The command for starting the emulator. Default is <I>erl</I> in the same directo
 <DT><A HREF="#lbAC">説明</A><DD>
 <DT><A HREF="#lbAD">EXPORTS</A><DD>
 <DT><A HREF="#lbAE">一般的なフラグ</A><DD>
-<DT><A HREF="#lbAF">SPECIAL FLAGS</A><DD>
-<DT><A HREF="#lbAG">SUPPORTED COMPILERS</A><DD>
-<DT><A HREF="#lbAH">ENVIRONMENT VARIABLES</A><DD>
-<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">特別フラグ</A><DD>
+<DT><A HREF="#lbAG">サポートするコンパイラ</A><DD>
+<DT><A HREF="#lbAH">環境変数</A><DD>
+<DT><A HREF="#lbAI">関連項目</A><DD>
 </DL>
 <HR>
 This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+<A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 10:24:43 GMT, August 02, 2008
+Time: 06:55:16 GMT, August 04, 2008
 </BODY>
 </HTML>
