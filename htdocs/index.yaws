@@ -7,6 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <title>Erlang-users.jp - 日本の Erlang ユーザのためのハブサイト</title>
   </head>
   <body>
@@ -30,29 +31,16 @@
     <a href="http://b.hatena.ne.jp/entry/http://erlang-users.jp/"
        target="_blank"><img src="http://b.hatena.ne.jp/entry/image/normal/http://erlang-users.jp/" border="0" /></a>
     <h2>Erlang-users.jp?</h2>
-    <p>
-      <a href="http://conferences.yapcasia.org/ya2008/"
-title="YAPC::Asia 2008 - May 15-16th in Tokyo, JAPAN">YAPC::Asia
-2008</a> で <a href="http://conferences.yapcasia.org/ya2008/user/780"
-title="ユーザ情報: YAPC::Asia 2008 - May 15-16th in Tokyo,
-JAPAN">Michael Schwern</a> は「SEO に有効な独自ドメインを取って、もっと
-Perl 初心者が集まりやすい nice な Perl の情報を集めたサイトを作れ！」と
-いったそうです。そして「<a href="http://perl-users.jp">Perl-users.jp -
-日本のPerlユーザのためのハブサイト</a>」ができました。
-    </p>
-    <p>
-そして <a href="http://teahut.sakura.ne.jp/b/2008-06-02-1.html">Erlang
-分散システム勉強会</a> で、これは Erlang でも同じではないのか？という意
-見がありましたでので。ここに Erlang-users.jp を開始します。当然ノープラ
-ンです。
-    </p>
+    <p><a href="http://conferences.yapcasia.org/ya2008/" title="YAPC::Asia 2008 - May 15-16th in Tokyo, JAPAN">YAPC::Asia 2008</a> で <a href="http://conferences.yapcasia.org/ya2008/user/780" title="ユーザ情報: YAPC::Asia 2008 - May 15-16th in Tokyo, JAPAN">Michael Schwern</a> は「SEO に有効な独自ドメインを取って、もっと Perl 初心者が集まりやすい nice な Perl の情報を集めたサイトを作れ！」といったそうです。そして「<a href="http://perl-users.jp">Perl-users.jp - 日本のPerlユーザのためのハブサイト</a>」ができました。</p>
+    <p>そして <a href="http://teahut.sakura.ne.jp/b/2008-06-02-1.html">Erlang 分散システム勉強会</a> で、これは Erlang でも同じではないのか？という意見がありましたでので。ここに Erlang-users.jp を開始します。当然ノープランです。</p>
     <h2>新着情報</h2>
     <ul>
       <li><a href="http://friendfeed.com/rooms/erlang-users-jp">friendfeed: erlang</a>
         <script src="http://pipes.yahoo.com/js/listbadge.js">{"pipe_id":"yGJAjBBB3RGZ4cjBiHrL0A","_btype":"list","width":"600","height":"100%","count":10,"hideHeader":"true"}</script>
       </li>
     </ul>
-    <h2>Erlang 関連勉強会</h2>
+    <h2>メーリングリスト</h2>
+    <h3><a href="/ml/"></a>erlang@erlang-users.jp</h3>
     <h3>20080617 Erlang 分散システム勉強会</h3>
     <ul>
       <li><a href="http://teahut.sakura.ne.jp/b/2008-06-18-1.html">
