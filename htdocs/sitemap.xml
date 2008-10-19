@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://erlang-users.jp/</loc>
+    <lastmod>2008-06-24</lastmod>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>http://erlang-users.jp/ml/</loc>
+    <lastmod>2008-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>http://erlang-users.jp/ml/erlang/</loc>
+    <lastmod>2008-10-20</lastmod>
+    <changefreq>daily</changefreq>
+  </url>
+</urlset>
