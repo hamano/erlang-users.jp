@@ -40,7 +40,7 @@
       </li>
     </ul>
     <h2>メーリングリスト</h2>
-    <h3><a href="/ml/"></a>erlang@erlang-users.jp</h3>
+    <p><a href="/ml/">erlang@erlang-users.jp</a></p>
     <h3>20080617 Erlang 分散システム勉強会</h3>
     <ul>
       <li><a href="http://teahut.sakura.ne.jp/b/2008-06-18-1.html">
