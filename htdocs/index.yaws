@@ -32,7 +32,7 @@
        target="_blank"><img src="http://b.hatena.ne.jp/entry/image/normal/http://erlang-users.jp/" border="0" /></a>
     <h2>Erlang-users.jp?</h2>
     <p><a href="http://conferences.yapcasia.org/ya2008/" title="YAPC::Asia 2008 - May 15-16th in Tokyo, JAPAN">YAPC::Asia 2008</a> で <a href="http://conferences.yapcasia.org/ya2008/user/780" title="ユーザ情報: YAPC::Asia 2008 - May 15-16th in Tokyo, JAPAN">Michael Schwern</a> は「SEO に有効な独自ドメインを取って、もっと Perl 初心者が集まりやすい nice な Perl の情報を集めたサイトを作れ！」といったそうです。そして「<a href="http://perl-users.jp">Perl-users.jp - 日本のPerlユーザのためのハブサイト</a>」ができました。</p>
-    <p>そして <a href="http://teahut.sakura.ne.jp/b/2008-06-02-1.html">Erlang 分散システム勉強会</a> で、これは Erlang でも同じではないのか？という意見がありましたでので。ここに Erlang-users.jp を開始します。当然ノープランです。</p>
+    <p>そして <a href="http://teahut.sakura.ne.jp/b/2008-06-02-1.html">Erlang 分散システム勉強会</a> で、これは Erlang でも同じではないのか？という意見がありましたでので。ここに Erlang-users.jp を開始します。</p>
     <h2>新着情報</h2>
     <ul>
       <li><a href="http://friendfeed.com/rooms/erlang-users-jp">friendfeed: erlang</a>
@@ -41,22 +41,23 @@
     </ul>
     <h2>メーリングリスト</h2>
     <p><a href="/ml/">erlang@erlang-users.jp</a></p>
-    <h3>20080617 Erlang 分散システム勉強会</h3>
+    <h2>勉強会</h2>
+    <h3>第2回 Erlang 分散システム勉強会(20081120)</h3>
     <ul>
-      <li><a href="http://teahut.sakura.ne.jp/b/2008-06-18-1.html">
-        Kai/Dynamo のメカニズムと実装 (takemaruさん, 40分)
-        </a>
-      </li>
-      <li><a href="http://www.slideshare.net/hamano/20080617-ejabberd-and-erlang">ejabberd
-の仕組み、と運用してみて気がついた erlang のすごいところ (hamano さん,
-15分)
-      </a></li>
-      <li><a href="http://blogs.ricollab.jp/webtech/2008/06/couchdb/">
-          ドキュメント指向分散DB - CouchDB (yohei さん, 20分)</a></li>
+      <li><a href="http://www.slideshare.net/takemaru/process-design-and-polymorphism-lessons-learnt-from-development-of-kai-presentation">Process Design and Polymorphism: Lessons Learnt from Development of Kai</a>by takemaru</li>
+      <li><a href="http://www.slideshare.net/shino/conflict-resolution-in-kai-presentation/">Conflict Resolution in Kai</a>by shino</li>
+      <li><a href="http://www.slideshare.net/cooldaemon/kademlia-presentation">Ermlia: Erlang implementation of Kademlia</a>by cooldaemon</li>
+      <li><a href="http://docs.google.com/Presentation?id=dfkb92wz_67gx944mhd">Comet on mochiweb</a>by Voluntas</li>
+      <li><a href="http://www.slideshare.net/daiba/erlang-with-regexp-perl-and-port-presentation">[LT] Regexp, Perl, and Port</a>by kdaiba</li>
+    </ul>
+    <h3>第1回 Erlang 分散システム勉強会(20080617)</h3>
+    <ul>
+      <li><a href="http://teahut.sakura.ne.jp/b/2008-06-18-1.html">Kai/Dynamo のメカニズムと実装 (takemaruさん, 40分)</a></li>
+      <li><a href="http://www.slideshare.net/hamano/20080617-ejabberd-and-erlang">ejabberd の仕組み、と運用してみて気がついた erlang のすごいところ (hamano さん, 15分)</a></li>
+      <li><a href="http://blogs.ricollab.jp/webtech/2008/06/couchdb/">ドキュメント指向分散DB - CouchDB (yohei さん, 20分)</a></li>
       <li>TokyoTyrantの設計と実装について (平林さん, 20分)</li>
       <li><a href="http://d.hatena.ne.jp/cooldaemon/20080618/1213797785">mochiweb (cooldaemon さん, 5分)</a></li>
-      <li><a href="http://d.hatena.ne.jp/n_shuyo/">
-          Erlangで分散倉庫番ソルバー (shuyo さん, 5分)</a></li>
+      <li><a href="http://d.hatena.ne.jp/n_shuyo/">Erlangで分散倉庫番ソルバー (shuyo さん, 5分)</a></li>
     </ul>
     <h2>日本の Erlang コミュニティ</h2>
     <ul>
