@@ -102,9 +102,10 @@
       <li><a href="http://www.trapexit.org/Category:HowTo">Erlang Community - Category:HowTo - Trapexit</a></li>
       <li><a href="http://erlangworld.web.fc2.com/">Erlang World</a></li>
     </ul>
-    <h2>参考図書(和書)</h2>
+    <h2>参考図書(和書)、論文</h2>
     <ul>
       <li><a href="http://www.amazon.co.jp/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0Erlang-Joe-Armstrong/dp/4274067149">プログラミングErlang</a></li>
+      <li><a href="http://teahut.sakura.ne.jp/b/2009-04-04-1.html"></a>情報処理学会誌 (2009年3月) プログラミング言語 Erlang の動向</li>
     </ul>
     <h2>TODO</h2>
     <ul>
