@@ -36,8 +36,8 @@
     <h2>新着情報</h2>
     <ul>
       <li>
-        <p>4/5 に daiki41ti さん主催の<a href="http://d.hatena.ne.jp/daiki41ti/20090403/p2">突発オンラインErlang勉強会</a>が開催されるようです。</p>
-        <p>詳しくは<a href="http://d.hatena.ne.jp/daiki41ti/20090403">突発オンラインErlang勉強会 - (´・ω・｀) プログラミング日記【上野ぱらみ〜ん】</a></p>
+        4/5 に daiki41ti さん主催の<a href="http://d.hatena.ne.jp/daiki41ti/20090403/p2">突発オンラインErlang勉強会</a>が開催されるようです。<br/>
+        詳しくは<a href="http://d.hatena.ne.jp/daiki41ti/20090403">突発オンラインErlang勉強会 - (´・ω・｀) プログラミング日記【上野ぱらみ〜ん】</a>
       </li>
       <li><a href="http://friendfeed.com/rooms/erlang-users-jp">friendfeed: erlang</a>
         <script src="http://pipes.yahoo.com/js/listbadge.js">{"pipe_id":"yGJAjBBB3RGZ4cjBiHrL0A","_btype":"list","width":"600","height":"100%","count":10,"hideHeader":"true"}</script>
