@@ -57,8 +57,6 @@ Erlang ランタイムシステムを開始します\&.
 ["+bertie"]
 .fi
 .LP
-Here \fI+W w\fR and \fI+R 9\fR are emulator flags\&. \fI-s my_init\fR is an init flag, interpreted by \fIinit\fR\&. \fI-sname arnie\fR is a user flag, stored by \fIinit\fR\&. It is read by Kernel and will cause the Erlang runtime system to become distributed\&. Finally, everything after \fI-extra\fR (that is, \fI+bertie\fR) is considered as plain arguments\&.
-
 この \fI+W w\fR と \fI+R 9\fR はエミュレータフラグです\&. \fI-s my_init\fR は初期化フラグで, \fIinit\fR により処理されます\&. \fI-sname arnie\fR はユーザーフラグです, \fIinit\fR により保存されます\&. それはカーネルに読み込まれ, Erlangランタイムシステムを分散させる要因となるでしょう\&. 最後に, \fI-extra\fR(\fI+bertie\fR) 以降のすべてはプレーン引数とみなされます\&.
 
 .nf
@@ -72,11 +70,13 @@ Here \fI+W w\fR and \fI+R 9\fR are emulator flags\&. \fI-s my_init\fR is an init
 []
 .fi
 .LP
-Here the user flag \fI-myflag 1\fR is passed to and stored by the \fIinit\fR process\&. It is a user defined flag, presumably used by some user defined application\&.
+このユーザーフラグ \fI-myflag 1\fR は\fIinit\fR プロセスを通過し, 保存されます\&. それはユーザーの定義したフラグで, おそらくはユーザーの定義したアプリケーションによって使用されます\&.
+
 .RE
 .SH フラグ
 .LP
 In the following list, init flags are marked (init flag)\&. Unless otherwise specified, all other flags are user flags, for which the values can be retrieved by calling \fIinit:get_argument/1\fR\&. Note that the list of user flags is not exhaustive, there may be additional, application specific flags which instead are documented in the corresponding application documentation\&.
+
 .RS 2
 .TP 4
 .B

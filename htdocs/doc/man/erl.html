@@ -76,18 +76,16 @@ Erlang ランタイムシステムを開始します.
 <PRE>
 % erl +W w -sname arnie +R 9 -s my_init -extra +bertie
 
-(<A HREF="mailto:arnie@host">arnie@host</A>)1&gt; init:get_argument(sname).
+(arnie@host)1&gt; init:get_argument(sname).
 
 {ok,[[&quot;arnie&quot;]]}
-(<A HREF="mailto:arnie@host">arnie@host</A>)2&gt; init:get_plain_arguments().
+(arnie@host)2&gt; init:get_plain_arguments().
 
 [&quot;+bertie&quot;]
 </PRE>
 
 <P>
 
-Here <I>+W w</I> and <I>+R 9</I> are emulator flags. <I>-s my_init</I> is an init flag, interpreted by <I>init</I>. <I>-sname arnie</I> is a user flag, stored by <I>init</I>. It is read by Kernel and will cause the Erlang runtime system to become distributed. Finally, everything after <I>-extra</I> (that is, <I>+bertie</I>) is considered as plain arguments.
-<P>
 この <I>+W w</I> と <I>+R 9</I> はエミュレータフラグです. <I>-s my_init</I> は初期化フラグで, <I>init</I> により処理されます. <I>-sname arnie</I> はユーザーフラグです, <I>init</I> により保存されます. それはカーネルに読み込まれ, Erlangランタイムシステムを分散させる要因となるでしょう. 最後に, <I>-extra</I>(<I>+bertie</I>) 以降のすべてはプレーン引数とみなされます.
 <P>
 <PRE>
@@ -103,7 +101,8 @@ Here <I>+W w</I> and <I>+R 9</I> are emulator flags. <I>-s my_init</I> is an ini
 
 <P>
 
-Here the user flag <I>-myflag 1</I> is passed to and stored by the <I>init</I> process. It is a user defined flag, presumably used by some user defined application.
+このユーザーフラグ <I>-myflag 1</I> は<I>init</I> プロセスを通過し, 保存されます. それはユーザーの定義したフラグで, おそらくはユーザーの定義したアプリケーションによって使用されます.
+<P>
 </DL>
 
 <A NAME="lbAE">&nbsp;</A>
@@ -112,6 +111,7 @@ Here the user flag <I>-myflag 1</I> is passed to and stored by the <I>init</I> p
 <P>
 
 In the following list, init flags are marked (init flag). Unless otherwise specified, all other flags are user flags, for which the values can be retrieved by calling <I>init:get_argument/1</I>. Note that the list of user flags is not exhaustive, there may be additional, application specific flags which instead are documented in the corresponding application documentation.
+<P>
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B></B><I>--</I>(init flag):
@@ -294,7 +294,7 @@ Makes the Erlang runtime system into a distributed node. This flag invokes all n
 <P>
 <P>
 
-The name of the node will be <I><A HREF="mailto:Name@Host">Name@Host</A></I>, where <I>Host</I> is the fully qualified host name of the current host. For short names, use the <I>-sname</I> flag instead.
+The name of the node will be <I>Name@Host</I>, where <I>Host</I> is the fully qualified host name of the current host. For short names, use the <I>-sname</I> flag instead.
 </DL>
 
 <DT><B></B><I>-noinput</I>:
@@ -348,7 +348,7 @@ Specifies how long time (in milliseconds) the <I>init</I> process is allowed to 
 <DT><B></B><I>-sname Name</I>:
 
 <DD>
-Makes the Erlang runtime system into a distributed node, similar to <I>-name</I>, but the host name portion of the node name <I><A HREF="mailto:Name@Host">Name@Host</A></I> will be the short name, not fully qualified.
+Makes the Erlang runtime system into a distributed node, similar to <I>-name</I>, but the host name portion of the node name <I>Name@Host</I> will be the short name, not fully qualified.
 <DL COMPACT><DT><DD>
 <P>
 
@@ -663,6 +663,6 @@ This environment variable contains a list of additional library directories that
 This document was created by
 <A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 09:26:02 GMT, April 11, 2009
+Time: 10:23:52 GMT, April 11, 2009
 </BODY>
 </HTML>
