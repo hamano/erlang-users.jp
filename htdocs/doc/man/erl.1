@@ -59,6 +59,8 @@ Erlang ランタイムシステムを開始します\&.
 .LP
 Here \fI+W w\fR and \fI+R 9\fR are emulator flags\&. \fI-s my_init\fR is an init flag, interpreted by \fIinit\fR\&. \fI-sname arnie\fR is a user flag, stored by \fIinit\fR\&. It is read by Kernel and will cause the Erlang runtime system to become distributed\&. Finally, everything after \fI-extra\fR (that is, \fI+bertie\fR) is considered as plain arguments\&.
 
+この \fI+W w\fR と \fI+R 9\fR はエミュレータフラグです\&. \fI-s my_init\fR は初期化フラグで, \fIinit\fR により処理されます\&. \fI-sname arnie\fR はユーザーフラグです, \fIinit\fR により保存されます\&. それはカーネルに読み込まれ, Erlangランタイムシステムを分散させる要因となるでしょう\&. 最後に, \fI-extra\fR(\fI+bertie\fR) 以降のすべてはプレーン引数とみなされます\&.
+
 .nf
 % erl -myflag 1
 

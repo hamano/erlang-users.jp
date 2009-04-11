@@ -3,7 +3,7 @@
 </HEAD><BODY>
 <H1>erl</H1>
 Section: USER COMMANDS (1)<BR>Updated: erts  5.6.3<BR><A HREF="#index">Index</A>
-<A HREF="http://localhost/cgi-bin/man/man2html">Return to Main Contents</A><HR>
+<A HREF="./">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
 <H2>名前</H2>
@@ -48,7 +48,7 @@ Erlang ランタイムシステムを開始します.
 </DL>
 
 <DT>*<DD>
-<I>-</I> (ハイフン)から始まる引数は Erlang ランタイム部を通過すべきフラグとして解釈され, 具体的には <I>init</I> システムによって処理されます, see <A HREF="http://localhost/cgi-bin/man/man2html/3+init">init</A>(3).
+<I>-</I> (ハイフン)から始まる引数は Erlang ランタイム部を通過すべきフラグとして解釈され, 具体的には <I>init</I> システムによって処理されます, see <A HREF="./init.html">init</A>(3).
 <DL COMPACT><DT><DD>
 <P>
 
@@ -88,6 +88,8 @@ Erlang ランタイムシステムを開始します.
 
 Here <I>+W w</I> and <I>+R 9</I> are emulator flags. <I>-s my_init</I> is an init flag, interpreted by <I>init</I>. <I>-sname arnie</I> is a user flag, stored by <I>init</I>. It is read by Kernel and will cause the Erlang runtime system to become distributed. Finally, everything after <I>-extra</I> (that is, <I>+bertie</I>) is considered as plain arguments.
 <P>
+この <I>+W w</I> と <I>+R 9</I> はエミュレータフラグです. <I>-s my_init</I> は初期化フラグで, <I>init</I> により処理されます. <I>-sname arnie</I> はユーザーフラグです, <I>init</I> により保存されます. それはカーネルに読み込まれ, Erlangランタイムシステムを分散させる要因となるでしょう. 最後に, <I>-extra</I>(<I>+bertie</I>) 以降のすべてはプレーン引数とみなされます.
+<P>
 <PRE>
 % erl -myflag 1
 
@@ -119,7 +121,7 @@ Everything following <I>--</I> up to the next flag (<I>-flag</I> or <I>+flag</I>
 <DT><B></B><I>-Application Par Val</I>:
 
 <DD>
-Sets the application configuration parameter <I>Par</I> to the value <I>Val</I> for the application <I>Application</I>, see <A HREF="http://localhost/cgi-bin/man/man2html/4+app">app</A>(4) and <A HREF="http://localhost/cgi-bin/man/man2html/3+application">application</A>(3).
+Sets the application configuration parameter <I>Par</I> to the value <I>Val</I> for the application <I>Application</I>, see <A HREF="./app.html">app</A>(4) and <A HREF="./application.html">application</A>(3).
 <DT><B></B><I>-args_file FileName</I>:
 
 <DD>
@@ -149,7 +151,7 @@ The initial Erlang shell does not read user input until the system boot procedur
 <DT><B></B><I>-boot File</I>:
 
 <DD>
-Specifies the name of the boot file, <I>File.boot</I>, which is used to start the system. See <A HREF="http://localhost/cgi-bin/man/man2html/3+init">init</A>(3). Unless <I>File</I> contains an absolute path, the system searches for <I>File.boot</I> in the current and <I>$ROOT/bin</I> directories.
+Specifies the name of the boot file, <I>File.boot</I>, which is used to start the system. See <A HREF="./init.html">init</A>(3). Unless <I>File</I> contains an absolute path, the system searches for <I>File.boot</I> in the current and <I>$ROOT/bin</I> directories.
 <DL COMPACT><DT><DD>
 <P>
 
@@ -166,7 +168,7 @@ If the boot script contains a path variable <I>Var</I> other than <I>$ROOT</I>, 
 <DT><B></B><I>-code_path_cache</I>:
 
 <DD>
-Enables the code path cache of the code server, see <A HREF="http://localhost/cgi-bin/man/man2html/3+code">code</A>(3).
+Enables the code path cache of the code server, see <A HREF="./code.html">code</A>(3).
 <DT><B></B><I>-compile Mod1 Mod2 ...</I>:
 
 <DD>
@@ -174,7 +176,7 @@ Compiles the specified modules and then terminates (with non-zero exit code if t
 <DT><B></B><I>-config Config</I>:
 
 <DD>
-Specifies the name of a configuration file, <I>Config.config</I>, which is used to configure applications. See <A HREF="http://localhost/cgi-bin/man/man2html/4+app">app</A>(4) and <A HREF="http://localhost/cgi-bin/man/man2html/3+application">application</A>(3).
+Specifies the name of a configuration file, <I>Config.config</I>, which is used to configure applications. See <A HREF="./app.html">app</A>(4) and <A HREF="./application.html">application</A>(3).
 <DT><B></B><I>-connect_all false</I>:
 
 <DD>
@@ -182,7 +184,7 @@ Specifies the name of a configuration file, <I>Config.config</I>, which is used 
 <DL COMPACT><DT><DD>
 <P>
 
-If this flag is present, <I>global</I> will not maintain a fully connected network of distributed Erlang nodes, and then global name registration cannot be used. See <A HREF="http://localhost/cgi-bin/man/man2html/3+global">global</A>(3).
+If this flag is present, <I>global</I> will not maintain a fully connected network of distributed Erlang nodes, and then global name registration cannot be used. See <A HREF="./global.html">global</A>(3).
 </DL>
 
 <DT><B></B><I>-cookie Cookie</I>:
@@ -222,7 +224,7 @@ In this example, an Erlang runtime system is started with the <I>DISPLAY</I> env
 <DT><B></B><I>-eval Expr</I>(init flag):
 
 <DD>
-Makes <I>init</I> evaluate the expression <I>Expr</I>, see <A HREF="http://localhost/cgi-bin/man/man2html/3+init">init</A>(3).
+Makes <I>init</I> evaluate the expression <I>Expr</I>, see <A HREF="./init.html">init</A>(3).
 <DT><B></B><I>-extra</I>(init flag):
 
 <DD>
@@ -230,15 +232,15 @@ Everything following <I>-extra</I> is considered plain arguments and can be retr
 <DT><B></B><I>-heart</I>:
 
 <DD>
-Starts heart beat monitoring of the Erlang runtime system. See <A HREF="http://localhost/cgi-bin/man/man2html/3+heart">heart</A>(3).
+Starts heart beat monitoring of the Erlang runtime system. See <A HREF="./heart.html">heart</A>(3).
 <DT><B></B><I>-hidden</I>:
 
 <DD>
-Starts the Erlang runtime system as a hidden node, if it is run as a distributed node. Hidden nodes always establish hidden connections to all other nodes except for nodes in the same global group. Hidden connections are not published on neither of the connected nodes, i.e. neither of the connected nodes are part of the result from <I>nodes/0</I> on the other node. See also hidden global groups, <A HREF="http://localhost/cgi-bin/man/man2html/3+global_group">global_group</A>(3).
+Starts the Erlang runtime system as a hidden node, if it is run as a distributed node. Hidden nodes always establish hidden connections to all other nodes except for nodes in the same global group. Hidden connections are not published on neither of the connected nodes, i.e. neither of the connected nodes are part of the result from <I>nodes/0</I> on the other node. See also hidden global groups, <A HREF="./global_group.html">global_group</A>(3).
 <DT><B></B><I>-hosts Hosts</I>:
 
 <DD>
-Specifies the IP addresses for the hosts on which Erlang boot servers are running, see <A HREF="http://localhost/cgi-bin/man/man2html/3+erl_boot_server">erl_boot_server</A>(3). This flag is mandatory if the <I>-loader inet</I> flag is present.
+Specifies the IP addresses for the hosts on which Erlang boot servers are running, see <A HREF="./erl_boot_server.html">erl_boot_server</A>(3). This flag is mandatory if the <I>-loader inet</I> flag is present.
 <DL COMPACT><DT><DD>
 <P>
 
@@ -269,11 +271,11 @@ Selects an instrumented Erlang runtime system (virtual machine) to run, instead 
 <DT><B></B><I>-loader Loader</I>:
 
 <DD>
-Specifies the method used by <I>erl_prim_loader</I> to load Erlang modules into the system. See <A HREF="http://localhost/cgi-bin/man/man2html/3+erl_prim_loader">erl_prim_loader</A>(3). Two <I>Loader</I> methods are supported, <I>efile</I> and <I>inet</I>. <I>efile</I> means use the local file system, this is the default. <I>inet</I> means use a boot server on another machine, and the <I>-id</I>, <I>-hosts</I> and <I>-setcookie</I> flags must be specified as well. If <I>Loader</I> is something else, the user supplied <I>Loader</I> port program is started.
+Specifies the method used by <I>erl_prim_loader</I> to load Erlang modules into the system. See <A HREF="./erl_prim_loader.html">erl_prim_loader</A>(3). Two <I>Loader</I> methods are supported, <I>efile</I> and <I>inet</I>. <I>efile</I> means use the local file system, this is the default. <I>inet</I> means use a boot server on another machine, and the <I>-id</I>, <I>-hosts</I> and <I>-setcookie</I> flags must be specified as well. If <I>Loader</I> is something else, the user supplied <I>Loader</I> port program is started.
 <DT><B></B><I>-make</I>:
 
 <DD>
-Makes the Erlang runtime system invoke <I>make:all()</I> in the current working directory and then terminate. See <A HREF="http://localhost/cgi-bin/man/man2html/3+make">make</A>(3). Implies <I>-noinput</I>.
+Makes the Erlang runtime system invoke <I>make:all()</I> in the current working directory and then terminate. See <A HREF="./make.html">make</A>(3). Implies <I>-noinput</I>.
 <DT><B></B><I>-man Module</I>:
 
 <DD>
@@ -281,11 +283,11 @@ Displays the manual page for the Erlang module <I>Module</I>. Only supported on 
 <DT><B></B><I>-mode interactive | embedded</I>:
 
 <DD>
-Indicates if the system should load code dynamically (<I>interactive</I>), or if all code should be loaded during system initialization (<I>embedded</I>), see <A HREF="http://localhost/cgi-bin/man/man2html/3+code">code</A>(3). Defaults to <I>interactive</I>.
+Indicates if the system should load code dynamically (<I>interactive</I>), or if all code should be loaded during system initialization (<I>embedded</I>), see <A HREF="./code.html">code</A>(3). Defaults to <I>interactive</I>.
 <DT><B></B><I>-name Name</I>:
 
 <DD>
-Makes the Erlang runtime system into a distributed node. This flag invokes all network servers necessary for a node to become distributed. See <A HREF="http://localhost/cgi-bin/man/man2html/3+net_kernel">net_kernel</A>(3). It is also ensured that <I>epmd</I> runs on the current host before Erlang is started. See <A HREF="http://localhost/cgi-bin/man/man2html/1+epmd">epmd</A>(1).
+Makes the Erlang runtime system into a distributed node. This flag invokes all network servers necessary for a node to become distributed. See <A HREF="./net_kernel.html">net_kernel</A>(3). It is also ensured that <I>epmd</I> runs on the current host before Erlang is started. See <A HREF="./epmd.html">epmd</A>(1).
 <DL COMPACT><DT><DD>
 <P>
 
@@ -306,7 +308,7 @@ Starts an Erlang runtime system with no shell. This flag makes it possible to ha
 <DT><B></B><I>-nostick</I>:
 
 <DD>
-Disables the sticky directory facility of the Erlang code server, see <A HREF="http://localhost/cgi-bin/man/man2html/3+code">code</A>(3).
+Disables the sticky directory facility of the Erlang code server, see <A HREF="./code.html">code</A>(3).
 <DT><B></B><I>-oldshell</I>:
 
 <DD>
@@ -314,11 +316,11 @@ Invokes the old Erlang shell from Erlang 3.3. The old shell can still be used.
 <DT><B></B><I>-pa Dir1 Dir2 ...</I>:
 
 <DD>
-Adds the specified directories to the beginning of the code path, similar to <I>code:add_pathsa/1</I>. See <A HREF="http://localhost/cgi-bin/man/man2html/3+code">code</A>(3). As an alternative to <I>-pa</I>, if several directories are to be prepended to the code and the directories have a common parent directory, that parent directory could be specified in the <I>ERL_LIBS</I> environment variable. See <A HREF="http://localhost/cgi-bin/man/man2html/3+code">code</A>(3).
+Adds the specified directories to the beginning of the code path, similar to <I>code:add_pathsa/1</I>. See <A HREF="./code.html">code</A>(3). As an alternative to <I>-pa</I>, if several directories are to be prepended to the code and the directories have a common parent directory, that parent directory could be specified in the <I>ERL_LIBS</I> environment variable. See <A HREF="./code.html">code</A>(3).
 <DT><B></B><I>-pz Dir1 Dir2 ...</I>:
 
 <DD>
-Adds the specified directories to the end of the code path, similar to <I>code:add_pathsz/1</I>. See <A HREF="http://localhost/cgi-bin/man/man2html/3+code">code</A>(3).
+Adds the specified directories to the end of the code path, similar to <I>code:add_pathsz/1</I>. See <A HREF="./code.html">code</A>(3).
 <DT><B></B><I>-remsh Node</I>:
 
 <DD>
@@ -326,15 +328,15 @@ Starts Erlang with a remote shell connected to <I>Node</I>.
 <DT><B></B><I>-rsh Program</I>:
 
 <DD>
-Specifies an alternative to <I>rsh</I> for starting a slave node on a remote host. See <A HREF="http://localhost/cgi-bin/man/man2html/3+slave">slave</A>(3).
+Specifies an alternative to <I>rsh</I> for starting a slave node on a remote host. See <A HREF="./slave.html">slave</A>(3).
 <DT><B></B><I>-run Mod [Func [Arg1, Arg2, ...]]</I>(init flag):
 
 <DD>
-Makes <I>init</I> call the specified function. <I>Func</I> defaults to <I>start</I>. If no arguments are provided, the function is assumed to be of arity 0. Otherwise it is assumed to be of arity 1, taking the list <I>[Arg1, Arg2, ...]</I> as argument. All arguments are passed as strings. See <A HREF="http://localhost/cgi-bin/man/man2html/3+init">init</A>(3).
+Makes <I>init</I> call the specified function. <I>Func</I> defaults to <I>start</I>. If no arguments are provided, the function is assumed to be of arity 0. Otherwise it is assumed to be of arity 1, taking the list <I>[Arg1, Arg2, ...]</I> as argument. All arguments are passed as strings. See <A HREF="./init.html">init</A>(3).
 <DT><B></B><I>-s Mod [Func [Arg1, Arg2, ...]]</I>(init flag):
 
 <DD>
-Makes <I>init</I> call the specified function. <I>Func</I> defaults to <I>start</I>. If no arguments are provided, the function is assumed to be of arity 0. Otherwise it is assumed to be of arity 1, taking the list <I>[Arg1, Arg2, ...]</I> as argument. All arguments are passed as atoms. See <A HREF="http://localhost/cgi-bin/man/man2html/3+init">init</A>(3).
+Makes <I>init</I> call the specified function. <I>Func</I> defaults to <I>start</I>. If no arguments are provided, the function is assumed to be of arity 0. Otherwise it is assumed to be of arity 1, taking the list <I>[Arg1, Arg2, ...]</I> as argument. All arguments are passed as atoms. See <A HREF="./init.html">init</A>(3).
 <DT><B></B><I>-setcookie Cookie</I>:
 
 <DD>
@@ -464,7 +466,7 @@ Enables auto load tracing, displaying info while loading code.
 <DL COMPACT><DT><DD>
 <P>
 
-Memory allocator specific flags, see <A HREF="http://localhost/cgi-bin/man/man2html/3+erts_alloc">erts_alloc</A>(3) for further information.
+Memory allocator specific flags, see <A HREF="./erts_alloc.html">erts_alloc</A>(3) for further information.
 </DL>
 
 <DT><B></B><I>+P Number</I>:
@@ -584,7 +586,7 @@ Verbose.
 <DT><B></B><I>+W w | i</I>:
 
 <DD>
-Sets the mapping of warning messages for <I>error_logger</I>. Messages sent to the error logger using one of the warning routines can be mapped either to errors (default), warnings (<I>+W w</I>), or info reports (<I>+W i</I>). The current mapping can be retrieved using <I>error_logger:warning_map/0</I>. See <A HREF="http://localhost/cgi-bin/man/man2html/3+error_logger">error_logger</A>(3) for further information.
+Sets the mapping of warning messages for <I>error_logger</I>. Messages sent to the error logger using one of the warning routines can be mapped either to errors (default), warnings (<I>+W w</I>), or info reports (<I>+W i</I>). The current mapping can be retrieved using <I>error_logger:warning_map/0</I>. See <A HREF="./error_logger.html">error_logger</A>(3) for further information.
 </DL>
 </DL>
 
@@ -634,7 +636,7 @@ The <I>-extra</I> flag is treated specially. Its scope ends at the end of the en
 <DT><B></B><I>ERL_LIBS</I>:
 
 <DD>
-This environment variable contains a list of additional library directories that the code server will search for applications and add to the code path. See <A HREF="http://localhost/cgi-bin/man/man2html/3+code">code</A>(3).
+This environment variable contains a list of additional library directories that the code server will search for applications and add to the code path. See <A HREF="./code.html">code</A>(3).
 </DL>
 </DL>
 
@@ -643,7 +645,7 @@ This environment variable contains a list of additional library directories that
 
 <P>
 
-<A HREF="http://localhost/cgi-bin/man/man2html/3+init">init</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+erl_prim_loader">erl_prim_loader</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+erl_boot_server">erl_boot_server</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+code">code</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+application">application</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+heart">heart</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+net_kernel">net_kernel</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+auth">auth</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/3+make">make</A>(3), <A HREF="http://localhost/cgi-bin/man/man2html/1+epmd">epmd</A>(1), <A HREF="http://localhost/cgi-bin/man/man2html/3+erts_alloc">erts_alloc</A>(3)
+<A HREF="./init.html">init</A>(3), <A HREF="./erl_prim_loader.html">erl_prim_loader</A>(3), <A HREF="./erl_boot_server.html">erl_boot_server</A>(3), <A HREF="./code.html">code</A>(3), <A HREF="./application.html">application</A>(3), <A HREF="./heart.html">heart</A>(3), <A HREF="./net_kernel.html">net_kernel</A>(3), <A HREF="./auth.html">auth</A>(3), <A HREF="./make.html">make</A>(3), <A HREF="./epmd.html">epmd</A>(1), <A HREF="./erts_alloc.html">erts_alloc</A>(3)
 <P>
 
 <HR>
@@ -659,8 +661,8 @@ This environment variable contains a list of additional library directories that
 </DL>
 <HR>
 This document was created by
-<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+<A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 08:02:46 GMT, June 28, 2008
+Time: 09:26:02 GMT, April 11, 2009
 </BODY>
 </HTML>
