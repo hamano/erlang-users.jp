@@ -3,9 +3,9 @@
 erl \- Erlang エミュレータ
 .SH 説明
 .LP
-この \fIerl\fR プログラムは Erlang ランタイムシステムを開始します\&. 正確な詳細は(例えば, \fIerl\fR がスクリプトかプログラムであるかや他のプログラムを呼び出すかどうかは)システム依存です\&.
+この \fIerl\fR プログラムは Erlang ランタイムシステムを開始します。正確な詳細は(例えば、\fIerl\fR がスクリプトかプログラムであるかや他のプログラムを呼び出すかどうかは)システム依存です。
 .LP
-恐らく Windows ユーザーは代わりにそれぞれのウィンドウとスクロールバーを持ちコマンドライン編集をサポートして実行される \fIwerl\fR プログラムを使用したがります\&. Windows 上の \fIerl\fR プログラムではシェルでのライン編集を提供しませんし, Windows 95 上ではスクロールしたテキストをスクロールバックする方法は有りません. \fIerl\fR プログラムはパイプライン使うか必要なら標準入力や照準出力をリダイレクトしなければなりません\&.
+恐らく Windows ユーザーは代わりにそれぞれのウィンドウとスクロールバーを持ちコマンドライン編集をサポートして実行される \fIwerl\fR プログラムを使用したがります。Windows 上の \fIerl\fR プログラムではシェルでのライン編集を提供しませんし、Windows 95 上ではスクロールしたテキストをスクロールバックする方法は有りません。\fIerl\fR プログラムはパイプライン使うか必要なら標準入力や照準出力をリダイレクトしなければなりません。
 .SH 使い方
 .LP
 .B
@@ -19,29 +19,29 @@ Erlang ランタイムシステムを開始します\&.
 .RS 2
 .TP 2
 *
-\fI+\fR から始まる引数はエミュレータフラグとして解釈されます\&.
+\fI+\fR から始まる引数はエミュレータフラグとして解釈されます。
 .RS 2
 .LP
 
 .LP
-名前が示すように, エミュレータフラグはエミュレータの挙動をコントロールします\&.
+名前通り、エミュレータフラグはエミュレータの挙動をコントロールします。
 .RE
 .TP 2
 *
-\fI-\fR (ハイフン)から始まる引数は Erlang ランタイム部を通過すべきフラグとして解釈され, 具体的には \fIinit\fR システムによって処理されます, see init(3)\&.
+\fI-\fR (ハイフン)から始まる引数は Erlang ランタイム部を通過すべきフラグとして解釈され、具体的には \fIinit\fR システムによって処理されます、see init(3)。
 .RS 2
 .LP
 
 .LP
-この init 処理では \fIinit flags\fR と呼ばれる幾つかのフラグをそれ自身で解釈します\&. これはまた残りのフラグを \fIuser flags\fR として格納します\&. これは後から \fIinit:get_argument/1\fR を呼ぶことによって取得することが出来ます\&.
+この init 処理では \fIinit flags\fR と呼ばれる幾つかのフラグをそれ自身で解釈します。これはまた残りのフラグを \fIuser flags\fR として格納します。これは後から \fIinit:get_argument/1\fR を呼ぶことによって取得することが出来ます。
 .LP
 
 .LP
-エミュレータフラグである小数の "-" フラグが実際には在る事に注意が必要です, 以下の説明を見てください\&.
+実際にはエミュレータフラグである "-" フラグが極少数存在する事に注意が必要です、以下の説明を見てください。
 .RE
 .TP 2
 *
-プレーン引数はどんな場合にも解釈されません\&. それらはまた\fIinit\fR 処理によって格納され, \fIinit:get_plain_arguments/0\fR が呼ばれる事による取得する事が出来ます\&. プレーン引数は最初のフラグの後か \fI--\fR フラグの後に現れます\&. さらに \fI-extra\fR フラグによって後続の全てがプレーン引数になります。
+プレーン引数はどんな場合にも解釈されません。それらはまた\fIinit\fR 処理によって格納され、\fIinit:get_plain_arguments/0\fR が呼ばれる事による取得する事が出来ます。 プレーン引数は最初のフラグの後か \fI--\fR フラグの後に現れます。さらに \fI-extra\fR フラグによって後続の全てがプレーン引数になります。
 .RE
 .LP
 例:
@@ -57,47 +57,47 @@ Erlang ランタイムシステムを開始します\&.
 ["+bertie"]
 .fi
 .LP
-この \fI+W w\fR と \fI+R 9\fR はエミュレータフラグです\&. \fI-s my_init\fR は初期化フラグで, \fIinit\fR により処理されます\&. \fI-sname arnie\fR はユーザーフラグです, \fIinit\fR により保存されます\&. それはカーネルに読み込まれ, Erlangランタイムシステムを分散させる要因となるでしょう\&. 最後に, \fI-extra\fR(\fI+bertie\fR) 以降のすべてはプレーン引数とみなされます\&.
+この \fI+W w\fR と \fI+R 9\fR はエミュレータフラグです。\fI-s my_init\fR は初期化フラグで、\fIinit\fR により処理されます。\fI-sname arnie\fR はユーザーフラグです、\fIinit\fR により保存されます。それはカーネルに読み込まれ、Erlangランタイムシステムを分散させる要因となるでしょう。最後に、\fI-extra\fR(\fI+bertie\fR) 以降のすべてはプレーン引数とみなされます。
 
 .nf
 % erl -myflag 1
 
-1> init:get_argument(myflag)\&.
+1> init:get_argument(myflag).
 
 {ok,[["1"]]}
-2> init:get_plain_arguments()\&.
+2> init:get_plain_arguments().
 
 []
 .fi
 .LP
-このユーザーフラグ \fI-myflag 1\fR は\fIinit\fR プロセスを通過し, 保存されます\&. それはユーザーの定義したフラグで, おそらくはユーザーの定義したアプリケーションによって使用されます\&.
+このユーザーフラグ \fI-myflag 1\fR は\fIinit\fR プロセスを通過し、保存されます。それはユーザーの定義したフラグで、おそらくはユーザーの定義したアプリケーションによって使用されます。
 
 .RE
 .SH フラグ
 .LP
-以下の一覧は初期化フラグ(init flag)に分類されます\&. 特別にに指定しない限り, その他の全てのフラグは \fIinit:get_argument/1\fR を呼び出すことで取得する事が出来るユーザーフラグになります\&. このリストにユーザーフラグは含まれていないことに注意してください, それらはおそらく付加的なアプリケーション固有のフラグですので, アプリケーションに付随するドキュメントに記載されています\&.
+以下の一覧は初期化フラグ(init flag)に分類されます。特別にに指定しない限り、その他の全てのフラグは \fIinit:get_argument/1\fR を呼び出すことで取得する事が出来るユーザーフラグになります。このリストにユーザーフラグは含まれていないことに注意してください、それらはおそらく付加的なアプリケーション固有のフラグですので、アプリケーションに付随するドキュメントに記載されています。
 
 .RS 2
 .TP 4
 .B
 \fI--\fR(init flag):
-\fI--\fR 以降に続く全てのフラグ (\fI-flag\fR と \fI+flag\fR) はプレーン引数としてみなされ, \fIinit:get_plain_arguments/0\fR を使用して取得できます\&.
+\fI--\fR 以降に続く全てのフラグ (\fI-flag\fR と \fI+flag\fR) はプレーン引数としてみなされ、\fIinit:get_plain_arguments/0\fR を使用して取得できます。
 
 .TP 4
 .B
 \fI-Application Par Val\fR:
-アプリケーション \fIApplication\fR の為の構成パラメータ \fIPar\fR に値の \fIVal\fR を設定します, app(4) and application(3) を参照してください\&.
+アプリケーション \fIApplication\fR の為の構成パラメータ \fIPar\fR に値の \fIVal\fR を設定します、app(4) and application(3) を参照してください。
 
 .TP 4
 .B
 \fI-args_file FileName\fR:
 .RS 4
 .LP
-コマンドライン引数はファイル \fIFileName\fR から読み込まれます\&. この引数はファイルを読み込み, コマンドラインの結果は \&'\fI-args_file FileName\fR\&' フラグを置き換えたものとなります\&.
+コマンドライン引数はファイル \fIFileName\fR から読み込まれます。この引数はファイルを読み込み、コマンドラインの結果は \&'\fI-args_file FileName\fR\&' フラグを置き換えたものとなります。
 .LP
 
 .LP
-The file \fIFileName\fR should be a plain text file and may contain comments and command line arguments\&. A comment begins with a # character and continues until next end of line character\&. Backslash (\e) is used as quoting character\&. All command line arguments accepted by \fIerl\fR are allowed, also the \fI-args_file FileName\fR flag\&. Be careful not to cause circular dependencies between files containing the \fI-args_file\fR flag, though\&.
+この\fIFileName\fR で指定するファイルはプレーンテキストである必要があり、コメントとコマンドライン引数を含むことができます。# の文字から始まり行末までがコメントです。バックスラッシュ(\e)は文字の引用に使用されます。\fIerl\fR で許可されている全てのコマンドが受け入れられます(\fI-args_file FileName\fR フラグも)。ただし、\fI-args_file\fR フラグの依存関係が巡回するケースに注意してください。
 .LP
 
 .LP

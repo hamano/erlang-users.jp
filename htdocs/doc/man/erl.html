@@ -14,10 +14,10 @@ erl - Erlang エミュレータ
 
 <P>
 
-この <I>erl</I> プログラムは Erlang ランタイムシステムを開始します. 正確な詳細は(例えば, <I>erl</I> がスクリプトかプログラムであるかや他のプログラムを呼び出すかどうかは)システム依存です.
+この <I>erl</I> プログラムは Erlang ランタイムシステムを開始します。正確な詳細は(例えば、<I>erl</I> がスクリプトかプログラムであるかや他のプログラムを呼び出すかどうかは)システム依存です。
 <P>
 
-恐らく Windows ユーザーは代わりにそれぞれのウィンドウとスクロールバーを持ちコマンドライン編集をサポートして実行される <I>werl</I> プログラムを使用したがります. Windows 上の <I>erl</I> プログラムではシェルでのライン編集を提供しませんし, Windows 95 上ではスクロールしたテキストをスクロールバックする方法は有りません. <I>erl</I> プログラムはパイプライン使うか必要なら標準入力や照準出力をリダイレクトしなければなりません.
+恐らく Windows ユーザーは代わりにそれぞれのウィンドウとスクロールバーを持ちコマンドライン編集をサポートして実行される <I>werl</I> プログラムを使用したがります。Windows 上の <I>erl</I> プログラムではシェルでのライン編集を提供しませんし、Windows 95 上ではスクロールしたテキストをスクロールバックする方法は有りません。<I>erl</I> プログラムはパイプライン使うか必要なら標準入力や照準出力をリダイレクトしなければなりません。
 <A NAME="lbAD">&nbsp;</A>
 <H2>使い方</H2>
 
@@ -37,35 +37,35 @@ Erlang ランタイムシステムを開始します.
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT>*<DD>
-<I>+</I> から始まる引数はエミュレータフラグとして解釈されます.
+<I>+</I> から始まる引数はエミュレータフラグとして解釈されます。
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-名前が示すように, エミュレータフラグはエミュレータの挙動をコントロールします.
+名前通り、エミュレータフラグはエミュレータの挙動をコントロールします。
 </DL>
 
 <DT>*<DD>
-<I>-</I> (ハイフン)から始まる引数は Erlang ランタイム部を通過すべきフラグとして解釈され, 具体的には <I>init</I> システムによって処理されます, see <A HREF="./init.html">init</A>(3).
+<I>-</I> (ハイフン)から始まる引数は Erlang ランタイム部を通過すべきフラグとして解釈され、具体的には <I>init</I> システムによって処理されます、see <A HREF="./init.html">init</A>(3)。
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-この init 処理では <I>init flags</I> と呼ばれる幾つかのフラグをそれ自身で解釈します. これはまた残りのフラグを <I>user flags</I> として格納します. これは後から <I>init:get_argument/1</I> を呼ぶことによって取得することが出来ます.
+この init 処理では <I>init flags</I> と呼ばれる幾つかのフラグをそれ自身で解釈します。これはまた残りのフラグを <I>user flags</I> として格納します。これは後から <I>init:get_argument/1</I> を呼ぶことによって取得することが出来ます。
 <P>
 
 <P>
 <P>
 
-エミュレータフラグである小数の &quot;-&quot; フラグが実際には在る事に注意が必要です, 以下の説明を見てください.
+実際にはエミュレータフラグである &quot;-&quot; フラグが極少数存在する事に注意が必要です、以下の説明を見てください。
 </DL>
 
 <DT>*<DD>
-プレーン引数はどんな場合にも解釈されません. それらはまた<I>init</I> 処理によって格納され, <I>init:get_plain_arguments/0</I> が呼ばれる事による取得する事が出来ます. プレーン引数は最初のフラグの後か <I>--</I> フラグの後に現れます. さらに <I>-extra</I> フラグによって後続の全てがプレーン引数になります。
+プレーン引数はどんな場合にも解釈されません。それらはまた<I>init</I> 処理によって格納され、<I>init:get_plain_arguments/0</I> が呼ばれる事による取得する事が出来ます。 プレーン引数は最初のフラグの後か <I>--</I> フラグの後に現れます。さらに <I>-extra</I> フラグによって後続の全てがプレーン引数になります。
 </DL>
 </DL>
 
@@ -86,7 +86,7 @@ Erlang ランタイムシステムを開始します.
 
 <P>
 
-この <I>+W w</I> と <I>+R 9</I> はエミュレータフラグです. <I>-s my_init</I> は初期化フラグで, <I>init</I> により処理されます. <I>-sname arnie</I> はユーザーフラグです, <I>init</I> により保存されます. それはカーネルに読み込まれ, Erlangランタイムシステムを分散させる要因となるでしょう. 最後に, <I>-extra</I>(<I>+bertie</I>) 以降のすべてはプレーン引数とみなされます.
+この <I>+W w</I> と <I>+R 9</I> はエミュレータフラグです。<I>-s my_init</I> は初期化フラグで、<I>init</I> により処理されます。<I>-sname arnie</I> はユーザーフラグです、<I>init</I> により保存されます。それはカーネルに読み込まれ、Erlangランタイムシステムを分散させる要因となるでしょう。最後に、<I>-extra</I>(<I>+bertie</I>) 以降のすべてはプレーン引数とみなされます。
 <P>
 <PRE>
 % erl -myflag 1
@@ -101,7 +101,7 @@ Erlang ランタイムシステムを開始します.
 
 <P>
 
-このユーザーフラグ <I>-myflag 1</I> は<I>init</I> プロセスを通過し, 保存されます. それはユーザーの定義したフラグで, おそらくはユーザーの定義したアプリケーションによって使用されます.
+このユーザーフラグ <I>-myflag 1</I> は<I>init</I> プロセスを通過し、保存されます。それはユーザーの定義したフラグで、おそらくはユーザーの定義したアプリケーションによって使用されます。
 <P>
 </DL>
 
@@ -110,19 +110,19 @@ Erlang ランタイムシステムを開始します.
 
 <P>
 
-以下の一覧は初期化フラグ(init flag)に分類されます. 特別にに指定しない限り, その他の全てのフラグは <I>init:get_argument/1</I> を呼び出すことで取得する事が出来るユーザーフラグになります. このリストにユーザーフラグは含まれていないことに注意してください, それらはおそらく付加的なアプリケーション固有のフラグですので, アプリケーションに付随するドキュメントに記載されています.
+以下の一覧は初期化フラグ(init flag)に分類されます。特別にに指定しない限り、その他の全てのフラグは <I>init:get_argument/1</I> を呼び出すことで取得する事が出来るユーザーフラグになります。このリストにユーザーフラグは含まれていないことに注意してください、それらはおそらく付加的なアプリケーション固有のフラグですので、アプリケーションに付随するドキュメントに記載されています。
 <P>
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B></B><I>--</I>(init flag):
 
 <DD>
-<I>--</I> 以降に続く全てのフラグ (<I>-flag</I> と <I>+flag</I>) はプレーン引数としてみなされ, <I>init:get_plain_arguments/0</I> を使用して取得できます.
+<I>--</I> 以降に続く全てのフラグ (<I>-flag</I> と <I>+flag</I>) はプレーン引数としてみなされ、<I>init:get_plain_arguments/0</I> を使用して取得できます。
 <P>
 <DT><B></B><I>-Application Par Val</I>:
 
 <DD>
-アプリケーション <I>Application</I> の為の構成パラメータ <I>Par</I> に値の <I>Val</I> を設定します, <A HREF="./app.html">app</A>(4) and <A HREF="./application.html">application</A>(3) を参照してください.
+アプリケーション <I>Application</I> の為の構成パラメータ <I>Par</I> に値の <I>Val</I> を設定します、<A HREF="./app.html">app</A>(4) and <A HREF="./application.html">application</A>(3) を参照してください。
 <P>
 <DT><B></B><I>-args_file FileName</I>:
 
@@ -130,13 +130,13 @@ Erlang ランタイムシステムを開始します.
 <DL COMPACT><DT><DD>
 <P>
 
-コマンドライン引数はファイル <I>FileName</I> から読み込まれます. この引数はファイルを読み込み, コマンドラインの結果は '<I>-args_file FileName</I>' フラグを置き換えたものとなります.
+コマンドライン引数はファイル <I>FileName</I> から読み込まれます。この引数はファイルを読み込み、コマンドラインの結果は '<I>-args_file FileName</I>' フラグを置き換えたものとなります。
 <P>
 
 <P>
 <P>
 
-The file <I>FileName</I> should be a plain text file and may contain comments and command line arguments. A comment begins with a # character and continues until next end of line character. Backslash (\) is used as quoting character. All command line arguments accepted by <I>erl</I> are allowed, also the <I>-args_file FileName</I> flag. Be careful not to cause circular dependencies between files containing the <I>-args_file</I> flag, though.
+この<I>FileName</I> で指定するファイルはプレーンテキストである必要があり、コメントとコマンドライン引数を含むことができます。# の文字から始まり行末までがコメントです。バックスラッシュ(\)は文字の引用に使用されます。<I>erl</I> で許可されている全てのコマンドが受け入れられます(<I>-args_file FileName</I> フラグも)。ただし、<I>-args_file</I> フラグの依存関係が巡回するケースに注意してください。
 <P>
 
 <P>
@@ -664,6 +664,6 @@ This environment variable contains a list of additional library directories that
 This document was created by
 <A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 04:33:43 GMT, April 14, 2009
+Time: 12:05:34 GMT, April 16, 2009
 </BODY>
 </HTML>
