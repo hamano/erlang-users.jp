@@ -1,11 +1,12 @@
 .TH start 1 "erts  5.7" "Ericsson AB" "USER COMMANDS"
 .SH NAME
-start \- OTP start script example for Unix
+start \- UNIX用のOTP起動スクリプトのサンプルスクリプト
 .SH DESCRIPTION
 .LP
-This describes the \fIstart\fR script that is an example script on how to startup the Erlang system in embedded mode on Unix\&.
+このドキュメントでは、Unix上で組み込みモードのErlangを起動するためのサンプルスクリプトである\fIstart\fRについて説明します。 
+
 .LP
-You can read more about the use in the \fIEmbedded System User\&'s Guide\fR\&.
+より詳細な使い方については、\fIEmbedded System User\&'s Guide\fR\&をご覧ください。
 
 .SH EXPORTS
 .LP
@@ -14,15 +15,15 @@ start [ data_file ]
 .br
 .RS
 .LP
-In the example there is one argument
 .RS 2
 .TP 4
 .B
 data_file:
-Optional, specifies what \fIstart_erl\&.data\fR file to use\&.
+(オプション)\fIstart_erl\&.data\fRの代わりに使用するデータファイルを指定することができます。
+
 .RE
 .LP
-There is also an environment variable \fIRELDIR\fR that can be set prior to calling this example that set the directory where to find the release files\&.
+環境変数\fIRELDIR\fRで、リリースファイル[?]のパスを指定することができます。
 .RE
 .SH SEE ALSO
 .LP

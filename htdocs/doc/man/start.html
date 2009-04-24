@@ -8,16 +8,17 @@ Section: USER COMMANDS (1)<BR>Updated: erts  5.7<BR><A HREF="#index">Index</A>
 <A NAME="lbAB">&nbsp;</A>
 <H2>NAME</H2>
 
-start - OTP start script example for Unix
+start - UNIX用のOTP起動スクリプトのサンプルスクリプト
 <A NAME="lbAC">&nbsp;</A>
 <H2>DESCRIPTION</H2>
 
 <P>
 
-This describes the <I>start</I> script that is an example script on how to startup the Erlang system in embedded mode on Unix.
+このドキュメントでは、Unix上で組み込みモードのErlangを起動するためのサンプルスクリプトである<I>start</I>について説明します。 
+<P>
 <P>
 
-You can read more about the use in the <I>Embedded System User's Guide</I>.
+より詳細な使い方については、<I>Embedded System User's Guide</I>をご覧ください。
 <P>
 <A NAME="lbAD">&nbsp;</A>
 <H2>EXPORTS</H2>
@@ -31,19 +32,19 @@ You can read more about the use in the <I>Embedded System User's Guide</I>.
 <DL COMPACT><DT><DD>
 <P>
 
-In the example there is one argument
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B>data_file:</B>
 
 <DD>
-Optional, specifies what <I>start_erl.data</I> file to use.
+(オプション)<I>start_erl.data</I>の代わりに使用するデータファイルを指定することができます。
+<P>
 </DL>
 </DL>
 
 <P>
 
-There is also an environment variable <I>RELDIR</I> that can be set prior to calling this example that set the directory where to find the release files.
+環境変数<I>RELDIR</I>で、リリースファイル[?]のパスを指定することができます。
 </DL>
 
 <A NAME="lbAE">&nbsp;</A>
@@ -66,6 +67,6 @@ There is also an environment variable <I>RELDIR</I> that can be set prior to cal
 This document was created by
 <A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 03:00:49 GMT, April 12, 2009
+Time: 04:23:13 GMT, April 24, 2009
 </BODY>
 </HTML>
