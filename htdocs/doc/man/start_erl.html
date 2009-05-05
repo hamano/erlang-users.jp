@@ -1,0 +1,99 @@
+<HTML><HEAD><TITLE>Manpage of start_erl</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+</HEAD><BODY>
+<H1>start_erl</H1>
+Section: USER COMMANDS (1)<BR>Updated: erts  5.7<BR><A HREF="#index">Index</A>
+<A HREF="./">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>名前</H2>
+
+start_erl - Start Erlang for embedded systems on Windows NT(R)
+<A NAME="lbAC">&nbsp;</A>
+<H2>説明</H2>
+
+<P>
+
+This describes the <I>start_erl</I> program specific to Windows NT. Although there exists programs with the same name on other platforms, their functionality is not the same.
+<P>
+
+The <I>start_erl</I> program is distributed both in compiled form (under &lt;Erlang root&gt;\erts-&lt;version&gt;\bin) and in source form (under &lt;Erlang root&gt;\erts-&lt;version&gt;\src). The purpose of the source code is to make it possible to easily customize the program for local needs, such as cyclic restart detection etc. There is also a &quot;make&quot;-file, written for the <I>nmake</I> program distributed with Microsoft(R) Visual C++(R). The program can however be compiled with any Win32 C compiler (possibly with slight modifications).
+<P>
+
+The purpose of the program is to aid release handling on Windows NT(R). The program should be called by the <I>erlsrv</I> program, read up the release data file start_erl.data and start Erlang. Certain options to start_erl are added and removed by the release handler during upgrade with emulator restart (more specifically the <I>-data</I> option).
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<H2>使い方</H2>
+
+<P>
+
+<B>start_erl [&lt;erl options&gt;] ++ [&lt;start_erl options&gt;]</B>
+
+<BR>
+
+<DL COMPACT><DT><DD>
+<P>
+
+The <I>start_erl</I> program in its original form recognizes the following options:
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>++:</B>
+
+<DD>
+Mandatory, delimits start_erl options from normal Erlang options. Everything on the command line <I>before</I> the <I>++</I> is interpreted as options to be sent to the <I>erl</I> program. Everything <I>after</I><I>++</I> is interpreted as options to <I>start_erl</I> itself.
+<DT><B>-reldir &lt;release root&gt;:</B>
+
+<DD>
+Mandatory if the environment variable <I>RELDIR</I> is not specified. Tells start_erl where the root of the release tree is placed in the file-system (like &lt;Erlang root&gt;\releases). The <I>start_erl.data</I> file is expected to be placed in this directory (if not otherwise specified).
+<DT><B>-data &lt;data file name&gt;:</B>
+
+<DD>
+Optional, specifies another data file than start_erl.data in the &lt;release root&gt;. It is specified relative to the &lt;release root&gt; or absolute (includeing drive letter etc.). This option is used by the release handler during upgrade and should not be used during normal operation. The release data file should not normally be named differently.
+<DT><B>-bootflags &lt;boot flags file name&gt;:</B>
+
+<DD>
+Optional, specifies a file name relative to actual release directory (that is the subdirectory of &lt;release root&gt; where the <I>.boot</I> file etc. are placed). The contents of this file is appended to the command line when Erlang is started. This makes it easy to start the emulator with different options for different releases.
+</DL>
+</DL>
+
+</DL>
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>NOTES</H2>
+
+<P>
+
+As the source code is distributed, it can easily be modified to accept other options. The program must still accept the <I>-data</I> option with the semantics described above for the release handler to work correctly.
+<P>
+
+The Erlang emulator is found by examining the registry keys for the emulator version specified in the release data file. The new emulator needs to be properly installed before the upgrade for this to work.
+<P>
+
+Although the program is located together with files specific to emulator version, it is not expected to be specific to the emulator version. The release handler does <I>not</I> change the <I>-machine</I> option to <I>erlsrv</I> during emulator restart. Place the (possibly customized) <I>start_erl</I> program so that it is not overwritten during upgrade. 
+<P>
+
+The <I>erlsrv</I> program's default options are not sufficient for release handling. The machine <I>erlsrv</I> starts should be specified as the <I>start_erl</I> program and the arguments should contain the <I>++</I> followed by desired options.
+<A NAME="lbAF">&nbsp;</A>
+<H2>関連項目</H2>
+
+<P>
+
+<A HREF="./erlsrv.html">erlsrv</A>(1), <A HREF="./release_handler.html">release_handler</A>(3)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">名前</A><DD>
+<DT><A HREF="#lbAC">説明</A><DD>
+<DT><A HREF="#lbAD">使い方</A><DD>
+<DT><A HREF="#lbAE">NOTES</A><DD>
+<DT><A HREF="#lbAF">関連項目</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://github.com/hamano/man2html/">man2html</A>,
+using the manual pages.<BR>
+Time: 23:49:48 GMT, May 05, 2009
+</BODY>
+</HTML>
