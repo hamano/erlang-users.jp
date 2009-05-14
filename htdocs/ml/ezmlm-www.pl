@@ -447,6 +447,7 @@ EOF
 		my $msgdate = htmlencode( Mail::Message->read($msg->{text})->head->get('Date') );
         my $enc = guess_encoding($Messages{$_}->{subject}, qw/euc-jp shiftjis 7bit-jis utf8/);
         my $subject = Encode::decode( $enc, $Messages{$_}->{subject} );
+        $subject = encode('utf-8', $subject);
 		print <<EOF
     <item>
       <title>$subject</title>
