@@ -5,9 +5,9 @@ SED=$(MAN1:%.1=%.html) $(MAN2:%.2=%.html)
 
 .SUFFIXES: .1 .html
 
-all: $(HTML)
+all: index.html
 
-clean: $(HTML)
+clean: $(HTML) index.html
 	rm -rf $^
 
 .1.html:
@@ -15,3 +15,12 @@ clean: $(HTML)
 	man2html -c < $<.tmp > $@
 	rm -rf $<.tmp
 
+index.html: $(HTML) header.html footer.html
+	cat header.html > index.html
+	for f in $(MAN1); do \
+		echo "<li>$${f%.*}" >> $@; \
+		echo "(<a href=\"$${f%.*}.html\">html</a>)" >> $@; \
+		echo "(<a href=\"$${f}\">nroff</a>)" >> $@; \
+		echo "</li>" >> $@; \
+	done
+	cat footer.html >> index.html
