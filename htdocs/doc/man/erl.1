@@ -101,42 +101,42 @@ Erlang ランタイムシステムを開始します\&.
 .LP
 
 .LP
-The \fI-extra\fR flag is treated specially\&. Its scope ends at the end of the file\&. Arguments following an \fI-extra\fR flag are moved on the command line into the \fI-extra\fR section, i\&.e\&. the end of the command line following after an \fI-extra\fR flag\&.
+この\fI-extra\fRフラグは特別に処理されます。そのスコープはファイルの終端で終了します。コマンドライン上の\fI-extra\fRフラグ以降の引数は、\fI-extra\fRセクションへ移動します。すなわち、\fI-extra\fRフラグからコマンドラインの終端までです。
 .RE
 .TP 4
 .B
 \fI-async_shell_start\fR:
-The initial Erlang shell does not read user input until the system boot procedure has been completed (Erlang 5\&.4 and later)\&. This flag disables the start synchronization feature and lets the shell start in parallel with the rest of the system\&.
+Erlangシェルの初期段階では起動手続きが完了するまでユーザーの入力を読み込みません(Erlang 5\&.4 以降)。このフラグは同期開始機能を無効化し、システムの空き時間を使用してシェルの開始を並列化します。
 .TP 4
 .B
 \fI-boot File\fR:
-Specifies the name of the boot file, \fIFile\&.boot\fR, which is used to start the system\&. See init(3)\&. Unless \fIFile\fR contains an absolute path, the system searches for \fIFile\&.boot\fR in the current and \fI$ROOT/bin\fR directories\&.
+ブートファイル名 \fIFile\& を指定します。これはシステムを開始するときに使用されます。 参照 init(3)。\fIFile\fR に絶対パスを指定した場合を除き、システムは \fIFile\&.boot\fR をカレントディレクトリと、\fI$ROOT/bin\fRディレクトリから探索します。
 .RS 4
 .LP
 
 .LP
-Defaults to \fI$ROOT/bin/start\&.boot\fR\&.
+デフォルトは \fI$ROOT/bin/start\&.boot\fR です。
 .RE
 .TP 4
 .B
 \fI-boot_var Var Dir\fR:
-If the boot script contains a path variable \fIVar\fR other than \fI$ROOT\fR, this variable is expanded to \fIDir\fR\&. Used when applications are installed in another directory than \fI$ROOT/lib\fR, see systools:make_script/1,2\&.
+もしブートスクリプトに \fI$ROOT\fR 以外のパス変数 \fIVar\fR が含まれていれば、この変数は \fIDir\fRに展開されます。アプリケーションは \fI$ROOT/lib\fR とは別のディレクトリにインストールされたものを使用します。systools:make_script/1,2 を参照してください。
 .TP 4
 .B
 \fI-code_path_cache\fR:
-Enables the code path cache of the code server, see code(3)\&.
+コードサーバーのコードパスキャッシュを有効にします。code(3)を参照してください。
 .TP 4
 .B
 \fI-compile Mod1 Mod2 \&.\&.\&.\fR:
-Compiles the specified modules and then terminates (with non-zero exit code if the compilation of some file did not succeed)\&. Implies \fI-noinput\fR\&. Not recommended - use erlc instead\&.
+指定した終端までの複数のモジュールをコンパイルします(終了コードがゼロ以外だった場合、いくつかのファイルのコンパイルは成功していません)。暗黙的に \fI-noinput\fR\& が使用されます。このフラグは推奨されません - 代わりに erlc を使用してください。
 .TP 4
 .B
 \fI-config Config\fR:
-Specifies the name of a configuration file, \fIConfig\&.config\fR, which is used to configure applications\&. See app(4) and application(3)\&.
+コンフィグレーションファイル名 \fIConfig\&.config\fR を指定します、これはアプリケーションを設定するために使用されます。 app(4) と application(3) を参照してください。
 .TP 4
 .B
 \fI-connect_all false\fR:
- 
+
 .RS 4
 .LP
 If this flag is present, \fIglobal\fR will not maintain a fully connected network of distributed Erlang nodes, and then global name registration cannot be used\&. See global(3)\&.
@@ -281,37 +281,39 @@ Makes \fIinit\fR call the specified function\&. \fIFunc\fR defaults to \fIstart\
 .TP 4
 .B
 \fI-setcookie Cookie\fR:
-Sets the magic cookie of the node to \fICookie\fR, see erlang:set_cookie/2\&.
+ノードのマジッククッキーを \fICookie\fR に設定します、erlang:set_cookie/2 を参照してください。
 .TP 4
 .B
 \fI-shutdown_time Time\fR:
-Specifies how long time (in milliseconds) the \fIinit\fR process is allowed to spend shutting down the system\&. If \fITime\fR ms have elapsed, all processes still existing are killed\&. Defaults to \fIinfinity\fR\&.
+\fIinit\fR プロセスがシステムのシャットダウンを許可するまでの時間(ミリ秒)を指定します。\fITime\fR ミリ秒の時間を経過したら、既存のプロセスはすべて終了させられます。デフォルトでこの値は \fIinfinity\fR です。
 .TP 4
 .B
 \fI-sname Name\fR:
-Makes the Erlang runtime system into a distributed node, similar to \fI-name\fR, but the host name portion of the node name \fIName@Host\fR will be the short name, not fully qualified\&.
+Erlangランタイムシステムは分散ノードの中で作られます。\fI-name\fR とよく似ていますがノード名 \fIName@Host\fR のホスト名の部分を省略し、完全に修飾しません。
 .RS 4
 .LP
 
 .LP
-This is sometimes the only way to run distributed Erlang if the DNS (Domain Name System) is not running\&. There can be no communication between nodes running with the \fI-sname\fR flag and those running with the \fI-name\fR flag, as node names must be unique in distributed Erlang systems\&.
+これは時々、DNS(Domain Name System)が動作していない場合で分散Erlangを実行する為の唯一の方法です。\fI-sname\fR フラグで実行したノードと \fI-name\fR フラグで実行したノードの間で通信を行うことは出来ませんが、ノード名は分散Erlangシステム内でユニークでなければなりません。
+
 .RE
 .TP 4
 .B
 \fI-smp [enable|auto|disable]\fR:
- 
+
 .RS 4
 .LP
-\fI-smp enable\fR and \fI-smp\fR starts the Erlang runtime system with SMP support enabled\&. This may fail if no runtime system with SMP support is available\&. \fI-smp auto\fR starts the Erlang runtime system with SMP support enabled if it is available and more than one logical processor are detected\&. \fI-smp disable\fR starts a runtime system without SMP support\&. By default \fI-smp auto\fR will be used unless a conflicting parameter has been passed, then \fI-smp disable\fR will be used\&. Currently only the \fI-hybrid\fR parameter conflicts with \fI-smp auto\fR\&.
+\fI-smp enable\fR と \fI-smp\fR は SMPサポートを有効にして Erlangランタイムシステムを起動します。もしランタイムシステムがSMPをサポートしていない場合に、これは失敗するかもしれません。\fI-smp auto\fR は SMPサポートを有効であり一つ以上の論理プロセッサを検出出来た場合に SMPサポートを有効にして Erlangランタイムシステムを起動します。\fI-smp disable\fR は SMPサポートを無効にして Erlangランタイムシステムを起動します。デフォルトでは \fI-smp auto\fR が使用されますが、競合するパラメータ通過した場合には \fI-smp disable\fR が使用されます。現在 \fI-smp auto\fR と競合するパラメーターは \fI-hybrid\fR だけです。
 .LP
 
 .LP
-\fINOTE\fR: The runtime system with SMP support will not be available on all supported platforms\&. See also the +S flag\&.
+\fIノート\fR: SMPをサポートしたランタイムシステムは全てのプラットホームでサポートされていません。+Sフラグを参照してください。
+
 .RE
 .TP 4
 .B
-\fI-version\fR(emulator flag):
-Makes the emulator print out its version number\&. The same as \fIerl +V\fR\&.
+\fI-version\fR(エミュレーターフラグ):
+エミュレーター自身のバージョン番号を表示します。\fIerl +V\fR と同じです。
 .RE
 .SH エミュレーターフラグ
 .LP

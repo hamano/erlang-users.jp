@@ -142,46 +142,46 @@ Erlang ランタイムシステムを開始します.
 <P>
 <P>
 
-The <I>-extra</I> flag is treated specially. Its scope ends at the end of the file. Arguments following an <I>-extra</I> flag are moved on the command line into the <I>-extra</I> section, i.e. the end of the command line following after an <I>-extra</I> flag.
+この<I>-extra</I>フラグは特別に処理されます。そのスコープはファイルの終端で終了します。コマンドライン上の<I>-extra</I>フラグ以降の引数は、<I>-extra</I>セクションへ移動します。すなわち、<I>-extra</I>フラグからコマンドラインの終端までです。
 </DL>
 
 <DT><B></B><I>-async_shell_start</I>:
 
 <DD>
-The initial Erlang shell does not read user input until the system boot procedure has been completed (Erlang 5.4 and later). This flag disables the start synchronization feature and lets the shell start in parallel with the rest of the system.
+Erlangシェルの初期段階では起動手続きが完了するまでユーザーの入力を読み込みません(Erlang 5.4 以降)。このフラグは同期開始機能を無効化し、システムの空き時間を使用してシェルの開始を並列化します。
 <DT><B></B><I>-boot File</I>:
 
 <DD>
-Specifies the name of the boot file, <I>File.boot</I>, which is used to start the system. See <A HREF="./init.html">init</A>(3). Unless <I>File</I> contains an absolute path, the system searches for <I>File.boot</I> in the current and <I>$ROOT/bin</I> directories.
+ブートファイル名 <I>File を指定します。これはシステムを開始するときに使用されます。 参照 <A HREF="./init.html">init</A>(3)。File</I> に絶対パスを指定した場合を除き、システムは <I>File.boot</I> をカレントディレクトリと、<I>$ROOT/bin</I>ディレクトリから探索します。
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-Defaults to <I>$ROOT/bin/start.boot</I>.
+デフォルトは <I>$ROOT/bin/start.boot</I> です。
 </DL>
 
 <DT><B></B><I>-boot_var Var Dir</I>:
 
 <DD>
-If the boot script contains a path variable <I>Var</I> other than <I>$ROOT</I>, this variable is expanded to <I>Dir</I>. Used when applications are installed in another directory than <I>$ROOT/lib</I>, see systools:make_script/1,2.
+もしブートスクリプトに <I>$ROOT</I> 以外のパス変数 <I>Var</I> が含まれていれば、この変数は <I>Dir</I>に展開されます。アプリケーションは <I>$ROOT/lib</I> とは別のディレクトリにインストールされたものを使用します。systools:make_script/1,2 を参照してください。
 <DT><B></B><I>-code_path_cache</I>:
 
 <DD>
-Enables the code path cache of the code server, see <A HREF="./code.html">code</A>(3).
+コードサーバーのコードパスキャッシュを有効にします。<A HREF="./code.html">code</A>(3)を参照してください。
 <DT><B></B><I>-compile Mod1 Mod2 ...</I>:
 
 <DD>
-Compiles the specified modules and then terminates (with non-zero exit code if the compilation of some file did not succeed). Implies <I>-noinput</I>. Not recommended - use erlc instead.
+指定した終端までの複数のモジュールをコンパイルします(終了コードがゼロ以外だった場合、いくつかのファイルのコンパイルは成功していません)。暗黙的に <I>-noinput</I> が使用されます。このフラグは推奨されません - 代わりに erlc を使用してください。
 <DT><B></B><I>-config Config</I>:
 
 <DD>
-Specifies the name of a configuration file, <I>Config.config</I>, which is used to configure applications. See <A HREF="./app.html">app</A>(4) and <A HREF="./application.html">application</A>(3).
+コンフィグレーションファイル名 <I>Config.config</I> を指定します、これはアプリケーションを設定するために使用されます。 <A HREF="./app.html">app</A>(4) と <A HREF="./application.html">application</A>(3) を参照してください。
 <DT><B></B><I>-connect_all false</I>:
 
 <DD>
-<BR>&nbsp;
+<P>
 <DL COMPACT><DT><DD>
 <P>
 
@@ -341,44 +341,46 @@ Makes <I>init</I> call the specified function. <I>Func</I> defaults to <I>start<
 <DT><B></B><I>-setcookie Cookie</I>:
 
 <DD>
-Sets the magic cookie of the node to <I>Cookie</I>, see erlang:set_cookie/2.
+ノードのマジッククッキーを <I>Cookie</I> に設定します、erlang:set_cookie/2 を参照してください。
 <DT><B></B><I>-shutdown_time Time</I>:
 
 <DD>
-Specifies how long time (in milliseconds) the <I>init</I> process is allowed to spend shutting down the system. If <I>Time</I> ms have elapsed, all processes still existing are killed. Defaults to <I>infinity</I>.
+<I>init</I> プロセスがシステムのシャットダウンを許可するまでの時間(ミリ秒)を指定します。<I>Time</I> ミリ秒の時間を経過したら、既存のプロセスはすべて終了させられます。デフォルトでこの値は <I>infinity</I> です。
 <DT><B></B><I>-sname Name</I>:
 
 <DD>
-Makes the Erlang runtime system into a distributed node, similar to <I>-name</I>, but the host name portion of the node name <I>Name@Host</I> will be the short name, not fully qualified.
+Erlangランタイムシステムは分散ノードの中で作られます。<I>-name</I> とよく似ていますがノード名 <I>Name@Host</I> のホスト名の部分を省略し、完全に修飾しません。
 <DL COMPACT><DT><DD>
 <P>
 
 <P>
 <P>
 
-This is sometimes the only way to run distributed Erlang if the DNS (Domain Name System) is not running. There can be no communication between nodes running with the <I>-sname</I> flag and those running with the <I>-name</I> flag, as node names must be unique in distributed Erlang systems.
+これは時々、DNS(Domain Name System)が動作していない場合で分散Erlangを実行する為の唯一の方法です。<I>-sname</I> フラグで実行したノードと <I>-name</I> フラグで実行したノードの間で通信を行うことは出来ませんが、ノード名は分散Erlangシステム内でユニークでなければなりません。
+<P>
 </DL>
 
 <DT><B></B><I>-smp [enable|auto|disable]</I>:
 
 <DD>
-<BR>&nbsp;
+<P>
 <DL COMPACT><DT><DD>
 <P>
 
-<I>-smp enable</I> and <I>-smp</I> starts the Erlang runtime system with SMP support enabled. This may fail if no runtime system with SMP support is available. <I>-smp auto</I> starts the Erlang runtime system with SMP support enabled if it is available and more than one logical processor are detected. <I>-smp disable</I> starts a runtime system without SMP support. By default <I>-smp auto</I> will be used unless a conflicting parameter has been passed, then <I>-smp disable</I> will be used. Currently only the <I>-hybrid</I> parameter conflicts with <I>-smp auto</I>.
+<I>-smp enable</I> と <I>-smp</I> は SMPサポートを有効にして Erlangランタイムシステムを起動します。もしランタイムシステムがSMPをサポートしていない場合に、これは失敗するかもしれません。<I>-smp auto</I> は SMPサポートを有効であり一つ以上の論理プロセッサを検出出来た場合に SMPサポートを有効にして Erlangランタイムシステムを起動します。<I>-smp disable</I> は SMPサポートを無効にして Erlangランタイムシステムを起動します。デフォルトでは <I>-smp auto</I> が使用されますが、競合するパラメータ通過した場合には <I>-smp disable</I> が使用されます。現在 <I>-smp auto</I> と競合するパラメーターは <I>-hybrid</I> だけです。
 <P>
 
 <P>
 <P>
 
-<I>NOTE</I>: The runtime system with SMP support will not be available on all supported platforms. See also the +S flag.
+<I>ノート</I>: SMPをサポートしたランタイムシステムは全てのプラットホームでサポートされていません。+Sフラグを参照してください。
+<P>
 </DL>
 
-<DT><B></B><I>-version</I>(emulator flag):
+<DT><B></B><I>-version</I>(エミュレーターフラグ):
 
 <DD>
-Makes the emulator print out its version number. The same as <I>erl +V</I>.
+エミュレーター自身のバージョン番号を表示します。<I>erl +V</I> と同じです。
 </DL>
 </DL>
 
@@ -664,6 +666,6 @@ This environment variable contains a list of additional library directories that
 This document was created by
 <A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 14:18:09 GMT, May 05, 2009
+Time: 04:17:23 GMT, May 14, 2009
 </BODY>
 </HTML>
