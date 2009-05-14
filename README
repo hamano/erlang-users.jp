@@ -23,5 +23,17 @@
 git://github.com/hamano/erlang-users.jp.git から http://erlang-users.jp/
 へは 1時間に 1回(毎時 10分)に反映されます。
 
-= TODO =
-* サーバー環境について書く
+
+= Erlang manマニュアル翻訳ポリシー =
+
+* 以下の man2html を使用して roffファイルから HTML に変換しています。
+http://github.com/hamano/man2html/
+
+* ファイル名、ディレクトリ構成は以下の公式サイトを踏襲。
+http://www.erlang.org/doc/man/
+
+* 句読点は「、」と「。」
+
+* 対語表 & 変換スクリプトが便利です
+htdocs/doc/man/sed/template.sed
+
