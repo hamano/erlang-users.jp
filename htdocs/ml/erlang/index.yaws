@@ -1,0 +1,4 @@
+<erl>
+    out(_A) ->
+        {redirect, "index.cgi"}.
+</erl>
