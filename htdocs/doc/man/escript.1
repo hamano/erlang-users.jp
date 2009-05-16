@@ -1,0 +1,132 @@
+.TH escript 1 "erts  5.7" "Ericsson AB" "USER COMMANDS"
+.SH NAME
+escript \- Erlang scripting support
+.SH DESCRIPTION
+.LP
+\fIescript\fR provides support for running short Erlang programs without having to compile them first and an easy way to retrieve the command line arguments\&.
+
+.SH EXPORTS
+.LP
+.B
+script-name script-arg1 script-arg2\&.\&.\&.
+.br
+.B
+escript escript-flags script-name script-arg1 script-arg2\&.\&.\&.
+.br
+.RS
+.LP
+\fIescript\fR runs a script written in Erlang\&.
+.LP
+Here follows an example\&.
+
+.nf
+$ cat factorial
+
+#!/usr/bin/env escript
+%% -*- erlang -*-
+%%! -smp enable -sname factorial -mnesia debug verbose
+main([String]) ->
+    try
+        N = list_to_integer(String),
+        F = fac(N),
+        io:format("factorial ~w = ~w\en", [N,F])
+    catch
+        _:_ ->
+            usage()
+    end;
+main(_) ->
+    usage()\&.
+        
+usage() ->
+    io:format("usage: factorial integer\en"),
+    halt(1)\&.
+        
+fac(0) -> 1;
+fac(N) -> N * fac(N-1)\&.
+$ factorial 5
+
+factorial 5 = 120
+$ factorial
+
+usage: factorial integer
+$ factorial five
+
+usage: factorial integer        
+.fi
+.LP
+The header of an Erlang script differs from a normal Erlang module\&. The first line is intended to be the interpreter line, which invokes \fIescript\fR\&. However if you invoke \fIescript\fR like this
+
+.nf
+$ escript factorial 5
+        
+.fi
+.LP
+the contents of the first line does not matter, but it cannot contain Erlang code as it will be \fIignored\fR\&.
+.LP
+The second line in the example, contains an optional directive to the \fIEmacs\fR editor which causes it to enter the major mode for editing Erlang source files\&. If the directive is present it must be located on the second line\&.
+.LP
+On the third line (or second line depending on the presence of the Emacs directive), it is possible to give arguments to the emulator, such as 
+
+.nf
+%%! -smp enable -sname factorial -mnesia debug verbose
+.fi
+.LP
+Such an argument line must start with \fI%%!\fR and the rest of the line will interpreted as arguments to the emulator\&.
+.LP
+If you know the location of the \fIescript\fR executable, the first line can directly give the path to \fIescript\fR\&. For instance:
+
+.nf
+#!/usr/local/bin/escript        
+.fi
+.LP
+As any other kind of scripts, Erlang scripts will not work on Unix platforms if the execution bit for the script file is not set\&. (Use \fIchmod +x script-name\fR to turn on the execution bit\&.) 
+.LP
+The rest of the Erlang script file may either contain Erlang source code, an inlined \fIbeam\fR file or an inlined archive file\&.
+.LP
+An Erlang script file must always contain the function \fImain/1\fR\&. When the script is run, the \fImain/1\fR will be called with a list of strings representing the arguments given to the script (not changed or interpreted in any way)\&.
+.LP
+If the \fImain/1\fR function in the script returns successfully, the exit status for the script will be 0\&. If an exception is generated during execution, a short message will be printed and the script terminated with exit status 127\&.
+.LP
+To return your own non-zero exit code, call \fIhalt(ExitCode)\fR; for instance:
+
+.nf
+halt(1)\&.
+.fi
+.LP
+Call \fIescript:script_name/0\fR from your to script to retrieve the pathname of the script (the pathname is usually, but not always, absolute)\&.
+.LP
+If the file contains source code (as in the example above), it will be processed by the preprocessor \fIepp\fR\&. This means that you for example may use pre-defined macros (such as \fI?MODULE\fR) as well as include directives like the \fI-include_lib\fR directive\&. For instance, use
+
+.nf
+-include_lib("kernel/include/file\&.hrl")\&.        
+.fi
+.LP
+to include the record definitions for the records used by the \fIfile:read_file_info/1\fR function\&.
+.LP
+The script will be checked for syntactic and semantic correctness before being run\&. If there are warnings (such as unused variables), they will be printed and the script will still be run\&. If there are errors, they will be printed and the script will not be run and its exit status will be 127\&.
+.LP
+Both the module declaration and the export declaration of the \fImain/1\fR function are optional\&.
+.LP
+By default, the script will be interpreted\&. You can force it to be compiled by including the following line somewhere in the script file:
+
+.nf
+-mode(compile)\&.
+.fi
+.LP
+Execution of interpreted code is slower than compiled code\&. If much of the execution takes place in interpreted code it may be worthwile to compile it, even though the compilation itself will take a little while\&.
+.LP
+As mentioned earlier, it is possible to have a script which contains precompiled \fIbeam\fR code\&. In a precompiled script, the interpretation of the script header is exactly the same as in a script containing source code\&. That means that you can make a \fIbeam\fR file executable by prepending the file with the lines starting with \fI#!\fR and \fI%%!\fR mentioned above\&. In a precompiled script, the function \fImain/1\fR must be exported\&.
+.LP
+As yet another option it is possible to have an entire Erlang archive in the script\&. In a archive script, the interpretation of the script header is exactly the same as in a script containing source code\&. That means that you can make an archive file executable by prepending the file with the lines starting with \fI#!\fR and \fI%%!\fR mentioned above\&. In an archive script, the function \fImain/1\fR must be exported\&. By default the \fImain/1\fR function in the module with the same name as the basename of the \fIescript\fR file will be invoked\&. This behavior can be overridden by setting the flag \fI-escript main Module\fR as one of the emulator flags\&. The \fIModule\fR must be the name of a module which has an exported \fImain/1\fR function\&. See code(3) for more information about archives and code loading\&.
+.SS Warning:
+.LP
+The support for loading of code from archive files is experimental\&. The sole purpose of releasing it before it is ready is to obtain early feedback\&. The file format, semantics, interfaces etc\&. may be changed in a future release\&. The flag \fI-escript\fR is also experimental\&.
+
+.RE
+.SH OPTIONS ACCEPTED BY ESCRIPT
+.RS 2
+.TP 4
+.B
+-s:
+Only perform a syntactic and semantic check of the script file\&. Warnings and errors (if any) are written to the standard output, but the script will not be run\&. The exit status will be 0 if there were no errors, and 127 otherwise\&.
+.RE
