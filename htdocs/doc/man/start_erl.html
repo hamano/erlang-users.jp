@@ -9,17 +9,21 @@ Section: USER COMMANDS (1)<BR>Updated: erts  5.7<BR><A HREF="#index">Index</A>
 <H2>名前</H2>
 
 start_erl - Start Erlang for embedded systems on Windows NT(R)
+Windows NT(R) 上でErlangの組み込みシステムを開始する
 <A NAME="lbAC">&nbsp;</A>
 <H2>説明</H2>
 
 <P>
 
-This describes the <I>start_erl</I> program specific to Windows NT. Although there exists programs with the same name on other platforms, their functionality is not the same.
+このドキュメントは <I>start_erl</I> というWindows NT用のプログラムに対する説明です. 同名のプログラムは他のプラットフォームにも存在しますが、機能が異なります.
 <P>
 
-The <I>start_erl</I> program is distributed both in compiled form (under &lt;Erlang root&gt;\erts-&lt;version&gt;\bin) and in source form (under &lt;Erlang root&gt;\erts-&lt;version&gt;\src). The purpose of the source code is to make it possible to easily customize the program for local needs, such as cyclic restart detection etc. There is also a &quot;make&quot;-file, written for the <I>nmake</I> program distributed with Microsoft(R) Visual C++(R). The program can however be compiled with any Win32 C compiler (possibly with slight modifications).
+プログラム <I>start_erl</I> はコンパイル済みのバイナリとして&lt;Erlang root\erts-&lt;version&gt;\bin&gt;以下に、またソースファイルとして(under &lt;Erlang root&gt;\ert    s-&lt;version&gt;\src)にあります。ソースコードが同梱されているのは、個人的な理由でちょっとした変更を簡単に加えられるようにするためです(例えば、定期的にプログラムを起動するとか:D)。また、Microsoft(R) Visual C++(R)と共に配布されている<I>nmake</I>プログラム用の&quot;make&quot;ファイルも同梱しています。しかし、どのWin32 C コンパイラでも直接コンパイルすることも可能です(少々修正が必要でしょうが)。
+<P>
 <P>
 
+このプログラム目的は、Windows NT(R)上でrelease handlingの補助を行うことです(FIXME:what is release handling?).このプログラムは<I>erlsrv</I>プログラムから呼ばれることを想定しており、リリースデータファイルstart_erl.dataを読み込み、Erlangを起動します。start_erlに与えるオプションの中にには、release handlerによって追加される/取り除かれるオプションが存在します(詳細は<I>-data</I> オプションを参考にしてください).
+<P>
 The purpose of the program is to aid release handling on Windows NT(R). The program should be called by the <I>erlsrv</I> program, read up the release data file start_erl.data and start Erlang. Certain options to start_erl are added and removed by the release handler during upgrade with emulator restart (more specifically the <I>-data</I> option).
 <P>
 <A NAME="lbAD">&nbsp;</A>
@@ -27,19 +31,20 @@ The purpose of the program is to aid release handling on Windows NT(R). The prog
 
 <P>
 
-<B>start_erl [&lt;erl options&gt;] ++ [&lt;start_erl options&gt;]</B>
+<B>start_erl [&lt;erl オプション&gt;] ++ [&lt;start_erl オプション&gt;]</B>
 
 <BR>
 
 <DL COMPACT><DT><DD>
 <P>
 
-The <I>start_erl</I> program in its original form recognizes the following options:
+<I>start_erl</I>プログラム本体は、以下のオプションを認識することができます： 
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B>++:</B>
 
 <DD>
+強制的に、 通常の Erlang オプションから start_erl に与えられたオプション
 Mandatory, delimits start_erl options from normal Erlang options. Everything on the command line <I>before</I> the <I>++</I> is interpreted as options to be sent to the <I>erl</I> program. Everything <I>after</I><I>++</I> is interpreted as options to <I>start_erl</I> itself.
 <DT><B>-reldir &lt;release root&gt;:</B>
 
@@ -94,6 +99,6 @@ The <I>erlsrv</I> program's default options are not sufficient for release handl
 This document was created by
 <A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 23:49:48 GMT, May 05, 2009
+Time: 18:52:01 GMT, June 07, 2009
 </BODY>
 </HTML>
