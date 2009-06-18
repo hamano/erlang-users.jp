@@ -1,0 +1,210 @@
+<HTML><HEAD><TITLE>Manpage of escript</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+</HEAD><BODY>
+<H1>escript</H1>
+Section: USER COMMANDS (1)<BR>Updated: erts  5.7<BR><A HREF="#index">Index</A>
+<A HREF="./">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>名前</H2>
+
+escript - Erlang スクリプティングサポート
+<A NAME="lbAC">&nbsp;</A>
+<H2>説明</H2>
+
+<P>
+
+<P>
+<I>escript</I> はコマンドライン引数から読み込んだ短い Erlangプログラムを最初にコンパイルすること無く実行する為の簡単な方法を提供します。
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<H2>使い方</H2>
+
+<P>
+
+<B>script-name script-arg1 script-arg2...</B>
+
+<BR>
+
+<B>escript escript-flags script-name script-arg1 script-arg2...</B>
+
+<BR>
+
+<DL COMPACT><DT><DD>
+<P>
+
+<I>escript</I> は Erlang で書かれたスクリプトを実行します。
+<P>
+
+以下に例を示します。
+<P>
+<PRE>
+$ cat factorial
+
+#!/usr/bin/env escript
+%% -*- erlang -*-
+%%! -smp enable -sname factorial -mnesia debug verbose
+main([String]) -&gt;
+    try
+        N = list_to_integer(String),
+        F = fac(N),
+        io:format(&quot;factorial ~w = ~w\n&quot;, [N,F])
+    catch
+        _:_ -&gt;
+            usage()
+    end;
+main(_) -&gt;
+    usage().
+
+usage() -&gt;
+    io:format(&quot;usage: factorial integer\n&quot;),
+    <A HREF="./halt.html">halt</A>(1).
+
+fac(0) -&gt; 1;
+fac(N) -&gt; N * fac(N-1).
+$ factorial 5
+
+factorial 5 = 120
+$ factorial
+
+usage: factorial integer
+$ factorial five
+
+usage: factorial integer
+</PRE>
+
+<P>
+
+Erlangスクリプトのヘッダーは通常の Erlangモジュールと異なります。最初の行は <I>escript</I> が呼び出す為のインタプリタ行です。しかしながらこんな風に <I>escript</I> を呼び出すことも出来ます
+<P>
+<PRE>
+$ escript factorial 5
+
+</PRE>
+
+<P>
+
+最初の行の内容は重要ではありませんが、Erlangのコードを含める事は出来ず、それは <I>無視</I> されるでしょう。
+<P>
+<P>
+
+2行目は例えば <I>Emacs</I>エディタでErlangソースファイルを編集するために何のメジャーモードを使用するかの指示を任意で含みます。もしこの指示が存在する場合、それは2行目に位置しなければなりません。
+<P>
+
+3行目(あるいはEmacs指示の有無に応じて2行目になります)はエミュレータへ引数を渡すことが出来ます。こんな風に
+<P>
+<PRE>
+%%! -smp enable -sname factorial -mnesia debug verbose
+</PRE>
+
+<P>
+
+このような引数行は <I>%%!</I> で始まる必要があり、行の残りをエミュレータの引数として処理します。.
+<P>
+
+もしあなたが <I>escript</I> 実行ファイルの場所を知っている場合、最初の行に <I>escript</I> のパスを直接指定することが出来ます。 例えば:
+<P>
+<PRE>
+#!/usr/local/bin/escript
+</PRE>
+
+<P>
+
+As any other kind of scripts, Erlang scripts will not work on Unix platforms if the execution bit for the script file is not set. (Use <I>chmod +x script-name</I> to turn on the execution bit.)
+(chmod +x スクリプト名 を実行して実行ビットを有効にしてください。)
+<P>
+<P>
+
+The rest of the Erlang script file may either contain Erlang source code, an inlined <I>beam</I> file or an inlined archive file.
+<P>
+
+An Erlang script file must always contain the function <I>main/1</I>. When the script is run, the <I>main/1</I> will be called with a list of strings representing the arguments given to the script (not changed or interpreted in any way).
+<P>
+
+If the <I>main/1</I> function in the script returns successfully, the exit status for the script will be 0. If an exception is generated during execution, a short message will be printed and the script terminated with exit status 127.
+<P>
+
+To return your own non-zero exit code, call <I>halt(ExitCode)</I>; for instance:
+<P>
+<PRE>
+<A HREF="./halt.html">halt</A>(1).
+</PRE>
+
+<P>
+
+Call <I>escript:script_name/0</I> from your to script to retrieve the pathname of the script (the pathname is usually, but not always, absolute).
+<P>
+
+If the file contains source code (as in the example above), it will be processed by the preprocessor <I>epp</I>. This means that you for example may use pre-defined macros (such as <I>?MODULE</I>) as well as include directives like the <I>-include_lib</I> directive. For instance, use
+<P>
+<PRE>
+-include_lib(&quot;kernel/include/file.hrl&quot;).        
+</PRE>
+
+<P>
+
+to include the record definitions for the records used by the <I>file:read_file_info/1</I> function.
+<P>
+
+The script will be checked for syntactic and semantic correctness before being run. If there are warnings (such as unused variables), they will be printed and the script will still be run. If there are errors, they will be printed and the script will not be run and its exit status will be 127.
+<P>
+
+Both the module declaration and the export declaration of the <I>main/1</I> function are optional.
+<P>
+
+By default, the script will be interpreted. You can force it to be compiled by including the following line somewhere in the script file:
+<P>
+<PRE>
+-mode(compile).
+</PRE>
+
+<P>
+
+Execution of interpreted code is slower than compiled code. If much of the execution takes place in interpreted code it may be worthwile to compile it, even though the compilation itself will take a little while.
+<P>
+
+As mentioned earlier, it is possible to have a script which contains precompiled <I>beam</I> code. In a precompiled script, the interpretation of the script header is exactly the same as in a script containing source code. That means that you can make a <I>beam</I> file executable by prepending the file with the lines starting with <I>#!</I> and <I>%%!</I> mentioned above. In a precompiled script, the function <I>main/1</I> must be exported.
+<P>
+
+As yet another option it is possible to have an entire Erlang archive in the script. In a archive script, the interpretation of the script header is exactly the same as in a script containing source code. That means that you can make an archive file executable by prepending the file with the lines starting with <I>#!</I> and <I>%%!</I> mentioned above. In an archive script, the function <I>main/1</I> must be exported. By default the <I>main/1</I> function in the module with the same name as the basename of the <I>escript</I> file will be invoked. This behavior can be overridden by setting the flag <I>-escript main Module</I> as one of the emulator flags. The <I>Module</I> must be the name of a module which has an exported <I>main/1</I> function. See <A HREF="./code.html">code</A>(3) for more information about archives and code loading.
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H3>Warning:</H3>
+
+<P>
+
+The support for loading of code from archive files is experimental. The sole purpose of releasing it before it is ready is to obtain early feedback. The file format, semantics, interfaces etc. may be changed in a future release. The flag <I>-escript</I> is also experimental.
+<P>
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>OPTIONS ACCEPTED BY ESCRIPT</H2>
+
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>-s:</B>
+
+<DD>
+Only perform a syntactic and semantic check of the script file. Warnings and errors (if any) are written to the standard output, but the script will not be run. The exit status will be 0 if there were no errors, and 127 otherwise.
+</DL>
+</DL>
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">名前</A><DD>
+<DT><A HREF="#lbAC">説明</A><DD>
+<DT><A HREF="#lbAD">使い方</A><DD>
+<DL>
+<DT><A HREF="#lbAE">Warning:</A><DD>
+</DL>
+<DT><A HREF="#lbAF">OPTIONS ACCEPTED BY ESCRIPT</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://github.com/hamano/man2html/">man2html</A>,
+using the manual pages.<BR>
+Time: 14:01:08 GMT, June 18, 2009
+</BODY>
+</HTML>

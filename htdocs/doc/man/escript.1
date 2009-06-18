@@ -1,11 +1,12 @@
 .TH escript 1 "erts  5.7" "Ericsson AB" "USER COMMANDS"
-.SH NAME
-escript \- Erlang scripting support
-.SH DESCRIPTION
+.SH 名前
+escript \- Erlang スクリプティングサポート
+.SH 説明
 .LP
-\fIescript\fR provides support for running short Erlang programs without having to compile them first and an easy way to retrieve the command line arguments\&.
 
-.SH EXPORTS
+\fIescript\fR はコマンドライン引数から読み込んだ短い Erlangプログラムを最初にコンパイルすること無く実行する為の簡単な方法を提供します。
+
+.SH 使い方
 .LP
 .B
 script-name script-arg1 script-arg2\&.\&.\&.
@@ -15,9 +16,9 @@ escript escript-flags script-name script-arg1 script-arg2\&.\&.\&.
 .br
 .RS
 .LP
-\fIescript\fR runs a script written in Erlang\&.
+\fIescript\fR は Erlang で書かれたスクリプトを実行します。
 .LP
-Here follows an example\&.
+以下に例を示します。
 
 .nf
 $ cat factorial
@@ -36,11 +37,11 @@ main([String]) ->
     end;
 main(_) ->
     usage()\&.
-        
+
 usage() ->
     io:format("usage: factorial integer\en"),
     halt(1)\&.
-        
+
 fac(0) -> 1;
 fac(N) -> N * fac(N-1)\&.
 $ factorial 5
@@ -51,35 +52,38 @@ $ factorial
 usage: factorial integer
 $ factorial five
 
-usage: factorial integer        
+usage: factorial integer
 .fi
 .LP
-The header of an Erlang script differs from a normal Erlang module\&. The first line is intended to be the interpreter line, which invokes \fIescript\fR\&. However if you invoke \fIescript\fR like this
+Erlangスクリプトのヘッダーは通常の Erlangモジュールと異なります。最初の行は \fIescript\fR が呼び出す為のインタプリタ行です。しかしながらこんな風に \fIescript\fR を呼び出すことも出来ます
 
 .nf
 $ escript factorial 5
-        
+
 .fi
 .LP
-the contents of the first line does not matter, but it cannot contain Erlang code as it will be \fIignored\fR\&.
+最初の行の内容は重要ではありませんが、Erlangのコードを含める事は出来ず、それは \fI無視\fR されるでしょう。
+
 .LP
-The second line in the example, contains an optional directive to the \fIEmacs\fR editor which causes it to enter the major mode for editing Erlang source files\&. If the directive is present it must be located on the second line\&.
+2行目は例えば \fIEmacs\fRエディタでErlangソースファイルを編集するために何のメジャーモードを使用するかの指示を任意で含みます。もしこの指示が存在する場合、それは2行目に位置しなければなりません。
 .LP
-On the third line (or second line depending on the presence of the Emacs directive), it is possible to give arguments to the emulator, such as 
+3行目(あるいはEmacs指示の有無に応じて2行目になります)はエミュレータへ引数を渡すことが出来ます。こんな風に
 
 .nf
 %%! -smp enable -sname factorial -mnesia debug verbose
 .fi
 .LP
-Such an argument line must start with \fI%%!\fR and the rest of the line will interpreted as arguments to the emulator\&.
+このような引数行は \fI%%!\fR で始まる必要があり、行の残りをエミュレータの引数として処理します。\&.
 .LP
-If you know the location of the \fIescript\fR executable, the first line can directly give the path to \fIescript\fR\&. For instance:
+もしあなたが \fIescript\fR 実行ファイルの場所を知っている場合、最初の行に \fIescript\fR のパスを直接指定することが出来ます。 例えば:
 
 .nf
-#!/usr/local/bin/escript        
+#!/usr/local/bin/escript
 .fi
 .LP
-As any other kind of scripts, Erlang scripts will not work on Unix platforms if the execution bit for the script file is not set\&. (Use \fIchmod +x script-name\fR to turn on the execution bit\&.) 
+As any other kind of scripts, Erlang scripts will not work on Unix platforms if the execution bit for the script file is not set\&. (Use \fIchmod +x script-name\fR to turn on the execution bit\&.)
+(chmod +x スクリプト名 を実行して実行ビットを有効にしてください。)
+
 .LP
 The rest of the Erlang script file may either contain Erlang source code, an inlined \fIbeam\fR file or an inlined archive file\&.
 .LP
