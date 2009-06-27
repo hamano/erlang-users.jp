@@ -81,56 +81,64 @@ $ escript factorial 5
 #!/usr/local/bin/escript
 .fi
 .LP
-As any other kind of scripts, Erlang scripts will not work on Unix platforms if the execution bit for the script file is not set\&. (Use \fIchmod +x script-name\fR to turn on the execution bit\&.)
-(chmod +x スクリプト名 を実行して実行ビットを有効にしてください。)
+他の種類のスクリプトと同様に、スクリプトファイルに実行ビットが無ければ、ErlangスクリプトはUNIXプラットフォームで動作しません。(\fIchmod +x スクリプト名\fR を実行して実行ビットを有効にしてください。)
 
 .LP
-The rest of the Erlang script file may either contain Erlang source code, an inlined \fIbeam\fR file or an inlined archive file\&.
+Erlangスクリプトファイルの残りの部分には Erlangソースコード、インライン \fIbeam\fRファイル、インラインアーカイブファイルのいずれかを含めることが出来ます。
+
 .LP
-An Erlang script file must always contain the function \fImain/1\fR\&. When the script is run, the \fImain/1\fR will be called with a list of strings representing the arguments given to the script (not changed or interpreted in any way)\&.
+Erlangスクリプトは常に\fImain/1\fR関数を含んでいなければなりません。スクリプトを実行すると、\fImain/1\fR関数はスクリプトに与えられた引数の文字列のリスト表現と共に呼び出されるでしょう(どんな変更や解釈も行われません)。
+
 .LP
-If the \fImain/1\fR function in the script returns successfully, the exit status for the script will be 0\&. If an exception is generated during execution, a short message will be printed and the script terminated with exit status 127\&.
+スクリプトの\fImain/1\fR関数が正常に終了した場合、スクリプトの終了コードは 0 になります。もし実行中に例外が生成された場合、短いメッセージが表示され、スクリプトは終了コード 127 で終了します。
 .LP
-To return your own non-zero exit code, call \fIhalt(ExitCode)\fR; for instance:
+0以外の終了コードを返すには、\fIhalt(ExitCode)\fRを呼び出してください; 例えば:
 
 .nf
 halt(1)\&.
 .fi
 .LP
-Call \fIescript:script_name/0\fR from your to script to retrieve the pathname of the script (the pathname is usually, but not always, absolute)\&.
+スクリプトのパス名を取得するには \fIescript:script_name/0\fR を呼び出してください(このパス名は通常、絶対パスではありません)。
 .LP
-If the file contains source code (as in the example above), it will be processed by the preprocessor \fIepp\fR\&. This means that you for example may use pre-defined macros (such as \fI?MODULE\fR) as well as include directives like the \fI-include_lib\fR directive\&. For instance, use
+もしもファイルに(下記の例の様な)ソースコードを含んでいる場合、それはプリプロセッサの \fIepp\fRによって処理されます。これは(\fI?MODULE\fRの様な)定義済みマクロと同様に\fI-include_lib\fRディレクティブの様なインクルードディレクティブも使用出来る事を意味します。例えば
 
 .nf
--include_lib("kernel/include/file\&.hrl")\&.        
+-include_lib("kernel/include/file\&.hrl")\&.
 .fi
 .LP
-to include the record definitions for the records used by the \fIfile:read_file_info/1\fR function\&.
+\fIfile:read_file_info/1\fR関数によって使用されるレコードの為にレコード定義をインクルードします。
+
 .LP
-The script will be checked for syntactic and semantic correctness before being run\&. If there are warnings (such as unused variables), they will be printed and the script will still be run\&. If there are errors, they will be printed and the script will not be run and its exit status will be 127\&.
+スクリプトは実行を開始する前に構文と意味の正当性を確認します。もし(未使用の変数などの)警告がある場合、それらは表示されて実行を続けます。もしエラーがある場合、それらは表示されてスクリプトは実行されずに終了コード 127 で終了します。
+
 .LP
-Both the module declaration and the export declaration of the \fImain/1\fR function are optional\&.
+\fImain/1\fR関数のモジュール宣言とエクスポート宣言は任意です。
+
 .LP
-By default, the script will be interpreted\&. You can force it to be compiled by including the following line somewhere in the script file:
+デフォルトで、スクリプトは逐次実行されます。しかし、以下の行スクリプトファイルに含める事によってあなたはコンパイルを強制する事が出来ます:
 
 .nf
 -mode(compile)\&.
 .fi
 .LP
-Execution of interpreted code is slower than compiled code\&. If much of the execution takes place in interpreted code it may be worthwile to compile it, even though the compilation itself will take a little while\&.
+逐次解釈されたコードの実行はコンパイル済みコードの実行より遅くなります。コンパイルはそれ自体に少し時間が掛かってしまいますが、逐次解釈されたコードを何度も実行する場合にはコンパイルする価値が有るでしょう。
+
 .LP
-As mentioned earlier, it is possible to have a script which contains precompiled \fIbeam\fR code\&. In a precompiled script, the interpretation of the script header is exactly the same as in a script containing source code\&. That means that you can make a \fIbeam\fR file executable by prepending the file with the lines starting with \fI#!\fR and \fI%%!\fR mentioned above\&. In a precompiled script, the function \fImain/1\fR must be exported\&.
+先に述べたように、スクリプトにはプリコンパイル済みの \fIbeam\fRコードを含む事が出来ます。プリコンパイル済みスクリプトにおけるスクリプトヘッダの解釈はスクリプトにソースコードが含まれる場合とまったく同じです。
+前記した様に、これはファイルに \fI#!\fR や \fI%%!\fR から始まる行を追記して \fIbeam\fRファイルを実行出来る事を意味します。
+プリコンパイル済みスクリプトでは、\fImain/1\fR関数はエクスポートされている必要があります。
+
 .LP
 As yet another option it is possible to have an entire Erlang archive in the script\&. In a archive script, the interpretation of the script header is exactly the same as in a script containing source code\&. That means that you can make an archive file executable by prepending the file with the lines starting with \fI#!\fR and \fI%%!\fR mentioned above\&. In an archive script, the function \fImain/1\fR must be exported\&. By default the \fImain/1\fR function in the module with the same name as the basename of the \fIescript\fR file will be invoked\&. This behavior can be overridden by setting the flag \fI-escript main Module\fR as one of the emulator flags\&. The \fIModule\fR must be the name of a module which has an exported \fImain/1\fR function\&. See code(3) for more information about archives and code loading\&.
 .SS Warning:
 .LP
-The support for loading of code from archive files is experimental\&. The sole purpose of releasing it before it is ready is to obtain early feedback\&. The file format, semantics, interfaces etc\&. may be changed in a future release\&. The flag \fI-escript\fR is also experimental\&.
+アーカイブファイルからコード読み込みは実験的です。準備が出来る前にリリースを行う唯一の目的は早期のフィードバックを得るためです。ファイルフォーマットや文法、インターフェースなどは将来のリリースで変更されるかもしれません。\fI-escript\fRフラグもまた実験的です。
 
 .RE
-.SH OPTIONS ACCEPTED BY ESCRIPT
+.SH ESCRIPTで使用できるオプション
 .RS 2
 .TP 4
 .B
 -s:
-Only perform a syntactic and semantic check of the script file\&. Warnings and errors (if any) are written to the standard output, but the script will not be run\&. The exit status will be 0 if there were no errors, and 127 otherwise\&.
+スクリプトファイルの構文と意味チェックのみを行います。警告とエラーが在れば標準出力に書き出しますがスクリプトの実行は行いません。エラーが無ければ終了コードは 0 となり、そうで無ければ 127 になります。
 .RE

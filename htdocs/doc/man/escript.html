@@ -110,21 +110,22 @@ $ escript factorial 5
 
 <P>
 
-As any other kind of scripts, Erlang scripts will not work on Unix platforms if the execution bit for the script file is not set. (Use <I>chmod +x script-name</I> to turn on the execution bit.)
-(chmod +x スクリプト名 を実行して実行ビットを有効にしてください。)
+他の種類のスクリプトと同様に、スクリプトファイルに実行ビットが無ければ、ErlangスクリプトはUNIXプラットフォームで動作しません。(<I>chmod +x スクリプト名</I> を実行して実行ビットを有効にしてください。)
 <P>
 <P>
 
-The rest of the Erlang script file may either contain Erlang source code, an inlined <I>beam</I> file or an inlined archive file.
+Erlangスクリプトファイルの残りの部分には Erlangソースコード、インライン <I>beam</I>ファイル、インラインアーカイブファイルのいずれかを含めることが出来ます。
+<P>
 <P>
 
-An Erlang script file must always contain the function <I>main/1</I>. When the script is run, the <I>main/1</I> will be called with a list of strings representing the arguments given to the script (not changed or interpreted in any way).
+Erlangスクリプトは常に<I>main/1</I>関数を含んでいなければなりません。スクリプトを実行すると、<I>main/1</I>関数はスクリプトに与えられた引数の文字列のリスト表現と共に呼び出されるでしょう(どんな変更や解釈も行われません)。
+<P>
 <P>
 
-If the <I>main/1</I> function in the script returns successfully, the exit status for the script will be 0. If an exception is generated during execution, a short message will be printed and the script terminated with exit status 127.
+スクリプトの<I>main/1</I>関数が正常に終了した場合、スクリプトの終了コードは 0 になります。もし実行中に例外が生成された場合、短いメッセージが表示され、スクリプトは終了コード 127 で終了します。
 <P>
 
-To return your own non-zero exit code, call <I>halt(ExitCode)</I>; for instance:
+0以外の終了コードを返すには、<I>halt(ExitCode)</I>を呼び出してください; 例えば:
 <P>
 <PRE>
 <A HREF="./halt.html">halt</A>(1).
@@ -132,27 +133,30 @@ To return your own non-zero exit code, call <I>halt(ExitCode)</I>; for instance:
 
 <P>
 
-Call <I>escript:script_name/0</I> from your to script to retrieve the pathname of the script (the pathname is usually, but not always, absolute).
+スクリプトのパス名を取得するには <I>escript:script_name/0</I> を呼び出してください(このパス名は通常、絶対パスではありません)。
 <P>
 
-If the file contains source code (as in the example above), it will be processed by the preprocessor <I>epp</I>. This means that you for example may use pre-defined macros (such as <I>?MODULE</I>) as well as include directives like the <I>-include_lib</I> directive. For instance, use
+もしもファイルに(下記の例の様な)ソースコードを含んでいる場合、それはプリプロセッサの <I>epp</I>によって処理されます。これは(<I>?MODULE</I>の様な)定義済みマクロと同様に<I>-include_lib</I>ディレクティブの様なインクルードディレクティブも使用出来る事を意味します。例えば
 <P>
 <PRE>
--include_lib(&quot;kernel/include/file.hrl&quot;).        
+-include_lib(&quot;kernel/include/file.hrl&quot;).
 </PRE>
 
 <P>
 
-to include the record definitions for the records used by the <I>file:read_file_info/1</I> function.
+<I>file:read_file_info/1</I>関数によって使用されるレコードの為にレコード定義をインクルードします。
+<P>
 <P>
 
-The script will be checked for syntactic and semantic correctness before being run. If there are warnings (such as unused variables), they will be printed and the script will still be run. If there are errors, they will be printed and the script will not be run and its exit status will be 127.
+スクリプトは実行を開始する前に構文と意味の正当性を確認します。もし(未使用の変数などの)警告がある場合、それらは表示されて実行を続けます。もしエラーがある場合、それらは表示されてスクリプトは実行されずに終了コード 127 で終了します。
+<P>
 <P>
 
-Both the module declaration and the export declaration of the <I>main/1</I> function are optional.
+<I>main/1</I>関数のモジュール宣言とエクスポート宣言は任意です。
+<P>
 <P>
 
-By default, the script will be interpreted. You can force it to be compiled by including the following line somewhere in the script file:
+デフォルトで、スクリプトは逐次実行されます。しかし、以下の行スクリプトファイルに含める事によってあなたはコンパイルを強制する事が出来ます:
 <P>
 <PRE>
 -mode(compile).
@@ -160,10 +164,14 @@ By default, the script will be interpreted. You can force it to be compiled by i
 
 <P>
 
-Execution of interpreted code is slower than compiled code. If much of the execution takes place in interpreted code it may be worthwile to compile it, even though the compilation itself will take a little while.
+逐次解釈されたコードの実行はコンパイル済みコードの実行より遅くなります。コンパイルはそれ自体に少し時間が掛かってしまいますが、逐次解釈されたコードを何度も実行する場合にはコンパイルする価値が有るでしょう。
+<P>
 <P>
 
-As mentioned earlier, it is possible to have a script which contains precompiled <I>beam</I> code. In a precompiled script, the interpretation of the script header is exactly the same as in a script containing source code. That means that you can make a <I>beam</I> file executable by prepending the file with the lines starting with <I>#!</I> and <I>%%!</I> mentioned above. In a precompiled script, the function <I>main/1</I> must be exported.
+先に述べたように、スクリプトにはプリコンパイル済みの <I>beam</I>コードを含む事が出来ます。プリコンパイル済みスクリプトにおけるスクリプトヘッダの解釈はスクリプトにソースコードが含まれる場合とまったく同じです。
+前記した様に、これはファイルに <I>#!</I> や <I>%%!</I> から始まる行を追記して <I>beam</I>ファイルを実行出来る事を意味します。
+プリコンパイル済みスクリプトでは、<I>main/1</I>関数はエクスポートされている必要があります。
+<P>
 <P>
 
 As yet another option it is possible to have an entire Erlang archive in the script. In a archive script, the interpretation of the script header is exactly the same as in a script containing source code. That means that you can make an archive file executable by prepending the file with the lines starting with <I>#!</I> and <I>%%!</I> mentioned above. In an archive script, the function <I>main/1</I> must be exported. By default the <I>main/1</I> function in the module with the same name as the basename of the <I>escript</I> file will be invoked. This behavior can be overridden by setting the flag <I>-escript main Module</I> as one of the emulator flags. The <I>Module</I> must be the name of a module which has an exported <I>main/1</I> function. See <A HREF="./code.html">code</A>(3) for more information about archives and code loading.
@@ -173,18 +181,18 @@ As yet another option it is possible to have an entire Erlang archive in the scr
 
 <P>
 
-The support for loading of code from archive files is experimental. The sole purpose of releasing it before it is ready is to obtain early feedback. The file format, semantics, interfaces etc. may be changed in a future release. The flag <I>-escript</I> is also experimental.
+アーカイブファイルからコード読み込みは実験的です。準備が出来る前にリリースを行う唯一の目的は早期のフィードバックを得るためです。ファイルフォーマットや文法、インターフェースなどは将来のリリースで変更されるかもしれません。<I>-escript</I>フラグもまた実験的です。
 <P>
 
 <A NAME="lbAF">&nbsp;</A>
-<H2>OPTIONS ACCEPTED BY ESCRIPT</H2>
+<H2>ESCRIPTで使用できるオプション</H2>
 
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B>-s:</B>
 
 <DD>
-Only perform a syntactic and semantic check of the script file. Warnings and errors (if any) are written to the standard output, but the script will not be run. The exit status will be 0 if there were no errors, and 127 otherwise.
+スクリプトファイルの構文と意味チェックのみを行います。警告とエラーが在れば標準出力に書き出しますがスクリプトの実行は行いません。エラーが無ければ終了コードは 0 となり、そうで無ければ 127 になります。
 </DL>
 </DL>
 
@@ -199,12 +207,12 @@ Only perform a syntactic and semantic check of the script file. Warnings and err
 <DL>
 <DT><A HREF="#lbAE">Warning:</A><DD>
 </DL>
-<DT><A HREF="#lbAF">OPTIONS ACCEPTED BY ESCRIPT</A><DD>
+<DT><A HREF="#lbAF">ESCRIPTで使用できるオプション</A><DD>
 </DL>
 <HR>
 This document was created by
 <A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 14:01:08 GMT, June 18, 2009
+Time: 08:38:25 GMT, June 27, 2009
 </BODY>
 </HTML>
