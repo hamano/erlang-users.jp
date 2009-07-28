@@ -15,12 +15,13 @@ clean: $(HTML) index.html
 	man2html -c < $<.tmp > $@
 	rm -rf $<.tmp
 
-index.html: $(HTML) header.html footer.html
-	cat header.html > index.html
-	for f in $(MAN1); do \
-		echo "<li>$${f%.*}" >> $@; \
-		echo "(<a href=\"$${f%.*}.html\">html</a>)" >> $@; \
-		echo "(<a href=\"$${f}\">nroff</a>)" >> $@; \
-		echo "</li>" >> $@; \
-	done
-	cat footer.html >> index.html
+#index.html: $(HTML) header.html footer.html
+#	cat header.html > index.html
+#	for f in $(MAN1); do \
+#		echo "<li>$${f%.*}" >> $@; \
+#		echo "(<a href=\"$${f%.*}.html\">html</a>)" >> $@; \
+#		echo "(<a href=\"$${f}\">nroff</a>)" >> $@; \
+#		echo "</li>" >> $@; \
+#	done
+#	cat footer.html >> index.html
+

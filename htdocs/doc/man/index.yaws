@@ -13,27 +13,29 @@
     <div id="header">
       <h1 class="title">Erlangマニュアルページ和訳インデックス</h1>
     </div>
+<erl>
+
+list2html(List) ->
+  lists:map(fun(Roff) ->
+    Name = filename:rootname(Roff),
+    Html = Name ++ ".html",
+    {li, [],
+      {a, [{href, Html}], Name}
+    } end,
+    List).
+
+out(A) ->
+  Dir = filename:dirname(A#arg.fullpath),
+  FileList = filelib:wildcard(Dir ++ "/*.1"),
+  Roff = lists:map(fun(Path) -> filename:basename(Path) end, FileList),
+
+  {ehtml,
+    [
+      {ul, [], list2html(Roff)}
+    ]
+  }.
+</erl>
     <ul>
-<li>erl
-(<a href="erl.html">html</a>)
-(<a href="erl.1">nroff</a>)
-</li>
-<li>erlc
-(<a href="erlc.html">html</a>)
-(<a href="erlc.1">nroff</a>)
-</li>
-<li>escript
-(<a href="escript.html">html</a>)
-(<a href="escript.1">nroff</a>)
-</li>
-<li>start
-(<a href="start.html">html</a>)
-(<a href="start.1">nroff</a>)
-</li>
-<li>start_erl
-(<a href="start_erl.html">html</a>)
-(<a href="start_erl.1">nroff</a>)
-</li>
-  </ul>
+    </ul>
   </body>
 </html>
