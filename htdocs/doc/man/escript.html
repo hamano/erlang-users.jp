@@ -169,15 +169,24 @@ Erlangスクリプトは常に<I>main/1</I>関数を含んでいなければな�
 <P>
 
 先に述べたように、スクリプトにはプリコンパイル済みの <I>beam</I>コードを含む事が出来ます。プリコンパイル済みスクリプトにおけるスクリプトヘッダの解釈はスクリプトにソースコードが含まれる場合とまったく同じです。
-前記した様に、これはファイルに <I>#!</I> や <I>%%!</I> から始まる行を追記して <I>beam</I>ファイルを実行出来る事を意味します。
+これはファイルに前記したような <I>#!</I> や <I>%%!</I> から始まる行を追記する事によって実行可能な<I>beam</I>ファイルを作成出来る事を意味します。
 プリコンパイル済みスクリプトでは、<I>main/1</I>関数はエクスポートされている必要があります。
 <P>
 <P>
 
-As yet another option it is possible to have an entire Erlang archive in the script. In a archive script, the interpretation of the script header is exactly the same as in a script containing source code. That means that you can make an archive file executable by prepending the file with the lines starting with <I>#!</I> and <I>%%!</I> mentioned above. In an archive script, the function <I>main/1</I> must be exported. By default the <I>main/1</I> function in the module with the same name as the basename of the <I>escript</I> file will be invoked. This behavior can be overridden by setting the flag <I>-escript main Module</I> as one of the emulator flags. The <I>Module</I> must be the name of a module which has an exported <I>main/1</I> function. See <A HREF="./code.html">code</A>(3) for more information about archives and code loading.
+<P>
+もう一つの選択肢はスクリプト内でErlangアーカイブ全体を持つことは出来ます。
+アーカイブスクリプトにおけるスクリプトヘッダの解釈はスクリプトにソースコードが含まれる場合とまったく同じです。
+これはファイルに前記したような <I>#!</I> や <I>%%!</I> から始まる行を追記する事によって実行可能なアーカイブファイルを作成出来る事を意味します。
+アーカイブスクリプトでは、<I>main/1</I>関数はエクスポートされている必要があります。
+デフォルトでモジュールとベース名が同じ <I>escript</I>ファイルの <I>main/1</I>関数が呼び出されます。
+この挙動は、<I>-escript main Module</I>というようなエミュレータフラグを設定することで上書きすることが出来ます。
+この<I>Module</I>はエクスポートされた<I>main/1</I>関数を持つモジュール名でなければなりません。
+アーカイブとコードの読み込みに関するさらなる情報は <A HREF="./code.html">code</A>(3) を参照してください。
+<P>
 </DL>
 <A NAME="lbAE">&nbsp;</A>
-<H3>Warning:</H3>
+<H3>警告:</H3>
 
 <P>
 
@@ -205,7 +214,7 @@ As yet another option it is possible to have an entire Erlang archive in the scr
 <DT><A HREF="#lbAC">説明</A><DD>
 <DT><A HREF="#lbAD">使い方</A><DD>
 <DL>
-<DT><A HREF="#lbAE">Warning:</A><DD>
+<DT><A HREF="#lbAE">警告:</A><DD>
 </DL>
 <DT><A HREF="#lbAF">ESCRIPTで使用できるオプション</A><DD>
 </DL>
@@ -213,6 +222,6 @@ As yet another option it is possible to have an entire Erlang archive in the scr
 This document was created by
 <A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 08:38:25 GMT, June 27, 2009
+Time: 17:22:26 GMT, July 28, 2009
 </BODY>
 </HTML>

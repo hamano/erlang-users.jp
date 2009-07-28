@@ -125,12 +125,21 @@ halt(1)\&.
 
 .LP
 先に述べたように、スクリプトにはプリコンパイル済みの \fIbeam\fRコードを含む事が出来ます。プリコンパイル済みスクリプトにおけるスクリプトヘッダの解釈はスクリプトにソースコードが含まれる場合とまったく同じです。
-前記した様に、これはファイルに \fI#!\fR や \fI%%!\fR から始まる行を追記して \fIbeam\fRファイルを実行出来る事を意味します。
+これはファイルに前記したような \fI#!\fR や \fI%%!\fR から始まる行を追記する事によって実行可能な\fIbeam\fRファイルを作成出来る事を意味します。
 プリコンパイル済みスクリプトでは、\fImain/1\fR関数はエクスポートされている必要があります。
 
 .LP
-As yet another option it is possible to have an entire Erlang archive in the script\&. In a archive script, the interpretation of the script header is exactly the same as in a script containing source code\&. That means that you can make an archive file executable by prepending the file with the lines starting with \fI#!\fR and \fI%%!\fR mentioned above\&. In an archive script, the function \fImain/1\fR must be exported\&. By default the \fImain/1\fR function in the module with the same name as the basename of the \fIescript\fR file will be invoked\&. This behavior can be overridden by setting the flag \fI-escript main Module\fR as one of the emulator flags\&. The \fIModule\fR must be the name of a module which has an exported \fImain/1\fR function\&. See code(3) for more information about archives and code loading\&.
-.SS Warning:
+
+もう一つの選択肢はスクリプト内でErlangアーカイブ全体を持つことは出来ます。
+アーカイブスクリプトにおけるスクリプトヘッダの解釈はスクリプトにソースコードが含まれる場合とまったく同じです。
+これはファイルに前記したような \fI#!\fR や \fI%%!\fR から始まる行を追記する事によって実行可能なアーカイブファイルを作成出来る事を意味します。
+アーカイブスクリプトでは、\fImain/1\fR関数はエクスポートされている必要があります。
+デフォルトでモジュールとベース名が同じ \fIescript\fRファイルの \fImain/1\fR関数が呼び出されます。
+この挙動は、\fI-escript main Module\fRというようなエミュレータフラグを設定することで上書きすることが出来ます。
+この\fIModule\fRはエクスポートされた\fImain/1\fR関数を持つモジュール名でなければなりません。
+アーカイブとコードの読み込みに関するさらなる情報は code(3) を参照してください。
+
+.SS 警告:
 .LP
 アーカイブファイルからコード読み込みは実験的です。準備が出来る前にリリースを行う唯一の目的は早期のフィードバックを得るためです。ファイルフォーマットや文法、インターフェースなどは将来のリリースで変更されるかもしれません。\fI-escript\fRフラグもまた実験的です。
 
