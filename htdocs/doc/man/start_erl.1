@@ -11,8 +11,6 @@ Windows NT(R) 上でErlangの組み込みシステムを開始する
 .LP
 このプログラム目的は、Windows NT(R)上でrelease handlingの補助を行うことです(FIXME:what is release handling?)\&.このプログラムは\fIerlsrv\fRプログラムから呼ばれることを想定しており、リリースデータファイルstart_erl\&.dataを読み込み、Erlangを起動します。start_erlに与えるオプションの中にには、release handlerによって追加される/取り除かれるオプションが存在します(詳細は\fI-data\fR オプションを参考にしてください)\&.
 
-The purpose of the program is to aid release handling on Windows NT(R)\&. The program should be called by the \fIerlsrv\fR program, read up the release data file start_erl\&.data and start Erlang\&. Certain options to start_erl are added and removed by the release handler during upgrade with emulator restart (more specifically the \fI-data\fR option)\&.
-
 .SH EXPORTS
 .LP
 .B
@@ -29,8 +27,7 @@ start_erl [<erl オプション>] ++ [<start_erl オプション>]
 .TP 4
 .B
 -reldir <release root>:
- the environment variable 環境変数 \fIRELDIR\fR が指定されていない場合に限り、必須のオプションです。 start_erl に対して、「release tree」がファイルシステムの中でどこに存在するかを指定します(<Erlang root>\ereleases のように)(FIXME:What is release tree?)。 \fIstart_erl\&.data\fRファイルの位置が指定されていない場合、\fIstart_erl\&.data\fRは release root で指定されたディレクトリにあることが期待されます。
- the environment variable \fIRELDIR\fR is not specified\&. Tells start_erl where the root of the release tree is placed in the file-system (like <Erlang root>\ereleases)\&. The \fIstart_erl\&.data\fR file is expected to be placed in this directory (if not otherwise specified)\&.
+ 環境変数 \fIRELDIR\fR が指定されていない場合に限り、必須のオプションです。 start_erl に対して、「release tree」がファイルシステムの中でどこに存在するかを指定します(<Erlang root>\ereleases のように)(FIXME:What is release tree?)。 \fIstart_erl\&.data\fRファイルの位置が指定されていない場合、\fIstart_erl\&.data\fRは release root で指定されたディレクトリにあることが期待されます。
 .TP 4
 .B
 -data <data file name>:
@@ -40,24 +37,19 @@ Optional, specifies another data file than start_erl\&.data in the <release root
 .B
 -bootflags <boot flags file name>:
 [あってもなくてよよい]:
-<release root>ディレクトリから、<boot flags file>への相対パスを指定します。<release root>ディレクトリの中には、\fI\&.boot\fR ファイル\&などが保存されています。このファイルに記述されているオプションは、Erlang 起動時に自動的にオプションとして付加されます。これにより、リリース毎に異なったエミュレータを簡単に立ち上げることができます。
-Optional, specifies a file name relative to actual release directory (that is the subdirectory of <release root> where the \fI\&.boot\fR file etc\&. are placed)\&. The contents of this file is appended to the command line when Erlang is started\&. This makes it easy to start the emulator with different options for different releases\&.
+<release root>ディレクトリから、<boot flags file>への相対パスを指定します。<release root>ディレクトリの中には、 \fI\&.boot\fR ファイル\&などが保存されています。このファイルに記述されているオプションは、Erlang 起動時に自動的にオプションとして付加されます。これにより、リリース毎に異なったエミュレータを簡単に立ち上げることができます。
 .RE
 .RE
 .SH NOTES
 .LP
 ソースコードが配布されているため、容易に新たなオプションを受け付けるように\fstart_erl\fを修正するすることができます。ただし、\f-data\fR オプションが上記の「リリースハンドラ内で正常に動作する」というセマンティクスを保持したまま動作するようにしてください。
-As the source code is distributed, it can easily be modified to accept other options\&. The program must still accept the \fI-data\fR option with the semantics described above for the release handler to work correctly\&.
 .LP
 Erlangエミュレータの有無は、リリースデータファイル内で指定されたエミュレータバージョン用のレジストリキーを調べることで判断できます。このチェックを行うには、新しいエミュレータをアップグレードする前に適切にインストールする必要があります(FIXME:アヤシイ)。
-The Erlang emulator is found by examining the registry keys for the emulator version specified in the release data file\&. The new emulator needs to be properly installed before the upgrade for this to work\&.
 .LP
-\fstart_erl\fはエミュレータ固有のファイルと一緒に置かれていますが、その動作がエミュレータのバージョン依存あることは望まれていません。リリースハンドラは、エミュレータが再起動する際に \fI-machine\fRオプションを\ferlsrv\fRに対して与えることで、変更することが可能です。
-アップグレード中に\fIstart_erl\fRプログラムが上書きされないように注意してください。
-Although the program is located together with files specific to emulator version, it is not expected to be specific to the emulator version\&. The release handler does \fInot\fR change the \fI-machine\fR option to \fIerlsrv\fR during emulator restart\&. Place the (possibly customized) \fIstart_erl\fR program so that it is not overwritten during upgrade\&. 
+\fIstart_erl\fR はエミュレータ固有のファイルと一緒に置かれていますが、その動作がエミュレータのバージョン依存あることは望まれていません。リリースハンドラは、エミュレータが再起動する際に \fI-machine\fR オプションを\fIerlsrv\fRに対して与えることで、変更することが可能です。
+アップグレード中に \fIstart_erl\fR プログラムが上書きされないように注意してください。
 .LP
-\fIerlsrv\fR プログラムのデフォルトオプションは、リリースハンドリングを行うには不十分です。\fIerlsrv\fRを起動するマシンは、\fIstart_erl\fRプログラムから起動して、fI++\fRの後に引数を任意のオプションを与えてください。
-The \fIerlsrv\fR program\&'s default options are not sufficient for release handling\&. The machine \fIerlsrv\fR starts should be specified as the \fIstart_erl\fR program and the arguments should contain the \fI++\fR followed by desired options\&.
+\fIerlsrv\fR プログラムのデフォルトオプションは、リリースハンドリングを行うには不十分です。\fIerlsrv\fRを起動するマシンは、 \fIstart_erl\fR プログラムから起動して、\fI++\fRの後に引数を任意のオプションを与えてください。
 .SH SEE ALSO
 .LP
 erlsrv(1), release_handler(3)
