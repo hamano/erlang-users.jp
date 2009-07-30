@@ -38,25 +38,28 @@ The purpose of the program is to aid release handling on Windows NT(R). The prog
 <DL COMPACT><DT><DD>
 <P>
 
-<I>start_erl</I>プログラム本体は、以下のオプションを認識することができます： 
+<I>start_erl</I>は、以下のオプションを認識することができます： 
 <DL COMPACT><DT><DD>
 <DL COMPACT>
 <DT><B>++:</B>
 
 <DD>
-強制的に、 通常の Erlang オプションから start_erl に与えられたオプション
-Mandatory, delimits start_erl options from normal Erlang options. Everything on the command line <I>before</I> the <I>++</I> is interpreted as options to be sent to the <I>erl</I> program. Everything <I>after</I><I>++</I> is interpreted as options to <I>start_erl</I> itself.
+[必須]start_erl に与えるオプションと、Erlangに与えるオプションを区別するためのオプションです。 <I>++</I> の<I>前に</I>記述されたオプションは、<I>erl</I> に与えられます。また、<I>++</I> の <I>後に</I> 記述されたオプションは <I>start_erl</I> 自体に送信されます。
 <DT><B>-reldir &lt;release root&gt;:</B>
 
 <DD>
-Mandatory if the environment variable <I>RELDIR</I> is not specified. Tells start_erl where the root of the release tree is placed in the file-system (like &lt;Erlang root&gt;\releases). The <I>start_erl.data</I> file is expected to be placed in this directory (if not otherwise specified).
+<BR>&nbsp;the&nbsp;environment&nbsp;variable&nbsp;環境変数&nbsp;<I>RELDIR</I>&nbsp;が指定されていない場合に限り、必須のオプションです。&nbsp;start_erl&nbsp;に対して、「release&nbsp;tree」がファイルシステムの中でどこに存在するかを指定します(&lt;Erlang&nbsp;root&gt;\releases&nbsp;のように)(FIXME:What&nbsp;is&nbsp;release&nbsp;tree?)。&nbsp;<I>start_erl.data</I>ファイルの位置が指定されていない場合、<I>start_erl.data</I>は&nbsp;release&nbsp;root&nbsp;で指定されたディレクトリにあることが期待されます。
+<BR>&nbsp;the&nbsp;environment&nbsp;variable&nbsp;<I>RELDIR</I>&nbsp;is&nbsp;not&nbsp;specified.&nbsp;Tells&nbsp;start_erl&nbsp;where&nbsp;the&nbsp;root&nbsp;of&nbsp;the&nbsp;release&nbsp;tree&nbsp;is&nbsp;placed&nbsp;in&nbsp;the&nbsp;file-system&nbsp;(like&nbsp;&lt;Erlang&nbsp;root&gt;\releases).&nbsp;The&nbsp;<I>start_erl.data</I>&nbsp;file&nbsp;is&nbsp;expected&nbsp;to&nbsp;be&nbsp;placed&nbsp;in&nbsp;this&nbsp;directory&nbsp;(if&nbsp;not&nbsp;otherwise&nbsp;specified).
 <DT><B>-data &lt;data file name&gt;:</B>
 
 <DD>
+[あってもなくてもよい] &lt;release root&gt; 内にある、start_erl.data のかわりに使用するデータファイルを指定します。&lt;release root&gt;からの相対パスか、ドライブレターを含めた絶対パスを指定してください。このオプションはアップグレード中のリリースハンドラで利用されます。通常の操作を行うときには使用するべきではありません。このリリースデータファイルは、通常は別の名前を使用するべきではありません。
 Optional, specifies another data file than start_erl.data in the &lt;release root&gt;. It is specified relative to the &lt;release root&gt; or absolute (includeing drive letter etc.). This option is used by the release handler during upgrade and should not be used during normal operation. The release data file should not normally be named differently.
 <DT><B>-bootflags &lt;boot flags file name&gt;:</B>
 
 <DD>
+[あってもなくてよよい]:
+&lt;release root&gt;ディレクトリから、&lt;boot flags file&gt;への相対パスを指定します。&lt;release root&gt;ディレクトリの中には、<I>.boot</I> ファイルなどが保存されています。このファイルに記述されているオプションは、Erlang 起動時に自動的にオプションとして付加されます。これにより、リリース毎に異なったエミュレータを簡単に立ち上げることができます。
 Optional, specifies a file name relative to actual release directory (that is the subdirectory of &lt;release root&gt; where the <I>.boot</I> file etc. are placed). The contents of this file is appended to the command line when Erlang is started. This makes it easy to start the emulator with different options for different releases.
 </DL>
 </DL>
@@ -68,15 +71,20 @@ Optional, specifies a file name relative to actual release directory (that is th
 
 <P>
 
+ソースコードが配布されているため、容易に新たなオプションを受け付けるようにtart_erl��修正するすることができます。ただし、data オプションが上記の「リリースハンドラ内で正常に動作する」というセマンティクスを保持したまま動作するようにしてください。
 As the source code is distributed, it can easily be modified to accept other options. The program must still accept the <I>-data</I> option with the semantics described above for the release handler to work correctly.
 <P>
 
+Erlangエミュレータの有無は、リリースデータファイル内で指定されたエミュレータバージョン用のレジストリキーを調べることで判断できます。このチェックを行うには、新しいエミュレータをアップグレードする前に適切にインストールする必要があります(FIXME:アヤシイ)。
 The Erlang emulator is found by examining the registry keys for the emulator version specified in the release data file. The new emulator needs to be properly installed before the upgrade for this to work.
 <P>
 
+tart_erl��エミュレータ固有のファイルと一緒に置かれていますが、その動作がエミュレータのバージョン依存あることは望まれていません。リリースハンドラは、エミュレータが再起動する際に <I>-machine</I>オプションをrlsrvに対して与えることで、変更することが可能です。
+アップグレード中に<I>start_erl</I>プログラムが上書きされないように注意してください。
 Although the program is located together with files specific to emulator version, it is not expected to be specific to the emulator version. The release handler does <I>not</I> change the <I>-machine</I> option to <I>erlsrv</I> during emulator restart. Place the (possibly customized) <I>start_erl</I> program so that it is not overwritten during upgrade. 
 <P>
 
+<I>erlsrv</I> プログラムのデフォルトオプションは、リリースハンドリングを行うには不十分です。<I>erlsrv</I>を起動するマシンは、<I>start_erl</I>プログラムから起動して、fI++の後に引数を任意のオプションを与えてください。
 The <I>erlsrv</I> program's default options are not sufficient for release handling. The machine <I>erlsrv</I> starts should be specified as the <I>start_erl</I> program and the arguments should contain the <I>++</I> followed by desired options.
 <A NAME="lbAF">&nbsp;</A>
 <H2>関連項目</H2>
@@ -99,6 +107,6 @@ The <I>erlsrv</I> program's default options are not sufficient for release handl
 This document was created by
 <A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 18:52:01 GMT, June 07, 2009
+Time: 23:05:40 GMT, July 30, 2009
 </BODY>
 </HTML>
