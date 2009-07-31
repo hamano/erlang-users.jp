@@ -18,7 +18,7 @@ Windows NT(R) 上でErlangの組み込みシステムを開始する
 このドキュメントは <I>start_erl</I> というWindows NT用のプログラムに対する説明です. 同名のプログラムは他のプラットフォームにも存在しますが、機能が異なります.
 <P>
 
-プログラム <I>start_erl</I> はコンパイル済みのバイナリとして&lt;Erlang root\erts-&lt;version&gt;\bin&gt;以下に、またソースファイルとして(under &lt;Erlang root&gt;\ert    s-&lt;version&gt;\src)にあります。ソースコードが同梱されているのは、個人的な理由でちょっとした変更を簡単に加えられるようにするためです(例えば、定期的にプログラムを起動するとか:D)。また、Microsoft(R) Visual C++(R)と共に配布されている<I>nmake</I>プログラム用の&quot;make&quot;ファイルも同梱しています。しかし、どのWin32 C コンパイラでも直接コンパイルすることも可能です(少々修正が必要でしょうが)。
+プログラム <I>start_erl</I> はコンパイル済みのバイナリとして&lt;Erlang root&gt;\erts-&lt;version&gt;\bin以下に、またソースファイルとして(&lt;Erlang root&gt;\erts-&lt;version&gt;\src)にあります。ソースコードが同梱されているのは、個人的な理由でちょっとした変更を簡単に加えられるようにするためです(例えば、定期的にプログラムを起動するとか:D)。また、Microsoft(R) Visual C++(R)と共に配布されている<I>nmake</I>プログラム用の&quot;make&quot;ファイルも同梱しています。しかし、どのWin32 C コンパイラでも直接コンパイルすることも可能です(少々修正が必要でしょうが)。
 <P>
 <P>
 
@@ -67,7 +67,7 @@ Optional, specifies another data file than start_erl.data in the &lt;release roo
 
 <P>
 
-ソースコードが配布されているため、容易に新たなオプションを受け付けるようにtart_erl��修正するすることができます。ただし、data オプションが上記の「リリースハンドラ内で正常に動作する」というセマンティクスを保持したまま動作するようにしてください。
+ソースコードが配布されているため、容易に新たなオプションを受け付けるように<I>start_erl</I>��修正するすることができます。ただし、<I>-data</I> オプションが上記の「リリースハンドラ内で正常に動作する」というセマンティクスを保持したまま動作するようにしてください。
 <P>
 
 Erlangエミュレータの有無は、リリースデータファイル内で指定されたエミュレータバージョン用のレジストリキーを調べることで判断できます。このチェックを行うには、新しいエミュレータをアップグレードする前に適切にインストールする必要があります(FIXME:アヤシイ)。
@@ -99,6 +99,6 @@ Erlangエミュレータの有無は、リリースデータファイル内で�
 This document was created by
 <A HREF="http://github.com/hamano/man2html/">man2html</A>,
 using the manual pages.<BR>
-Time: 23:38:44 GMT, July 30, 2009
+Time: 00:07:04 GMT, July 31, 2009
 </BODY>
 </HTML>

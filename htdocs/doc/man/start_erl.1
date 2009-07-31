@@ -6,7 +6,7 @@ Windows NT(R) 上でErlangの組み込みシステムを開始する
 .LP
 このドキュメントは \fIstart_erl\fR というWindows NT用のプログラムに対する説明です\&. 同名のプログラムは他のプラットフォームにも存在しますが、機能が異なります\&.
 .LP
-プログラム \fIstart_erl\fR はコンパイル済みのバイナリとして<Erlang root\eerts-<version>\ebin>以下に、またソースファイルとして(under <Erlang root>\eert    s-<version>\esrc)\&にあります\&。ソースコードが同梱されているのは、個人的な理由でちょっとした変更を簡単に加えられるようにするためです(例えば、定期的にプログラムを起動するとか:D)\&。また、Microsoft(R) Visual C++(R)と共に配布されている\fInmake\fRプログラム用の"make"ファイルも同梱しています。しかし、どのWin32 C コンパイラでも直接コンパイルすることも可能です(少々修正が必要でしょうが)\&。
+プログラム \fIstart_erl\fR はコンパイル済みのバイナリとして<Erlang root>\eerts-<version>\ebin以下に、またソースファイルとして(<Erlang root>\eerts-<version>\esrc)\&にあります\&。ソースコードが同梱されているのは、個人的な理由でちょっとした変更を簡単に加えられるようにするためです(例えば、定期的にプログラムを起動するとか:D)\&。また、Microsoft(R) Visual C++(R)と共に配布されている\fInmake\fRプログラム用の"make"ファイルも同梱しています。しかし、どのWin32 C コンパイラでも直接コンパイルすることも可能です(少々修正が必要でしょうが)\&。
 
 .LP
 このプログラム目的は、Windows NT(R)上でrelease handlingの補助を行うことです(FIXME:what is release handling?)\&.このプログラムは\fIerlsrv\fRプログラムから呼ばれることを想定しており、リリースデータファイルstart_erl\&.dataを読み込み、Erlangを起動します。start_erlに与えるオプションの中にには、release handlerによって追加される/取り除かれるオプションが存在します(詳細は\fI-data\fR オプションを参考にしてください)\&.
@@ -42,7 +42,7 @@ Optional, specifies another data file than start_erl\&.data in the <release root
 .RE
 .SH NOTES
 .LP
-ソースコードが配布されているため、容易に新たなオプションを受け付けるように\fstart_erl\fを修正するすることができます。ただし、\f-data\fR オプションが上記の「リリースハンドラ内で正常に動作する」というセマンティクスを保持したまま動作するようにしてください。
+ソースコードが配布されているため、容易に新たなオプションを受け付けるように\fIstart_erl\fを修正するすることができます。ただし、\fI-data\fR オプションが上記の「リリースハンドラ内で正常に動作する」というセマンティクスを保持したまま動作するようにしてください。
 .LP
 Erlangエミュレータの有無は、リリースデータファイル内で指定されたエミュレータバージョン用のレジストリキーを調べることで判断できます。このチェックを行うには、新しいエミュレータをアップグレードする前に適切にインストールする必要があります(FIXME:アヤシイ)。
 .LP
