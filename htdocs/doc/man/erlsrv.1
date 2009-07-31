@@ -21,30 +21,32 @@ Erlang サービスのパラメータとして、以下のものを指定する�
 \fIStopAction\fR: This tells \fIerlsrv\fR how to stop the Erlang emulator\&. Default is to kill it (Win32 TerminateProcess), but this action can specify any Erlang shell command that will be executed in the emulator to make it stop\&. The emulator is expected to stop within 30 seconds after the command is issued in the shell\&. If the emulator is not stopped, it will report a running state to the service manager\&.
 .TP 2
 *
-\fIOnFail\fR: This can be either of \fIreboot\fR, \fIrestart\fR, \fIrestart_always\fR or \fIignore\fR (the default)\&. In case of \fIreboot\fR, the NT system is rebooted whenever the emulator stops (a more simple form of watchdog), this could be useful for less critical systems, otherwise use the heart functionality to accomplish this\&. The restart value makes the Erlang emulator be restarted (with whatever parameters are registered for the service at the occasion) when it stops\&. If the emulator stops again within 10 seconds, it is not restarted to avoid an infinite loop which could completely hang the NT system\&. \fIrestart_always\fR is similar to restart, but does not try to detect cyclic restarts, it is expected that some other mechanism is present to avoid the problem\&. The default (ignore) just reports the service as stopped to the service manager whenever it fails, it has to be manually restarted\&.
+\fIOnFail\fR: このパラメータに対する値として、\fIreboot\fR, \fIrestart\fR, \fIrestart_always\fR \fIignore\fR をとることができます。\&. \fIreboot\fR の場合, エミュレータが停止したことを関知すると、NTシステムが再起動します。一種の簡単なwatch dog timerのようなものです。クリティカルではないシステムに有用です。サービス停止時にパラメータが全て保持され、再起動からの復帰後Erlang エミュレータを復元します。エミュレータが10秒以内に停止するようであれば、再起動のループに陥ってしまうことを防ぐために、再起動は行われなくなります。\fIrestart_always\fR は再起動に似ていますが、再起動のループ検知を行いません。つまり、他の方法を用いてこの問題を回避する必要があります。デフォルトでは、サービスが停止したことをサービスマネージャにレポートします。この場合は、手動でエミュレータを再起動する必要があります。
 .RS 2
 .LP
 
 .LP
-On a system where release handling is used, this should always be set to \fIignore\fR\&. Use \fIheart\fR to restart the service on failure instead\&.
+release handling が使用されているようであれば、常に\fIignore\fRがセットされているのが望ましいです。 サービス停止時に再度サービスを起動するには、 \fIheart\fR を使用してください。
 .RE
 .TP 2
 *
-\fIMachine\fR: The location of the Erlang emulator\&. The default is the \fIerl\&.exe\fR located in the same directory as erlsrv\&.exe\&. Do not specify \fIwerl\&.exe\fR as this emulator, it will not work\&.
+\fIMachine\fR: Erlang エミュレータの場所です。デフォルトでは、\fIerl\&.exe\fR はerlsrv\&.exeと同じディレクトリにあります。 エミュレータとして \fIwerl\&.exe\fR を指定しないでください。起動しません。
 .RS 2
 .LP
 
 .LP
-If the system uses release handling, this should be set to a program similar to \fIstart_erl\&.exe\fR\&.
+システムが release handling を使用しているようであれば、\fIstart_erl\&.exe\fR のようなプログラムがセットされるべきです。
 .RE
 .TP 2
 *
+\fIEnv\fR: エミュレータに対して、 \fI追加の\fR 環境を設定します。 ここで指定された環境変数は、サービス立ち上がり時にシステムワイド環境ブロック(system wide environment block)に追加されます。変数はシステムワイド環境ブロックとサービス環境の両方に存在する値は、サービス内で指定された値がセットされます。
 \fIEnv\fR: Specifies an \fIadditional\fR environment for the emulator\&. The environment variables specified here are added to the system wide environment block that is normally present when a service starts up\&. Variables present in both the system wide environment and in the service environment specification will be set to the value specified in the service\&.
 .TP 2
 *
-\fIWorkDir\fR: The working directory for the Erlang emulator, has to be on a local drive (there are no network drives mounted when a service starts)\&. Default working directory for services is \fI%SystemDrive%%SystemPath%\fR\&. Debug log files will be placed in this directory\&.
+\fIWorkDir\fR: Erlang エミュレータのワーキングディレクトリです。ローカルドライブに設定する必要があります。これは、サービス開始時にネットワークドライブが有効になっていないためです。デフォルトのワーキングディレクトリは、 \fI%SystemDrive%%SystemPath%\fR\& です。デバッグログがこのディレクトリにはき出されます。
 .TP 2
 *
+\fIPriority\fR: エミュレータのプロセス優先度で、\fIrealtime\fR, \fIhigh\fR, \fIlow\fR もしくは \fIdefault\fR (デフォルト値です)の\という値をとることができます。 Real-time に設定すると、マシンのユーザへのレスポンスが低下するため、推奨されません。 high is not recommended, the machine will possibly be inaccessible to interactive users\&. High priority could be used if two Erlang nodes should reside on one dedicated system and one should have precedence over the other\&. Low process priority may be used if interactive performance should not be affected by the emulator process\&.
 \fIPriority\fR: The process priority of the emulator, this can be one of \fIrealtime\fR, \fIhigh\fR, \fIlow\fR or \fIdefault\fR (the default)\&. Real-time priority is not recommended, the machine will possibly be inaccessible to interactive users\&. High priority could be used if two Erlang nodes should reside on one dedicated system and one should have precedence over the other\&. Low process priority may be used if interactive performance should not be affected by the emulator process\&.
 .TP 2
 *
