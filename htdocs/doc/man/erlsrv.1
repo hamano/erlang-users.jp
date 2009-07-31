@@ -1,0 +1,202 @@
+.TH erlsrv 1 "erts  5.7" "Ericsson AB" "USER COMMANDS"
+.SH NAME
+erlsrv \- Erlang エミュレータをWindows NT(R)のサービスとして動作させる
+.SH DESCRIPTION
+.LP
+このユーティリティはWindows NT/2000/XP(R)固有のものです。erlsrvを用いることで、Erlang エミュレータをサービスとして動作させることができます。よって、ユーザが再起動の度にログインをして、Erlangエミュレータを立ち上げる必要がなくなります。この方法で起動されたエミュレータは、Windows(R) サービスアプレットによって、その他のサービスと同様に管理されます。
+.LP
+実際のサービスと同様に、erlsrv は、サービス登録、変更、開始、停止のためのコマンドラインインターフェースを提供します。
+As well as being the actual service, erlsrv also provides a command line interface for registering, changing, starting and stopping services\&.
+.LP
+サービスを管理するには、Administrator 権限でマシンにログインする必要があります。Erlang マシン自体は、デフォルトでローカル特権で動作します。起動時の特権レベルは、Windows(R)のサービスアプレットで変更することができます。
+.LP
+サービスから起動されたプロセスは、タスクマネージャにより"殺され"る可能性がありますます。サービスから起動されたエミュレータが殺されると、"OnFail"アクションが起動し、再起動することになるでしょう。
+.LP
+The following parameters may be specified for each Erlang service:
+Erlang サービスのパラメータとして、以下のものを指定することができます:
+.RS 2
+.TP 2
+*
+\fIStopAction\fR: これは \fIerlsrv\fR に Erlang エミュレータの停止方法を教えるためのパラメータです。デフォルトではWin32 TerminateProcessによりエミュレータを"殺し"ますが、このアクションをErlangのシェルコマンドで置換することができます。停止コマンドが発行されてから30秒以内で、エミュレータを停止させてください。もしエミュレータが停止していなければ、サービスマネージャに対して「動作中」として報告されます。
+\fIStopAction\fR: This tells \fIerlsrv\fR how to stop the Erlang emulator\&. Default is to kill it (Win32 TerminateProcess), but this action can specify any Erlang shell command that will be executed in the emulator to make it stop\&. The emulator is expected to stop within 30 seconds after the command is issued in the shell\&. If the emulator is not stopped, it will report a running state to the service manager\&.
+.TP 2
+*
+\fIOnFail\fR: This can be either of \fIreboot\fR, \fIrestart\fR, \fIrestart_always\fR or \fIignore\fR (the default)\&. In case of \fIreboot\fR, the NT system is rebooted whenever the emulator stops (a more simple form of watchdog), this could be useful for less critical systems, otherwise use the heart functionality to accomplish this\&. The restart value makes the Erlang emulator be restarted (with whatever parameters are registered for the service at the occasion) when it stops\&. If the emulator stops again within 10 seconds, it is not restarted to avoid an infinite loop which could completely hang the NT system\&. \fIrestart_always\fR is similar to restart, but does not try to detect cyclic restarts, it is expected that some other mechanism is present to avoid the problem\&. The default (ignore) just reports the service as stopped to the service manager whenever it fails, it has to be manually restarted\&.
+.RS 2
+.LP
+
+.LP
+On a system where release handling is used, this should always be set to \fIignore\fR\&. Use \fIheart\fR to restart the service on failure instead\&.
+.RE
+.TP 2
+*
+\fIMachine\fR: The location of the Erlang emulator\&. The default is the \fIerl\&.exe\fR located in the same directory as erlsrv\&.exe\&. Do not specify \fIwerl\&.exe\fR as this emulator, it will not work\&.
+.RS 2
+.LP
+
+.LP
+If the system uses release handling, this should be set to a program similar to \fIstart_erl\&.exe\fR\&.
+.RE
+.TP 2
+*
+\fIEnv\fR: Specifies an \fIadditional\fR environment for the emulator\&. The environment variables specified here are added to the system wide environment block that is normally present when a service starts up\&. Variables present in both the system wide environment and in the service environment specification will be set to the value specified in the service\&.
+.TP 2
+*
+\fIWorkDir\fR: The working directory for the Erlang emulator, has to be on a local drive (there are no network drives mounted when a service starts)\&. Default working directory for services is \fI%SystemDrive%%SystemPath%\fR\&. Debug log files will be placed in this directory\&.
+.TP 2
+*
+\fIPriority\fR: The process priority of the emulator, this can be one of \fIrealtime\fR, \fIhigh\fR, \fIlow\fR or \fIdefault\fR (the default)\&. Real-time priority is not recommended, the machine will possibly be inaccessible to interactive users\&. High priority could be used if two Erlang nodes should reside on one dedicated system and one should have precedence over the other\&. Low process priority may be used if interactive performance should not be affected by the emulator process\&.
+.TP 2
+*
+\fISName or Name\fR: Specifies the short or long node-name of the Erlang emulator\&. The Erlang services are always distributed, default is to use the service name as (short) node-name\&.
+.TP 2
+*
+\fIDebugType\fR: Can be one of \fInone\fR (default), \fInew\fR, \fIreuse\fR or \fIconsole\fR\&. Specifies that output from the Erlang shell should be sent to a "debug log"\&. The log file is named <servicename>\fI\&.debug\fR or <servicename>\fI\&.debug\&.\fR<N>, where <N> is an integer between 1 and 99\&. The log-file is placed in the working directory of the service (as specified in WorkDir)\&. The \fIreuse\fR option always reuses the same log file (<servicename>\fI\&.debug\fR) and the \fInew\fR option uses a separate log file for every invocation of the service (<servicename>\fI\&.debug\&.\fR<N>)\&. The \fIconsole\fR option opens an interactive Windows(R) console window for the Erlang shell of the service\&. The \fIconsole\fR option automatically disables the \fIStopAction\fR and a service started with an interactive console window will not survive logouts, \fIOnFail\fR actions do not work with debug-consoles either\&. If no \fIDebugType\fR is specified (\fInone\fR), the output of the Erlang shell is discarded\&.
+.RS 2
+.LP
+
+.LP
+The \fIconsole\fR\fIDebugType\fR is \fInot in any way\fR intended for production\&. It is \fIonly\fR a convenient way to debug Erlang services during development\&. The \fInew\fR and \fIreuse\fR options might seem convenient to have in a production system, but one has to take into account that the logs will grow indefinitely during the systems lifetime and there is no way, short of restarting the service, to truncate those logs\&. In short, the \fIDebugType\fR is intended for debugging only\&. Logs during production are better produced with the standard Erlang logging facilities\&.
+.RE
+.TP 2
+*
+\fIArgs\fR: Additional arguments passed to the emulator startup program \fIerl\&.exe\fR (or \fIstart_erl\&.exe\fR)\&. Arguments that cannot be specified here are \fI-noinput\fR (StopActions would not work), \fI-name\fR and \fI-sname\fR (they are specified in any way\&. The most common use is for specifying cookies and flags to be passed to init:boot() (\fI-s\fR)\&.
+.RE
+.LP
+ The naming of the service in a system that uses release handling has to follow the convention \fINodeName\fR_\fIRelease\fR, where \fINodeName\fR is the first part of the Erlang nodename (up to, but not including the "@") and \fIRelease\fR is the current release of the application\&.
+
+.SH EXPORTS
+.LP
+.B
+erlsrv {set | add} <service-name> [<service options>]
+.br
+.RS
+.LP
+The set and add commands adds or modifies a Erlang service respectively\&. The simplest form of an add command would be completely without options in which case all default values (described above) apply\&. The service name is mandatory\&.
+.LP
+Every option can be given without parameters, in which case the default value is applied\&. Values to the options are supplied \fIonly\fR when the default should not be used (i\&.e\&. \fIerlsrv set myservice -prio -arg\fR sets the default priority and removes all arguments)\&.
+.LP
+The following service options are currently available:
+.RS 2
+.TP 4
+.B
+-st[opaction] [<erlang shell command>]:
+Defines the StopAction, the command given to the Erlang shell when the service is stopped\&. Default is none\&.
+.TP 4
+.B
+-on[fail] [{reboot | restart | restart_always}]:
+Specifies the action to take when the Erlang emulator stops unexpectedly\&. Default is to ignore\&.
+.TP 4
+.B
+-m[achine] [<erl-command>]:
+The complete path to the Erlang emulator, never use the werl program for this\&. Default is the \fIerl\&.exe\fR in the same directory as \fIerlsrv\&.exe\fR\&. When release handling is used, this should be set to a program similar to \fIstart_erl\&.exe\fR\&.
+.TP 4
+.B
+-e[nv] [<variable>[=<value>]] \&.\&.\&.:
+Edits the environment block for the service\&. Every environment variable specified will add to the system environment block\&. If a variable specified here has the same name as a system wide environment variable, the specified value overrides the system wide\&. Environment variables are added to this list by specifying <variable>=<value> and deleted from the list by specifying <variable> alone\&. The environment block is automatically sorted\&. Any number of \fI-env\fR options can be specified in one command\&. Default is to use the system environment block unmodified (except for two additions, see below)\&.
+.TP 4
+.B
+-w[orkdir] [<directory>]:
+The initial working directory of the Erlang emulator\&. Default is the system directory\&.
+.TP 4
+.B
+-p[riority] [{low|high|realtime}]:
+The priority of the Erlang emulator\&. The default is the Windows(R) default priority\&.
+.TP 4
+.B
+{-sn[ame] | -n[ame]} [<node-name>]:
+The node-name of the Erlang machine, distribution is mandatory\&. Default is \fI-sname <service name>\fR\&.
+.TP 4
+.B
+-d[ebugtype] [{new|reuse|console}]:
+Specifies where shell output should be sent, default is that shell output is discarded\&. To be used only for debugging\&.
+.TP 4
+.B
+-ar[gs] [<limited erl arguments>]:
+Additional arguments to the Erlang emulator, avoid \fI-noinput\fR, \fI-noshell\fR and \fI-sname\fR/\fI-name\fR\&. Default is no additional arguments\&. Remember that the services cookie file is not necessarily the same as the interactive users\&. The service runs as the local administrator\&. All arguments should be given together in one string, use double quotes (") to give an argument string containing spaces and use quoted quotes (\e") to give an quote within the argument string if necessary\&.
+.RE
+.RE
+.LP
+.B
+erlsrv {start | stop | disable | enable} <service-name>
+.br
+.RS
+.LP
+These commands are only added for convenience, the normal way to manipulate the state of a service is through the control panels services applet\&. The \fIstart\fR and \fIstop\fR commands communicates with the service manager for stopping and starting a service\&. The commands wait until the service is actually stopped or started\&. When disabling a service, it is not stopped, the disabled state will not take effect until the service actually is stopped\&. Enabling a service sets it in automatic mode, that is started at boot\&. This command cannot set the service to manual\&. 
+.RE
+.LP
+.B
+erlsrv remove <service-name>
+.br
+.RS
+.LP
+This command removes the service completely with all its registered options\&. It will be stopped before it is removed\&.
+.RE
+.LP
+.B
+erlsrv list [<service-name>]
+.br
+.RS
+.LP
+If no service name is supplied, a brief listing of all Erlang services is presented\&. If a service-name is supplied, all options for that service are presented\&.
+.RE
+.LP
+.B
+erlsrv help
+.br
+.SH ENVIRONMENT
+.LP
+ The environment of an Erlang machine started as a service will contain two special variables, \fIERLSRV_SERVICE_NAME\fR, which is the name of the service that started the machine and \fIERLSRV_EXECUTABLE\fR which is the full path to the \fIerlsrv\&.exe\fR that can be used to manipulate the service\&. This will come in handy when defining a heart command for your service\&. A command file for restarting a service will simply look like this:
+
+.nf
+@echo off
+%ERLSRV_EXECUTABLE% stop %ERLSRV_SERVICE_NAME%
+%ERLSRV_EXECUTABLE% start %ERLSRV_SERVICE_NAME%    
+.fi
+.LP
+This command file is then set as heart command\&.
+.LP
+The environment variables can also be used to detect that we are running as a service and make port programs react correctly to the control events generated on logout (see below)\&.
+.SH PORT PROGRAMS
+.LP
+When a program runs in the service context, it has to handle the control events that is sent to every program in the system when the interactive user logs off\&. This is done in different ways for programs running in the console subsystem and programs running as window applications\&. An application which runs in the console subsystem (normal for port programs) uses the win32 function \fISetConsoleCtrlHandler\fR to a control handler that returns TRUE in answer to the \fICTRL_LOGOFF_EVENT\fR\&. Other applications just forward \fIWM_ENDSESSION\fR and \fIWM_QUERYENDSESSION\fR to the default window procedure\&. Here is a brief example in C of how to set the console control handler:
+
+.nf
+#include <windows\&.h>
+/* 
+** A Console control handler that ignores the log off events,
+** and lets the default handler take care of other events\&.
+*/   
+BOOL WINAPI service_aware_handler(DWORD ctrl){
+    if(ctrl == CTRL_LOGOFF_EVENT)
+        return TRUE;
+    return FALSE;
+}
+
+void initialize_handler(void){
+    char buffer[2];
+    /* 
+     * We assume we are running as a service if this  
+     * environment variable is defined
+     */
+    if(GetEnvironmentVariable("ERLSRV_SERVICE_NAME",buffer,
+                              (DWORD) 2)){
+        /*
+        ** Actually set the control handler
+        */
+        SetConsoleCtrlHandler(&service_aware_handler, TRUE);
+    }
+}    
+.fi
+.SH NOTES
+.LP
+Even though the options are described in a Unix-like format, the case of the options or commands is not relevant, and the "/" character for options can be used as well as the "-" character\&. 
+.LP
+Note that the program resides in the emulators \fIbin\fR-directory, not in the \fIbin\fR-directory directly under the Erlang root\&. The reasons for this are the subtle problem of upgrading the emulator on a running system, where a new version of the runtime system should not need to overwrite existing (and probably used) executables\&.
+.LP
+To easily manipulate the Erlang services, put the \fI<erlang_root>\eerts-<version>\ebin\fR directory in the path instead of \fI<erlang_root>\ebin\fR\&. The erlsrv program can be found from inside Erlang by using the \fIos:find_executable/1\fR Erlang function\&.
+.LP
+For release handling to work, use \fIstart_erl\fR as the Erlang machine\&. It is also worth mentioning again that the name of the service is significant (see above)\&.
+.SH SEE ALSO
+.LP
+start_erl(1), release_handler(3)
