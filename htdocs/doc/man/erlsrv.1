@@ -134,8 +134,8 @@ erlsrv {start | stop | disable | enable} <service-name>
 .br
 .RS
 .LP
-ここで示すコマンドは
-通常、サービスの状態を管理するにはコントロールパネルのサービスアプレットを利用します。  \fIstart\fR と \fIstop\fR コマンドはサービスを開始/停止するためにサービスマネージャとやりとりを行います。
+ここでコマンドを利用する理由は、「便利だから」という理由だけです。
+通常、サービスの状態を管理するにはコントロールパネルのサービスアプレットを利用します。  \fIstart\fR と \fIstop\fR コマンドはサービスを開始/停止するためにサービスマネージャとやりとりを行います。コマンドはサービスが実際に停止/開始するまで待ちます。サービスが無効化された上で、停止していない場合は、サービスが実際に停止するまで「無効の状態になった」と見なしません。サービスが自動モード(automatic mode)でこのコマンドが使用されると、ブート時にサービスが開始します。このコマンドはサービスをマニュアルに設定することができません。
 These commands are only added for convenience, the normal way to manipulate the state of a service is through the control panels services applet\&. The \fIstart\fR and \fIstop\fR commands communicates with the service manager for stopping and starting a service\&. The commands wait until the service is actually stopped or started\&. When disabling a service, it is not stopped, the disabled state will not take effect until the service actually is stopped\&. Enabling a service sets it in automatic mode, that is started at boot\&. This command cannot set the service to manual\&. 
 .RE
 .LP
@@ -144,6 +144,7 @@ erlsrv remove <service-name>
 .br
 .RS
 .LP
+このコマンドは登録されているオプションとともに、サービスを完全に削除します。remove コマンドを使用する前には、サービスは停止している必要があります。
 This command removes the service completely with all its registered options\&. It will be stopped before it is removed\&.
 .RE
 .LP
@@ -152,7 +153,7 @@ erlsrv list [<service-name>]
 .br
 .RS
 .LP
-If no service name is supplied, a brief listing of all Erlang services is presented\&. If a service-name is supplied, all options for that service are presented\&.
+サービス名(<service-name>)が指定されていない場合、Erlangサービス名の一覧が表示されます。もしサービス名が指定されると、サービスに与えられているオプションが全て表示されます。
 .RE
 .LP
 .B
@@ -160,6 +161,7 @@ erlsrv help
 .br
 .SH ENVIRONMENT
 .LP
+Erlangマシンの環境は、2つの特殊な変数によって管理されています。\fIERLSRV_SERVICE_NAME\fRはマシンが起動したサービスの名前です。 \fIERLSRV_EXECUTABLE\fR はサービスを開始するのに使用する \fIerlsrv\&.exe\fR への完全パスです。この2つの変数は、サービスを立ち上げるための核となるユーザ定義のコマンドを作成するのに、とても便利です。サービスの再起動に利用するコマンドファイルは、以下のように簡単に記述することができます:
  The environment of an Erlang machine started as a service will contain two special variables, \fIERLSRV_SERVICE_NAME\fR, which is the name of the service that started the machine and \fIERLSRV_EXECUTABLE\fR which is the full path to the \fIerlsrv\&.exe\fR that can be used to manipulate the service\&. This will come in handy when defining a heart command for your service\&. A command file for restarting a service will simply look like this:
 
 .nf
@@ -168,12 +170,13 @@ erlsrv help
 %ERLSRV_EXECUTABLE% start %ERLSRV_SERVICE_NAME%    
 .fi
 .LP
+これで、このコマンドファイルは、核となるコマンドとして設定されたことになります。
 This command file is then set as heart command\&.
 .LP
-The environment variables can also be used to detect that we are running as a service and make port programs react correctly to the control events generated on logout (see below)\&.
+この2つの環境変数は、起動中のサービスを検知したり、ポートプログラム(何らかのイベントを待ち受けしているプログラム)に、ログアウト時に発生する制御イベントに対する挙動を定義したい場合にも利用可能です。
 .SH PORT PROGRAMS
 .LP
-When a program runs in the service context, it has to handle the control events that is sent to every program in the system when the interactive user logs off\&. This is done in different ways for programs running in the console subsystem and programs running as window applications\&. An application which runs in the console subsystem (normal for port programs) uses the win32 function \fISetConsoleCtrlHandler\fR to a control handler that returns TRUE in answer to the \fICTRL_LOGOFF_EVENT\fR\&. Other applications just forward \fIWM_ENDSESSION\fR and \fIWM_QUERYENDSESSION\fR to the default window procedure\&. Here is a brief example in C of how to set the console control handler:
+プログラムがサービスのコンテキストで動作しており、端末を操作しているユーザがログオフしたとき、サービスは全てのプログラムに対して送信される制御イベントをハンドルする必要があります。コンソールサブシステム内で動作しているアプリケーション(通常はポートプログラム)は、win32 API の \fISetConsoleCtrlHandlr\fR を制御ハンドラとして利用しており、このハンドラが \fICTRL_LOGOFF_EVENT\fR のイベントに対して TRUE を返します。その他のアプリケーションは、 \fIWM_ENDSESSION\fR と \fIWM_QUERYENDSESSION\fR をデフォルトのウインドウプロシージャに渡します。以下に、Cで書かれた簡単なコンソール制御ハンドラの例を示します：
 
 .nf
 #include <windows\&.h>
@@ -204,12 +207,19 @@ void initialize_handler(void){
 .fi
 .SH NOTES
 .LP
+
+オプションは Unixライクなフォーマットで与えられますが、オプションやコマンドの大文字/小文字は関係ありません。また、オプションを利用するのに "-" だけでなく "/" も利用することができます。
 Even though the options are described in a Unix-like format, the case of the options or commands is not relevant, and the "/" character for options can be used as well as the "-" character\&. 
 .LP
+プログラムが、エミュレータの \fIbin\fRディレクトリの中にあることに注意してください。 Erlang のルートディレクトリ直下の \fIbin\fRディレクトリではありません。この理由は、起動中のシステム上のエミュレータをアップグレードする際に、微妙な問題が生じるためです。
+新しいバージョンのランタイムシステムで既に存在する(、恐らく使用中の)実行ファイルを上書きするべきではありません。
 Note that the program resides in the emulators \fIbin\fR-directory, not in the \fIbin\fR-directory directly under the Erlang root\&. The reasons for this are the subtle problem of upgrading the emulator on a running system, where a new version of the runtime system should not need to overwrite existing (and probably used) executables\&.
 .LP
+Erlang サービスをより簡単に操作するには、 erlsrvのバイナリを\fI<erlang_root\ebin\fR から \fI<erlang_root>\eerts-<version>\ebin\fR ディレクトリへ移動してください。 ^fIos:find_executable/1\fR という Erlang の関数を利用することで、 erlsrv プログラムが Erlang 内部から利用可能になります。
+
 To easily manipulate the Erlang services, put the \fI<erlang_root>\eerts-<version>\ebin\fR directory in the path instead of \fI<erlang_root>\ebin\fR\&. The erlsrv program can be found from inside Erlang by using the \fIos:find_executable/1\fR Erlang function\&.
 .LP
+release handling を有効化するには、 Erlang マシンの \fIstart_erl\fR を使用してください。ここでもサービス名が非常に重要であることは、上記で述べた通りです。
 For release handling to work, use \fIstart_erl\fR as the Erlang machine\&. It is also worth mentioning again that the name of the service is significant (see above)\&.
 .SH SEE ALSO
 .LP

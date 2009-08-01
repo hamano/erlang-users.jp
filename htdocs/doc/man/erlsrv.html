@@ -1,0 +1,309 @@
+<HTML><HEAD><TITLE>Manpage of erlsrv</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+</HEAD><BODY>
+<H1>erlsrv</H1>
+Section: USER COMMANDS (1)<BR>Updated: erts  5.7<BR><A HREF="#index">Index</A>
+<A HREF="./">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>名前</H2>
+
+erlsrv - Erlang エミュレータをWindows NT(R)のサービスとして動作させる
+<A NAME="lbAC">&nbsp;</A>
+<H2>説明</H2>
+
+<P>
+
+このユーティリティはWindows NT/2000/XP(R)固有のものです。erlsrvを用いることで、Erlang エミュレータをサービスとして動作させることができます。よって、ユーザが再起動の度にログインをして、Erlangエミュレータを立ち上げる必要がなくなります。この方法で起動されたエミュレータは、Windows(R) サービスアプレットによって、その他のサービスと同様に管理されます。
+<P>
+
+実際のサービスと同様に、erlsrv は、サービス登録、変更、開始、停止のためのコマンドラインインターフェースを提供します。
+As well as being the actual service, erlsrv also provides a command line interface for registering, changing, starting and stopping services.
+<P>
+
+サービスを管理するには、Administrator 権限でマシンにログインする必要があります。Erlang マシン自体は、デフォルトでローカル特権で動作します。起動時の特権レベルは、Windows(R)のサービスアプレットで変更することができます。
+<P>
+
+サービスから起動されたプロセスは、タスクマネージャにより&quot;殺され&quot;る可能性がありますます。サービスから起動されたエミュレータが殺されると、&quot;OnFail&quot;アクションが起動し、再起動することになるでしょう。
+<P>
+
+The following parameters may be specified for each Erlang service:
+Erlang サービスのパラメータとして、以下のものを指定することができます:
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT>*<DD>
+<I>StopAction</I>: これは <I>erlsrv</I> に Erlang エミュレータの停止方法を教えるためのパラメータです。デフォルトではWin32 TerminateProcessによりエミュレータを&quot;殺し&quot;ますが、このアクションをErlangのシェルコマンドで置換することができます。停止コマンドが発行されてから30秒以内で、エミュレータを停止させてください。もしエミュレータが停止していなければ、サービスマネージャに対して「動作中」として報告されます。
+<I>StopAction</I>: This tells <I>erlsrv</I> how to stop the Erlang emulator. Default is to kill it (Win32 TerminateProcess), but this action can specify any Erlang shell command that will be executed in the emulator to make it stop. The emulator is expected to stop within 30 seconds after the command is issued in the shell. If the emulator is not stopped, it will report a running state to the service manager.
+<DT>*<DD>
+<I>OnFail</I>: このパラメータに対する値として、<I>reboot</I>, <I>restart</I>, <I>restart_always</I> <I>ignore</I> をとることができます。. <I>reboot</I> の場合, エミュレータが停止したことを関知すると、NTシステムが再起動します。一種の簡単なwatch dog timerのようなものです。クリティカルではないシステムに有用です。サービス停止時にパラメータが全て保持され、再起動からの復帰後Erlang エミュレータを復元します。エミュレータが10秒以内に停止するようであれば、再起動のループに陥ってしまうことを防ぐために、再起動は行われなくなります。<I>restart_always</I> は再起動に似ていますが、再起動のループ検知を行いません。つまり、他の方法を用いてこの問題を回避する必要があります。デフォルトでは、サービスが停止したことをサービスマネージャにレポートします。この場合は、手動でエミュレータを再起動する必要があります。
+<DL COMPACT><DT><DD>
+<P>
+
+<P>
+<P>
+
+release handling が使用されているようであれば、常に<I>ignore</I>がセットされているのが望ましいです。 サービス停止時に再度サービスを起動するには、 <I>heart</I> を使用してください。
+</DL>
+
+<DT>*<DD>
+<I>Machine</I>: Erlang エミュレータの場所です。デフォルトでは、<I>erl.exe</I> はerlsrv.exeと同じディレクトリにあります。 エミュレータとして <I>werl.exe</I> を指定しないでください。起動しません。
+<DL COMPACT><DT><DD>
+<P>
+
+<P>
+<P>
+
+システムが release handling を使用しているようであれば、<I>start_erl.exe</I> のようなプログラムがセットされるべきです。
+</DL>
+
+<DT>*<DD>
+<I>Env</I>: エミュレータに対して、 <I>追加の</I> 環境を設定します。 ここで指定された環境変数は、サービス立ち上がり時にシステムワイド環境ブロック(system wide environment block)に追加されます。変数はシステムワイド環境ブロックとサービス環境の両方に存在する値は、サービス内で指定された値がセットされます。
+<I>Env</I>: Specifies an <I>additional</I> environment for the emulator. The environment variables specified here are added to the system wide environment block that is normally present when a service starts up. Variables present in both the system wide environment and in the service environment specification will be set to the value specified in the service.
+<DT>*<DD>
+<I>WorkDir</I>: Erlang エミュレータのワーキングディレクトリです。ローカルドライブに設定する必要があります。これは、サービス開始時にネットワークドライブが有効になっていないためです。デフォルトのワーキングディレクトリは、 <I>%SystemDrive%%SystemPath%</I> です。デバッグログがこのディレクトリにはき出されます。
+<DT>*<DD>
+<I>Priority</I>: エミュレータのプロセス優先度で、<I>realtime</I>, <I>high</I>, <I>low</I> もしくは <I>default</I> (デフォルト値です)のという値をとることができます。 優先度が <I>realtime</I> に設定されると、Erlang エミュレータのスケジューリングが最優先されます。端末を操作しているユーザへのレスポンスが低下し、操作不能になる可能性があるため、推奨されません。優先度 <I>high</I> は、2つのErlangノードが1台の専用システムに存在していて、その2つで優先順位をつけたいときに使用します。<I>low</I> は、ユーザとのやりとりのパフォーマンスを下げたくないときに使用すると良いでしょう.
+<DT>*<DD>
+<I>SName or Name</I>: Erlangエミュレータの名前を設定します。ロングネームでもショートネームでも構いません。Erlang サービスは常に分散されており(FIXME:?)、デフォルトでサービス名はショートノードネームが使用されます。
+Specifies the short or long node-name of the Erlang emulator. The Erlang services are always distributed, default is to use the service name as (short) node-name.
+<DT>*<DD>
+<I>DebugType</I>: <I>none</I> (これがデフォルト値です), <I>new</I>, <I>reuse</I> 、 <I>console</I>&nbsp;の中から選択します。 Erlang シェルから出力されるの&quot;デバッグログ&quot;についての設定を行います。ログ名は &lt;servicename&gt;. <I>.debug</I>  &lt;servicename&gt;<I>.debug.</I>&lt;N&gt;,で、&lt;N&gt;Tは1から99までの整数です。ログファイルはWorkDirで設定したワーキングディレクトリです。<I>reuse</I> オプションは、常に同じログファイルを使い回します。よって、ファイル名は常に&lt;servicename&gt;. <I>.debug</I>となります。 <I>new</I> オプションは、サービスが起動する毎に別のログファイルを作成します。よって、ファイル名は&lt;servicename&gt;<I>.debug.</I>&lt;N&gt;となります。 <I>console</I> オプションは、サービス毎にErlang シェル用の インタラクティブWindows(R) コンソールウインドウを開きます。 <I>console</I> オプションを設定すると、 <I>StopAction</I> 、 が自動的に無効になり、サービス開始時に起動されるコンソールウインドウは、ログアウトと同時に終了します。 また、<I>OnFail</I> アクションも無効化されます。もし <I>DebugType</I> が指定されていない場合(<I>none</I>)、出力は全て破棄されます。
+<DL COMPACT><DT><DD>
+<P>
+
+<P>
+<P>
+
+<I>console</I><I>DebugType</I> は、どんな理由であれ、production に使用するべきではありません。このオプションは、開発中のErlang サービスのデバッグを便利にするオプションに <I>すぎません</I>。<I>new</I> や <I>reuse</I> オプションは製品用のシステムに便利なオプションように見えます。しかし、システム管理者は、サービス稼働中、ログが無制限に増え続けることを考慮に入れておく必要があり、再起動中をのぞいて、ログを削除することはできません。まとめると、<I>DebugType</I> はあくまでも「デバッグ用のオプション」だということです。製品用のログを見るには、Erlangに搭載されている標準のログ機能を使用してください。
+The <I>console</I><I>DebugType</I> is <I>not in any way</I> intended for production. It is <I>only</I> a convenient way to debug Erlang services during development. The <I>new</I> and <I>reuse</I> options might seem convenient to have in a production system, but one has to take into account that the logs will grow indefinitely during the systems lifetime and there is no way, short of restarting the service, to truncate those logs. In short, the <I>DebugType</I> is intended for debugging only. Logs during production are better produced with the standard Erlang logging facilities.
+</DL>
+
+<DT>*<DD>
+<I>Args</I>: エミュレータを立ち上げるためのプログラム <I>erl.exe</I> に、追加オプションを渡します。ここで指定できないオプションは、<I>-noinput</I> (StopActions が動作しないため), <I>-name</I> , <I>-sname</I> (必ず指定する必要があるため)です。最も一般的な使い方は、 init:boot() に渡すためのクッキーとフラグを指定することです。(<I>-s</I>)
+<I>Args</I>: Additional arguments passed to the emulator startup program <I>erl.exe</I> (or <I>start_erl.exe</I>). Arguments that cannot be specified here are <I>-noinput</I> (StopActions would not work), <I>-name</I> and <I>-sname</I> (they are specified in any way. The most common use is for specifying cookies and flags to be passed to init:boot() (<I>-s</I>).
+</DL>
+</DL>
+
+<P>
+
+release handling を使用するサービス名は、 <I>NodeName</I>_<I>Release</I> という規則に従う必要があります。ここで、 <I>NodeName</I> は、@を含めない Erlang ノード名で、 <I>Release</I> はアプリケーションの現在のバージョンです。
+<BR>&nbsp;The&nbsp;naming&nbsp;of&nbsp;the&nbsp;service&nbsp;in&nbsp;a&nbsp;system&nbsp;that&nbsp;uses&nbsp;release&nbsp;handling&nbsp;has&nbsp;to&nbsp;follow&nbsp;the&nbsp;convention&nbsp;<I>NodeName</I>_<I>Release</I>,&nbsp;where&nbsp;<I>NodeName</I>&nbsp;is&nbsp;the&nbsp;first&nbsp;part&nbsp;of&nbsp;the&nbsp;Erlang&nbsp;nodename&nbsp;(up&nbsp;to,&nbsp;but&nbsp;not&nbsp;including&nbsp;the&nbsp;&quot;@&quot;)&nbsp;and&nbsp;<I>Release</I>&nbsp;is&nbsp;the&nbsp;current&nbsp;release&nbsp;of&nbsp;the&nbsp;application.
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<H2>使い方</H2>
+
+<P>
+
+<B>erlsrv {set | add} &lt;service-name&gt; [&lt;service options&gt;]</B>
+
+<BR>
+
+<DL COMPACT><DT><DD>
+<P>
+
+set と add コマンドは、 それぞれErlang サービスを追加/修正します。add コマンドの最も単純な例は、全てデフォルト値を利用して、オプションを全くつけないというものです。サービス名はシステムから自動的に命名されます(mandatory)。
+The set and add commands adds or modifies a Erlang service respectively. The simplest form of an add command would be completely without options in which case all default values (described above) apply. The service name is mandatory.
+<P>
+
+全てのオプションは、オプションに値なしでコマンドに渡すことができます。 この場合、値はデフォルト値が使用されます。オプションに値を与えるときは、 <I>デフォルト値を利用しないときのみ</I> です。<I>erlsrv set myservice -prio -arg</I> は優先度にデフォルト値を設定して、全ての引数を取り除きます。
+Every option can be given without parameters, in which case the default value is applied. Values to the options are supplied <I>only</I> when the default should not be used (i.e. <I>erlsrv set myservice -prio -arg</I> sets the default priority and removes all arguments).
+<P>
+
+以下のオプションを利用することができます：
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>-st[opaction] [&lt;erlang shell command&gt;]:</B>
+
+<DD>
+StopAction を定義します。与えたコマンドは、サービスが停止されたときにErlangのシェルに渡されます。デフォルト値はnoneです。
+<DT><B>-on[fail] [{reboot | restart | restart_always}]:</B>
+
+<DD>
+エミュレータが予期せず止まったときのアクションを設定します。デフォルト値は ignore に設定されています。
+<DT><B>-m[achine] [&lt;erl-command&gt;]:</B>
+
+<DD>
+Erlang エミュレータへの絶対パスです。プログラム werl がこの値を利用することはありません。 デフォルト値は <I>erlsrv.exe</I> と同じディレクトリにある <I>erl.exe</I> です。release handling を利用するときに、<I>start_erl.exe</I> 同様このオプションが設定されている必要があります。
+The complete path to the Erlang emulator, never use the werl program for this. Default is the <I>erl.exe</I> in the same directory as <I>erlsrv.exe</I>. When release handling is used, this should be set to a program similar to <I>start_erl.exe</I>.
+<DT><B>-e[nv] [&lt;variable&gt;[=&lt;value&gt;]] ...:</B>
+
+<DD>
+サービス用の環境ブロックを編集します。指定された全ての環境変数は、システム環境ブロックに追加されます。もしここで指定された環境変数と同じ名前の環境変数が既に存在した場合、指定された値がシステムワイドの値を上書きします。環境変数は &lt;variable&gt;=&lt;value&gt; という風に設定することでリストに追加でき、 &lt;variable&gt; 単体で与えることでリストから削除することができます。環境ブロックは自動でソートされます。 1つのコマンド内で、いくつでも <I>-env</I> コマンドを指定することができます。
+デフォルトでは、システム環境ブロックに変更を加えません(ただし、例外が2つだけあります。以下をご覧ください)。
+<DT><B>-w[orkdir] [&lt;directory&gt;]:</B>
+
+<DD>
+Erlang エミュレータのワーキングディレクトリです。デフォルトではシステムディレクトリです。
+The initial working directory of the Erlang emulator. Default is the system directory.
+<DT><B>-p[riority] [{low|high|realtime}]:</B>
+
+<DD>
+Erlang エミュレータの優先度です。デフォルトでは Windows(R) のデフォルト優先度に設定されています。
+<DT><B>{-sn[ame] | -n[ame]} [&lt;node-name&gt;]:</B>
+
+<DD>
+Erlang マシンのノード名で、分散環境では必須です(FIXME:アヤシイ)。デフォルトでは <I>-sname &lt;service name&gt;</I> です。
+The node-name of the Erlang machine, distribution is mandatory. Default is <I>-sname &lt;service name&gt;</I>.
+<DT><B>-d[ebugtype] [{new|reuse|console}]:</B>
+
+<DD>
+シェルの出力先を設定します。デフォルトではシェルの出力は破棄されます。このオプションはデバッグ用です。
+<DT><B>-ar[gs] [&lt;limited erl arguments&gt;]:</B>
+
+<DD>
+Erlang に対して追加引数を与えます。 <I>-noinput</I>, <I>-noshell</I> , <I>-sname</I>/<I>-name</I> は与えないように気をつけてください。デフォルトでは追加引数は与えられません。サービスのクッキーファイルが捜査中のユーザと同様に必須ではないことを思い出してください。サービスはローカル管理者権限で動作します。全ての引数は1つの文字列で与えてください。もし文字列に空白を含む場合は、ダブルクオート(&quot;)でくくってください。クオートを入力したい場合は、quoted quotes(\&quot;)を使用してください(FIXME:quoted quotes?)。
+Additional arguments to the Erlang emulator, avoid <I>-noinput</I>, <I>-noshell</I> and <I>-sname</I>/<I>-name</I>. Default is no additional arguments. Remember that the services cookie file is not necessarily the same as the interactive users. The service runs as the local administrator. All arguments should be given together in one string, use double quotes (&quot;) to give an argument string containing spaces and use quoted quotes (\&quot;) to give an quote within the argument string if necessary.
+</DL>
+</DL>
+
+</DL>
+
+<P>
+
+<B>erlsrv {start | stop | disable | enable} &lt;service-name&gt;</B>
+
+<BR>
+
+<DL COMPACT><DT><DD>
+<P>
+
+ここでコマンドを利用する理由は、「便利だから」という理由だけです。
+通常、サービスの状態を管理するにはコントロールパネルのサービスアプレットを利用します。  <I>start</I> と <I>stop</I> コマンドはサービスを開始/停止するためにサービスマネージャとやりとりを行います。コマンドはサービスが実際に停止/開始するまで待ちます。サービスが無効化された上で、停止していない場合は、サービスが実際に停止するまで「無効の状態になった」と見なしません。サービスが自動モード(automatic mode)でこのコマンドが使用されると、ブート時にサービスが開始します。このコマンドはサービスをマニュアルに設定することができません。
+These commands are only added for convenience, the normal way to manipulate the state of a service is through the control panels services applet. The <I>start</I> and <I>stop</I> commands communicates with the service manager for stopping and starting a service. The commands wait until the service is actually stopped or started. When disabling a service, it is not stopped, the disabled state will not take effect until the service actually is stopped. Enabling a service sets it in automatic mode, that is started at boot. This command cannot set the service to manual. 
+</DL>
+
+<P>
+
+<B>erlsrv remove &lt;service-name&gt;</B>
+
+<BR>
+
+<DL COMPACT><DT><DD>
+<P>
+
+このコマンドは登録されているオプションとともに、サービスを完全に削除します。remove コマンドを使用する前には、サービスは停止している必要があります。
+This command removes the service completely with all its registered options. It will be stopped before it is removed.
+</DL>
+
+<P>
+
+<B>erlsrv list [&lt;service-name&gt;]</B>
+
+<BR>
+
+<DL COMPACT><DT><DD>
+<P>
+
+サービス名(&lt;service-name&gt;)が指定されていない場合、Erlangサービス名の一覧が表示されます。もしサービス名が指定されると、サービスに与えられているオプションが全て表示されます。
+</DL>
+
+<P>
+
+<B>erlsrv help</B>
+
+<BR>
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>ENVIRONMENT</H2>
+
+<P>
+
+Erlangマシンの環境は、2つの特殊な変数によって管理されています。<I>ERLSRV_SERVICE_名前</I>はマシンが起動したサービスの名前です。 <I>ERLSRV_EXECUTABLE</I> はサービスを開始するのに使用する <I>erlsrv.exe</I> への完全パスです。この2つの変数は、サービスを立ち上げるための核となるユーザ定義のコマンドを作成するのに、とても便利です。サービスの再起動に利用するコマンドファイルは、以下のように簡単に記述することができます:
+<BR>&nbsp;The&nbsp;environment&nbsp;of&nbsp;an&nbsp;Erlang&nbsp;machine&nbsp;started&nbsp;as&nbsp;a&nbsp;service&nbsp;will&nbsp;contain&nbsp;two&nbsp;special&nbsp;variables,&nbsp;<I>ERLSRV_SERVICE_名前</I>,&nbsp;which&nbsp;is&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;service&nbsp;that&nbsp;started&nbsp;the&nbsp;machine&nbsp;and&nbsp;<I>ERLSRV_EXECUTABLE</I>&nbsp;which&nbsp;is&nbsp;the&nbsp;full&nbsp;path&nbsp;to&nbsp;the&nbsp;<I>erlsrv.exe</I>&nbsp;that&nbsp;can&nbsp;be&nbsp;used&nbsp;to&nbsp;manipulate&nbsp;the&nbsp;service.&nbsp;This&nbsp;will&nbsp;come&nbsp;in&nbsp;handy&nbsp;when&nbsp;defining&nbsp;a&nbsp;heart&nbsp;command&nbsp;for&nbsp;your&nbsp;service.&nbsp;A&nbsp;command&nbsp;file&nbsp;for&nbsp;restarting&nbsp;a&nbsp;service&nbsp;will&nbsp;simply&nbsp;look&nbsp;like&nbsp;this:
+<P>
+<PRE>
+@echo off
+%ERLSRV_EXECUTABLE% stop %ERLSRV_SERVICE_名前%
+%ERLSRV_EXECUTABLE% start %ERLSRV_SERVICE_名前%    
+</PRE>
+
+<P>
+
+これで、このコマンドファイルは、核となるコマンドとして設定されたことになります。
+This command file is then set as heart command.
+<P>
+
+この2つの環境変数は、起動中のサービスを検知したり、ポートプログラム(何らかのイベントを待ち受けしているプログラム)に、ログアウト時に発生する制御イベントに対する挙動を定義したい場合にも利用可能です。
+<A NAME="lbAF">&nbsp;</A>
+<H2>PORT PROGRAMS</H2>
+
+<P>
+
+プログラムがサービスのコンテキストで動作しており、端末を操作しているユーザがログオフしたとき、サービスは全てのプログラムに対して送信される制御イベントをハンドルする必要があります。コンソールサブシステム内で動作しているアプリケーション(通常はポートプログラム)は、win32 API の <I>SetConsoleCtrlHandlr</I> を制御ハンドラとして利用しており、このハンドラが <I>CTRL_LOGOFF_EVENT</I> のイベントに対して TRUE を返します。その他のアプリケーションは、 <I>WM_ENDSESSION</I> と <I>WM_QUERYENDSESSION</I> をデフォルトのウインドウプロシージャに渡します。以下に、Cで書かれた簡単なコンソール制御ハンドラの例を示します：
+<P>
+<PRE>
+#include &lt;<A HREF="file:/usr/include/windows.h">windows.h</A>&gt;
+/* 
+** A Console control handler that ignores the log off events,
+** and lets the default handler take care of other events.
+*/   
+BOOL WINAPI service_aware_handler(DWORD ctrl){
+    if(ctrl == CTRL_LOGOFF_EVENT)
+        return TRUE;
+    return FALSE;
+}
+
+void initialize_handler(void){
+    char buffer[2];
+    /* 
+     * We assume we are running as a service if this  
+     * environment variable is defined
+     */
+    if(GetEnvironmentVariable(&quot;ERLSRV_SERVICE_名前&quot;,buffer,
+                              (DWORD) 2)){
+        /*
+        ** Actually set the control handler
+        */
+        SetConsoleCtrlHandler(&amp;service_aware_handler, TRUE);
+    }
+}    
+</PRE>
+
+<A NAME="lbAG">&nbsp;</A>
+<H2>NOTES</H2>
+
+<P>
+
+<P>
+オプションは Unixライクなフォーマットで与えられますが、オプションやコマンドの大文字/小文字は関係ありません。また、オプションを利用するのに &quot;-&quot; だけでなく &quot;/&quot; も利用することができます。
+Even though the options are described in a Unix-like format, the case of the options or commands is not relevant, and the &quot;/&quot; character for options can be used as well as the &quot;-&quot; character. 
+<P>
+
+プログラムが、エミュレータの <I>bin</I>ディレクトリの中にあることに注意してください。 Erlang のルートディレクトリ直下の <I>bin</I>ディレクトリではありません。この理由は、起動中のシステム上のエミュレータをアップグレードする際に、微妙な問題が生じるためです。
+新しいバージョンのランタイムシステムで既に存在する(、恐らく使用中の)実行ファイルを上書きするべきではありません。
+Note that the program resides in the emulators <I>bin</I>-directory, not in the <I>bin</I>-directory directly under the Erlang root. The reasons for this are the subtle problem of upgrading the emulator on a running system, where a new version of the runtime system should not need to overwrite existing (and probably used) executables.
+<P>
+
+Erlang サービスをより簡単に操作するには、 erlsrvのバイナリを<I>&lt;erlang_root\bin</I> から <I>&lt;erlang_root&gt;\erts-&lt;version&gt;\bin</I> ディレクトリへ移動してください。 ^fIos:find_executable/1 という Erlang の関数を利用することで、 erlsrv プログラムが Erlang 内部から利用可能になります。
+<P>
+To easily manipulate the Erlang services, put the <I>&lt;erlang_root&gt;\erts-&lt;version&gt;\bin</I> directory in the path instead of <I>&lt;erlang_root&gt;\bin</I>. The erlsrv program can be found from inside Erlang by using the <I>os:find_executable/1</I> Erlang function.
+<P>
+
+release handling を有効化するには、 Erlang マシンの <I>start_erl</I> を使用してください。ここでもサービス名が非常に重要であることは、上記で述べた通りです。
+For release handling to work, use <I>start_erl</I> as the Erlang machine. It is also worth mentioning again that the name of the service is significant (see above).
+<A NAME="lbAH">&nbsp;</A>
+<H2>関連項目</H2>
+
+<P>
+
+<A HREF="./start_erl.html">start_erl</A>(1), <A HREF="./release_handler.html">release_handler</A>(3)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">名前</A><DD>
+<DT><A HREF="#lbAC">説明</A><DD>
+<DT><A HREF="#lbAD">使い方</A><DD>
+<DT><A HREF="#lbAE">ENVIRONMENT</A><DD>
+<DT><A HREF="#lbAF">PORT PROGRAMS</A><DD>
+<DT><A HREF="#lbAG">NOTES</A><DD>
+<DT><A HREF="#lbAH">関連項目</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://github.com/hamano/man2html/">man2html</A>,
+using the manual pages.<BR>
+Time: 10:36:09 GMT, August 01, 2009
+</BODY>
+</HTML>
