@@ -53,20 +53,21 @@ release handling が使用されているようであれば、常に\fIignore\fR
 Specifies the short or long node-name of the Erlang emulator\&. The Erlang services are always distributed, default is to use the service name as (short) node-name\&.
 .TP 2
 *
-\fIDebugType\fR: \fInone\fR (これがデフォルト値です), \fInew\fR, \fIreuse\fR 、 \fIconsole\fR\ の中から選択します。 Erlang シェルから出力されるの"デバッグログ"についての設定を行います。ログ名は <servicename>. \fI\&.debug\fR  <servicename>\fI\&.debug\&.\fR<N>,で、<N>Tは1から99までの整数です。ログファイルはWorkDirで設定したワーキングディレクトリです。\fIreuse\fR オプションは、常に同じログファイルを使い回します。よって、ファイル名は常に<servicename>. \fI\&.debug\fRとなります。 \fInew\fR オプションは、サービスが起動する毎に別のログファイルを作成します。よって、ファイル名は<servicename>\fI\&.debug\&.\fR<N>となります。 \fIconsole\fR オプションは、サービス毎にErlang シェル用の インタラクティブWindows(R) コンソールウインドウを開きます。 \fIconsole\fR オプションは \fIStopAction\fR が
-he log file is named <servicename>\fI\&.debug\fR or <servicename>\fI\&.debug\&.\fR<N>, where <N> is an integer between 1 and 99\&. The log-file is placed in the working directory of the service (as specified in WorkDir)\&. The \fIreuse\fR option always reuses the same log file (<servicename>\fI\&.debug\fR) and the \fInew\fR option uses a separate log file for every invocation of the service (<servicename>\fI\&.debug\&.\fR<N>)\&. The \fIconsole\fR option opens an interactive Windows(R) console window for the Erlang shell of the service\&. The \fIconsole\fR option automatically disables the \fIStopAction\fR and a service started with an interactive console window will not survive logouts, \fIOnFail\fR actions do not work with debug-consoles either\&. If no \fIDebugType\fR is specified (\fInone\fR), the output of the Erlang shell is discarded\&.
-\fIDebugType\fR: \fInone\fR (これが), \fInew\fR, \fIreuse\fR or \fIconsole\fR\&. Specifies that output from the Erlang shell should be sent to a "debug log"\&. The log file is named <servicename>\fI\&.debug\fR or <servicename>\fI\&.debug\&.\fR<N>, where <N> is an integer between 1 and 99\&. The log-file is placed in the working directory of the service (as specified in WorkDir)\&. The \fIreuse\fR option always reuses the same log file (<servicename>\fI\&.debug\fR) and the \fInew\fR option uses a separate log file for every invocation of the service (<servicename>\fI\&.debug\&.\fR<N>)\&. The \fIconsole\fR option opens an interactive Windows(R) console window for the Erlang shell of the service\&. The \fIconsole\fR option automatically disables the \fIStopAction\fR and a service started with an interactive console window will not survive logouts, \fIOnFail\fR actions do not work with debug-consoles either\&. If no \fIDebugType\fR is specified (\fInone\fR), the output of the Erlang shell is discarded\&.
+\fIDebugType\fR: \fInone\fR (これがデフォルト値です), \fInew\fR, \fIreuse\fR 、 \fIconsole\fR\ の中から選択します。 Erlang シェルから出力されるの"デバッグログ"についての設定を行います。ログ名は <servicename>. \fI\&.debug\fR  <servicename>\fI\&.debug\&.\fR<N>,で、<N>Tは1から99までの整数です。ログファイルはWorkDirで設定したワーキングディレクトリです。\fIreuse\fR オプションは、常に同じログファイルを使い回します。よって、ファイル名は常に<servicename>. \fI\&.debug\fRとなります。 \fInew\fR オプションは、サービスが起動する毎に別のログファイルを作成します。よって、ファイル名は<servicename>\fI\&.debug\&.\fR<N>となります。 \fIconsole\fR オプションは、サービス毎にErlang シェル用の インタラクティブWindows(R) コンソールウインドウを開きます。 \fIconsole\fR オプションを設定すると、 \fIStopAction\fR 、 が自動的に無効になり、サービス開始時に起動されるコンソールウインドウは、ログアウトと同時に終了します。 また、\fIOnFail\fR アクションも無効化されます。もし \fIDebugType\fR が指定されていない場合(\fInone\fR)、出力は全て破棄されます。
 .RS 2
 .LP
 
 .LP
+\fIconsole\fR\fIDebugType\fR は、どんな理由であれ、production に使用するべきではありません。このオプションは、開発中のErlang サービスのデバッグを便利にするオプションに \fIすぎません\fR。\fInew\fR や \fIreuse\fR オプションは製品用のシステムに便利なオプションように見えます。しかし、システム管理者は、サービス稼働中、ログが無制限に増え続けることを考慮に入れておく必要があり、再起動中をのぞいて、ログを削除することはできません。まとめると、\fIDebugType\fR はあくまでも「デバッグ用のオプション」だということです。製品用のログを見るには、Erlangに搭載されている標準のログ機能を使用してください。
 The \fIconsole\fR\fIDebugType\fR is \fInot in any way\fR intended for production\&. It is \fIonly\fR a convenient way to debug Erlang services during development\&. The \fInew\fR and \fIreuse\fR options might seem convenient to have in a production system, but one has to take into account that the logs will grow indefinitely during the systems lifetime and there is no way, short of restarting the service, to truncate those logs\&. In short, the \fIDebugType\fR is intended for debugging only\&. Logs during production are better produced with the standard Erlang logging facilities\&.
 .RE
 .TP 2
 *
+\fIArgs\fR: エミュレータを立ち上げるためのプログラム \fIerl\&.exe\fR に、追加オプションを渡します。ここで指定できないオプションは、\fI-noinput\fR (StopActions が動作しないため), \fI-name\fR , \fI-sname\fR (必ず指定する必要があるため)です。最も一般的な使い方は、 init:boot() に渡すためのクッキーとフラグを指定することです。(\fI-s\fR)
 \fIArgs\fR: Additional arguments passed to the emulator startup program \fIerl\&.exe\fR (or \fIstart_erl\&.exe\fR)\&. Arguments that cannot be specified here are \fI-noinput\fR (StopActions would not work), \fI-name\fR and \fI-sname\fR (they are specified in any way\&. The most common use is for specifying cookies and flags to be passed to init:boot() (\fI-s\fR)\&.
 .RE
 .LP
+release handling を使用するサービス名は、 \fINodeName\fR_\fIRelease\fR という規則に従う必要があります。ここで、 \fINodeName\fR は、@を含めない Erlang ノード名で、 \fIRelease\fR はアプリケーションの現在のバージョンです。
  The naming of the service in a system that uses release handling has to follow the convention \fINodeName\fR_\fIRelease\fR, where \fINodeName\fR is the first part of the Erlang nodename (up to, but not including the "@") and \fIRelease\fR is the current release of the application\&.
 
 .SH EXPORTS
@@ -76,47 +77,54 @@ erlsrv {set | add} <service-name> [<service options>]
 .br
 .RS
 .LP
+set と add コマンドは、 それぞれErlang サービスを追加/修正します。add コマンドの最も単純な例は、全てデフォルト値を利用して、オプションを全くつけないというものです。サービス名はシステムから自動的に命名されます(mandatory)。
 The set and add commands adds or modifies a Erlang service respectively\&. The simplest form of an add command would be completely without options in which case all default values (described above) apply\&. The service name is mandatory\&.
 .LP
+全てのオプションは、オプションに値なしでコマンドに渡すことができます。 この場合、値はデフォルト値が使用されます。オプションに値を与えるときは、 \fIデフォルト値を利用しないときのみ\fR です。\fIerlsrv set myservice -prio -arg\fR は優先度にデフォルト値を設定して、全ての引数を取り除きます。
 Every option can be given without parameters, in which case the default value is applied\&. Values to the options are supplied \fIonly\fR when the default should not be used (i\&.e\&. \fIerlsrv set myservice -prio -arg\fR sets the default priority and removes all arguments)\&.
 .LP
-The following service options are currently available:
+以下のオプションを利用することができます：
 .RS 2
 .TP 4
 .B
 -st[opaction] [<erlang shell command>]:
-Defines the StopAction, the command given to the Erlang shell when the service is stopped\&. Default is none\&.
+StopAction を定義します。与えたコマンドは、サービスが停止されたときにErlangのシェルに渡されます。デフォルト値はnoneです。
 .TP 4
 .B
 -on[fail] [{reboot | restart | restart_always}]:
-Specifies the action to take when the Erlang emulator stops unexpectedly\&. Default is to ignore\&.
+エミュレータが予期せず止まったときのアクションを設定します。デフォルト値は ignore に設定されています。
 .TP 4
 .B
 -m[achine] [<erl-command>]:
+Erlang エミュレータへの絶対パスです。プログラム werl がこの値を利用することはありません。 デフォルト値は \fIerlsrv\&.exe\fR と同じディレクトリにある \fIerl\&.exe\fR です。release handling を利用するときに、\fIstart_erl\&.exe\fR 同様このオプションが設定されている必要があります。
 The complete path to the Erlang emulator, never use the werl program for this\&. Default is the \fIerl\&.exe\fR in the same directory as \fIerlsrv\&.exe\fR\&. When release handling is used, this should be set to a program similar to \fIstart_erl\&.exe\fR\&.
 .TP 4
 .B
 -e[nv] [<variable>[=<value>]] \&.\&.\&.:
-Edits the environment block for the service\&. Every environment variable specified will add to the system environment block\&. If a variable specified here has the same name as a system wide environment variable, the specified value overrides the system wide\&. Environment variables are added to this list by specifying <variable>=<value> and deleted from the list by specifying <variable> alone\&. The environment block is automatically sorted\&. Any number of \fI-env\fR options can be specified in one command\&. Default is to use the system environment block unmodified (except for two additions, see below)\&.
+サービス用の環境ブロックを編集します。指定された全ての環境変数は、システム環境ブロックに追加されます。もしここで指定された環境変数と同じ名前の環境変数が既に存在した場合、指定された値がシステムワイドの値を上書きします。環境変数は <variable>=<value> という風に設定することでリストに追加でき、 <variable> 単体で与えることでリストから削除することができます。環境ブロックは自動でソートされます。 1つのコマンド内で、いくつでも \fI-env\fR コマンドを指定することができます。
+デフォルトでは、システム環境ブロックに変更を加えません(ただし、例外が2つだけあります。以下をご覧ください)。
 .TP 4
 .B
 -w[orkdir] [<directory>]:
+Erlang エミュレータのワーキングディレクトリです。デフォルトではシステムディレクトリです。
 The initial working directory of the Erlang emulator\&. Default is the system directory\&.
 .TP 4
 .B
 -p[riority] [{low|high|realtime}]:
-The priority of the Erlang emulator\&. The default is the Windows(R) default priority\&.
+Erlang エミュレータの優先度です。デフォルトでは Windows(R) のデフォルト優先度に設定されています。
 .TP 4
 .B
 {-sn[ame] | -n[ame]} [<node-name>]:
+Erlang マシンのノード名で、分散環境では必須です(FIXME:アヤシイ)。デフォルトでは \fI-sname <service name>\fR です。
 The node-name of the Erlang machine, distribution is mandatory\&. Default is \fI-sname <service name>\fR\&.
 .TP 4
 .B
 -d[ebugtype] [{new|reuse|console}]:
-Specifies where shell output should be sent, default is that shell output is discarded\&. To be used only for debugging\&.
+シェルの出力先を設定します。デフォルトではシェルの出力は破棄されます。このオプションはデバッグ用です。
 .TP 4
 .B
 -ar[gs] [<limited erl arguments>]:
+Erlang に対して追加引数を与えます。 \fI-noinput\fR, \fI-noshell\fR , \fI-sname\fR/\fI-name\fR は与えないように気をつけてください。デフォルトでは追加引数は与えられません。サービスのクッキーファイルが捜査中のユーザと同様に必須ではないことを思い出してください。サービスはローカル管理者権限で動作します。全ての引数は1つの文字列で与えてください。もし文字列に空白を含む場合は、ダブルクオート(")でくくってください。クオートを入力したい場合は、quoted quotes(\e")を使用してください(FIXME:quoted quotes?)。
 Additional arguments to the Erlang emulator, avoid \fI-noinput\fR, \fI-noshell\fR and \fI-sname\fR/\fI-name\fR\&. Default is no additional arguments\&. Remember that the services cookie file is not necessarily the same as the interactive users\&. The service runs as the local administrator\&. All arguments should be given together in one string, use double quotes (") to give an argument string containing spaces and use quoted quotes (\e") to give an quote within the argument string if necessary\&.
 .RE
 .RE
@@ -126,6 +134,8 @@ erlsrv {start | stop | disable | enable} <service-name>
 .br
 .RS
 .LP
+ここで示すコマンドは
+通常、サービスの状態を管理するにはコントロールパネルのサービスアプレットを利用します。  \fIstart\fR と \fIstop\fR コマンドはサービスを開始/停止するためにサービスマネージャとやりとりを行います。
 These commands are only added for convenience, the normal way to manipulate the state of a service is through the control panels services applet\&. The \fIstart\fR and \fIstop\fR commands communicates with the service manager for stopping and starting a service\&. The commands wait until the service is actually stopped or started\&. When disabling a service, it is not stopped, the disabled state will not take effect until the service actually is stopped\&. Enabling a service sets it in automatic mode, that is started at boot\&. This command cannot set the service to manual\&. 
 .RE
 .LP
