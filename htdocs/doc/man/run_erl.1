@@ -1,0 +1,96 @@
+.TH run_erl 1 "erts  5.7" "Ericsson AB" "USER COMMANDS"
+.SH NAME
+run_erl \- Solaris(R)上で、Erlang の入出力ストリームをリダイレクトする
+.SH DESCRIPTION
+.LP
+本ドキュメントでは、Solaris/Linux 固有のプログラム \fIrun_erl\fR について説明します。このプログラムは、出力のログをとるために、全ての入出力ストリームをリダイレクトします。この挙動は、 プログラム \fIto_erl\fR を用いて、 Erlang コンソールを接続し、リモートからモニタ/デバッグすることでも実現できます。
+This describes the \fIrun_erl\fR program specific to Solaris/Linux\&. This program redirect the standard input and standard output streams so that all output can be logged\&. It also let the program \fIto_erl\fR connect to the Erlang console making it possible to monitor and debug an embedded system remotely\&.
+.LP
+詳細な使い方については、 \fIEmbedded System User\&'s Guide\fR をご参照ください。
+
+.SH EXPORTS
+.LP
+.B
+run_erl [-daemon] pipe_dir/ log_dir "exec command [command_arguments]"
+.br
+.RS
+.LP
+\fIrun_erl\fR プログラムの引数は、以下の通りです：
+The \fIrun_erl\fR program arguments are:
+.RS 2
+.TP 4
+.B
+-daemon:
+特別な理由がない限りは、このオプションをつけてください。このオプションをつけることで、 run_erl がターミナルの制御から切り離され、完全にバックグラウンドで動作するようになります。また、入力したコマンドが即座に返るようになります。
+このオプションを指定しないと、 run_erl をシェルから切り離すために、特殊な操作をする必要があります。このオプションは run_erl の第一引数として与えてください。
+.TP 4
+.B
+pipe_dir:
+このオプションを指定することで、通常 \fI/tmp/\fR 以下に作成される名前付きパイプを、どこに作成するか指定できます。ディレクトリを指定する必要があるので、当然与える値の最後は \fI/\fR (スラッシュ)で終了している必要があります： つまり、 \fI/tmp/epipres\fR ではなく、 \fI/tmp/epipes/\fR と指定する必要があります。
+.TP 4
+.B
+log_dir:
+ログを出力するディレクトリを指定します。 指定したディレクトリには、プログラム \fIrun_erl\fR 自体の進捗状態や警告を記録するログファイル \fIrun_erl\&.log\fR が1つ作成されます。rログのサイズは最大で 100KB で、5つまで作成することができます。ログのサイズと数は、環境変数で変更することができます(後述)。指定したサイズ/個数を上回った場合、 \fIrun_erl\fR は最も古いログファイルを削除します。
+.TP 4
+.B
+"exec command [command_arguments]":
+第3引数の \fIcommand\fR は、 stdin / stdout が \fIlog_dir\fR に作成される全て記録される実行ファイルです。
+In the third argument \fIcommand\fR is the to execute where everything written to stdin and stdout is logged to \fIlog_dir\fR\&.
+.RE
+.RE
+.SH NOTES CONCERNING THE LOG FILES
+.LP
+起動中、 run_erl は全ての出力を、何の解釈もせずにログファイルに送出していきます。ファイル名は、 \fIerlang\&.log\&.N\fR で、Nは整数です。ログが"あふれる"と、run_erl は新たなログファイル \fIerlang\&.long\&.(N+1)\fR を作成し、そこに対してログを書き込んでいきます。N がある数に達すると(デフォルトでは5になっています)、N は再び1に戻り、ログを上書きしていきます。Erlang のシェルから何の出力もなく、かつ Erlang マシンが生きている場合、 "ALIVE" メッセージがログに出力されます。これはタイムスタンプで、15分何の出力もないときに書き込まれます。また、 過去(デフォルトで) 5 分間何もない状態で、Erlang からの出力が起こった場合、 "ALIVE" メッセージが以下のように記録されます。
+
+While running, run_erl (as stated earlier) sends all output, uninterpreted, to a log file\&. The file is called \fIerlang\&.log\&.N\fR, where N is a number\&. When the log is "full", default after 100KB, run_erl starts to log in file \fIerlang\&.log\&.(N+1)\fR, until N reaches a certain number (default 5), where after N starts at 1 again and the oldest files start getting overwritten\&. If no output comes from the erlang shell, but the erlang machine still seems to be alive, an "ALIVE" message is written to the log, it is a timestamp and is written, by default, after 15 minutes of inactivity\&. Also, if output from erlang is logged but it\&'s been more than 5 minutes (default) since last time we got anything from erlang, a timestamp is written in the log\&. The "ALIVE" messages look like this:
+
+.nf
+      ===== ALIVE <date-time-string>
+    
+.fi
+.LP
+その他のタイムスタンプは以下のように設定されます：
+
+.nf
+      ===== <date-time-string>
+    
+.fi
+.LP
+\fIdate-time-string\fR はメッセージがかかれた日時です。デフォルトでは、 GMT ですが、変更するこたができます。 ANSI-C 関数である \fIstrftime\fR の \fI%a %b %e %T %Z %Y\fRという文字フォーマットを使用して出力されます。たとえば、\fI===== ALIVE Thu May 15 10:13:36 MEST 2003\fR といったフォーマットで出力することができます。このフォーマットも変更可能です(後述)。
+The \fIdate-time-string\fR is the date and time the message is written, default in local time (can be changed to GMT if one wants to) and is formatted with the ANSI-C function \fIstrftime\fR using the format string \fI%a %b %e %T %Z %Y\fR, which produces messages on the line of \fI===== ALIVE Thu May 15 10:13:36 MEST 2003\fR, this can be changed, see below\&.
+.SH ENVIRONMENT VARIABLES
+.LP
+run_erl は、以下の環境変数を認識し、ロギングの振る舞いを変更することができます。ログの振る舞いがどのように行われているについては、前述のNoteをご参照ください。
+The following environment variables are recognized by run_erl and change the logging behavior\&. Also see the notes above to get more info on how the log behaves\&.
+.RS 2
+.TP 4
+.B
+RUN_ERL_LOG_ALIVE_MINUTES:
+"ALIVE" メッセージを出力するのにどの程度待つかを、「分単位」で指定します。デフォルト値は 15 で、最小値は 1 です。
+How long to wait for output (in minutes) before writing an "ALIVE" message to the log\&. Default is 15, can never be less than 1\&.
+.TP 4
+.B
+RUN_ERL_LOG_ACTIVITY_MINUTES:
+Erlang がタイムスタンプをログに記録する必要な対話を行っていない時間を指定します。デフォルトでは 3 です。最小値は 1 です。
+How long erlang need to be inactive before output will be preceded with a timestamp\&. Default is RUN_ERL_LOG_ALIVE_MINUTES div 3, but never less than 1\&.
+.TP 4
+.B
+RUN_ERL_LOG_ALIVE_FORMAT:
+C のライブラリ関数である strftime が使用する出力フォーマットを指定します。 つまり、 \fI"%e-%b-%Y, %T %Z"\fR をこの値として出力すると、タイムスタンプは \fI 15-May-2003
+Specifies another format string to be used in the strftime C library call\&. i\&.e specifying this to \fI"%e-%b-%Y, %T %Z"\fR will give log messages with timestamps looking like \fI15-May-2003, 10:23:04 MET\fR etc\&. See the documentation for the C library function strftime for more information\&. Default is \fI"%a %b %e %T %Z %Y"\fR\&.
+.TP 4
+.B
+RUN_ERL_LOG_ALIVE_IN_UTC:
+If set to anything else than "0", it will make all times displayed by run_erl to be in UTC (GMT,CET,MET, without DST), rather than in local time\&. This does not affect data coming from erlang, only the logs output directly by run_erl\&. The application \fIsasl\fR can be modified accordingly by setting the erlang application variable \fIutc_log\fR to \fItrue\fR\&.
+.TP 4
+.B
+RUN_ERL_LOG_GENERATIONS:
+Controls the number of log files written before older files are being reused\&. Default is 5, minimum is 2, maximum is 1000\&.
+.TP 4
+.B
+RUN_ERL_LOG_MAXSIZE:
+The size (in bytes) of a log file before switching to a new log file\&. Default is 100000, minimum is 1000 and maximum is approximately 2^30\&.
+.RE
+.SH SEE ALSO
+.LP
+start(1), start_erl(1)
