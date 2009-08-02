@@ -13,16 +13,11 @@ Ctrl-C はテキストをコピーするためのショートカットキーと�
 .LP
 標準入出力をリダイレクトしたり、 Erlang をパイプラインの中で利用するには、 werl は不適当です。 \fIerl\fR プログラムを代わりに使用するのが良いでしょう。
 .LP
-\fIxterm\fR モデルが行指向でコマンドを打ち込む対話形式にフィットしているため、
-\fIxterm\fR ウインドウが他のプラットフォーム上で実装されてからというもの、
-\fIwerl\fR ウインドウは、
-で実装されてきました。
-
-つまり、テキスト選択は長方形で行われるのではなく、行毎に行われます。
+\fIwerl\fR ウインドウは、様々な方法で実装されてきましたが、 \fIxterm\fR モデルがコマンドラインベースの対話を行うのに最も適していることがわかりました。
+つまり、テキスト選択は矩形で行われるのではなく、行毎に行われます。
 The \fIwerl\fR window is in many ways modelled after the \fIxterm\fR window present on other platforms, as the \fIxterm\fR model fits well with line oriented command based interaction\&. This means that selcting text is line oriented rather than rectangle oriented\&.
 .LP
-\fIwerl\fR ウインドウ内でテキストを選択するには、単純にマウスを左クリックしたままドラッグし、選択したい範囲に動かして下さい。もし選択範囲が行をまたがった場合、選択中のテキストは、選択した行を完全に選択することになります。この挙動はワードプロセッサと同様です。ウインドウに表示されている以上のテキストを選択したい場合は、選択したいテキストの開始部分の一部を選択して、スクロールバーを押して選択範囲の終点となる場所を表示してください。そして、終点を指した状態で \fI右クリック\fR してください。最初にあなたが選択した場所から、右クリックした場所までが選択されます。
-To select text in the \fIwerl\fR window , simply press and hold the left mouse button and drag the mouse over the text you want to select\&. If the selection crosses line boundaries, the selected text will consist of complete lines where applicable (just like in a word processor)\&. To select more text than fits in the window, start by selecting a small portion in the beginning of the text you want, then use the scrollbar to view the end of the desired selection, point to it and press the \fIright\fR mouse-button\&. The whole area between your first selection and the point where you right-clicked will be included in the selection\&.
+\fIwerl\fR ウインドウ内でテキストを選択するには、単純にマウスを左クリックしたままドラッグし、選択したい範囲に動かして下さい。もし選択範囲が行をまたがった場合、選択中のテキストは、選択した行を完全に選択することになります。この挙動はワードプロセッサと同様です。ウインドウに表示されているテキストよりも広い範囲を選択したい場合は、選択したいテキストの開始部分の一部を選択した上で、スクロールバーを押して選択範囲の終点となる場所を表示してください。そして、終点を指した状態で \fI右クリック\fR してください。最初にあなたが選択した場所から、右クリックした場所までが選択されます。
 .LP
 選択されたテキストは、 \fICtrl-C\fR もしくはツールバーのコピーボタンを押すことでクリップボードにコピーされます。
 .LP
